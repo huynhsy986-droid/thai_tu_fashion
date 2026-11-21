@@ -14,6 +14,7 @@ import { meRoutes } from './routes/me.js';
 import { adminProductRoutes } from './routes/admin/products.js';
 import { adminOrderRoutes } from './routes/admin/orders.js';
 import { adminMiscRoutes } from './routes/admin/misc.js';
+import { contactRoutes, adminContactRoutes } from './routes/contact.js';
 
 const limitBody = (code) => ({ error: { code: 'RATE_LIMITED', message: code } });
 
@@ -83,9 +84,11 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
   app.use('/api/orders', orderRoutes());
   app.use('/api', wishlistRoutes());
   app.use('/api', meRoutes());
+  app.use('/api', contactRoutes({ rateLimitContact: config.rateLimitContact }));
   app.use('/api/admin', requireAdmin);
   app.use('/api/admin/products', adminProductRoutes());
   app.use('/api/admin/orders', adminOrderRoutes());
+  app.use('/api/admin/contacts', adminContactRoutes());
   app.use('/api/admin', adminMiscRoutes());
   app.use('/api', notFoundHandler);
 

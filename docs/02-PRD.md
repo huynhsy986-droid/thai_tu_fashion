@@ -103,6 +103,11 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 - **AC-ADM-07** Kiểm duyệt đánh giá: lọc theo trạng thái, ẩn/hiện, xoá.
 - **AC-ADM-08** *(P1)* Mã giảm giá: xem, tạo, bật/tắt qua API quản trị.
 
+### F9. Liên hệ (P0 — bổ sung theo Final Project Brief, Task 2–3)
+
+- **AC-CON-01** Trang **Liên hệ** (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥ 2 ký tự, email hợp lệ, điện thoại `0` + 9 chữ số (tuỳ chọn), chủ đề, mã đơn `TTxxxx` (tuỳ chọn), nội dung 10–2000 ký tự; dữ liệu sai → thông báo tiếng Việt ngay dưới ô. Tin nhắn lưu vào bảng `contact_messages`; quá 5 tin/email/giờ → 429.
+- **AC-CON-02** Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new → read → replied`, xoá; khách thường không đọc được tin nhắn của ai.
+
 ## 5. Yêu cầu phi chức năng
 
 | Mã | Yêu cầu |
@@ -128,5 +133,5 @@ Tài khoản demo:
 
 ## 7. Phát hành
 
-- **v1 (đợt này):** F1–F8 (P0) + AC-ADM-08 ở mức API.
+- **v1 (đợt này):** F1–F9 (P0) + AC-ADM-08 ở mức API.
 - **v1.1:** cổng thanh toán thật (VNPay/MoMo), đơn vị vận chuyển, upload ảnh đánh giá lên Supabase Storage.

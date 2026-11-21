@@ -20,6 +20,7 @@ export const HINT_STATUS = Object.freeze({
   COUPON_INVALID: 422,
   INVALID_TRANSITION: 422,
   PAYMENT_FAILED: 402,
+  RATE_LIMITED: 429,
 });
 
 function parseDetail(detail) {

@@ -156,3 +156,19 @@ export const toCoupon = (r) => ({
   usageLimit: r.usage_limit,
   usedCount: r.used_count,
 });
+
+/** Tin nhắn liên hệ (AC-CON-02). */
+export function toContact(r) {
+  return {
+    id: r.id,
+    name: r.name,
+    email: r.email,
+    phone: r.phone || '',
+    topic: r.topic,
+    orderCode: r.order_code || '',
+    message: r.message,
+    status: r.status,
+    userId: r.user_id || null,
+    createdAt: r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at,
+  };
+}

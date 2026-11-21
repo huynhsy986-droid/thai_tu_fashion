@@ -22,6 +22,7 @@ const schema = z.object({
   STATIC_DIR: z.string().default(path.resolve(HERE, '../../frontend')),
   RATE_LIMIT_AUTH: z.coerce.number().int().positive().default(20),
   RATE_LIMIT_API: z.coerce.number().int().positive().default(600),
+  RATE_LIMIT_CONTACT: z.coerce.number().int().positive().default(10),
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
   LOG_REQUESTS: z.enum(['true', 'false']).optional(),
 });
@@ -56,6 +57,7 @@ export function loadConfig(env = process.env) {
     staticDir: e.STATIC_DIR,
     rateLimitAuth: e.RATE_LIMIT_AUTH,
     rateLimitApi: e.RATE_LIMIT_API,
+    rateLimitContact: e.RATE_LIMIT_CONTACT,
     trustProxy: e.TRUST_PROXY,
     logRequests: e.LOG_REQUESTS ? e.LOG_REQUESTS === 'true' : e.NODE_ENV !== 'test',
   });
