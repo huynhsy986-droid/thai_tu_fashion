@@ -120,7 +120,7 @@ async function initTracking() {
   const cfg = window.THAITU_CONFIG || {};
   if (cfg.forceDemo) return;
   let c;
-  try { c = await API.get('/api/config', { timeout: 4000, anonymous: true }); } catch (e) { return; }
+  c = await API.config();
   if (!c) return;
   if (c.sentryDsn) initSentry(c);
   if (c.gaMeasurementId && /^G-[A-Z0-9]{4,20}$/.test(c.gaMeasurementId)) {
