@@ -318,17 +318,6 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 
 ## Task 5: UI/UX Peer Review & Evaluation
 
-<details>
-<summary>Hướng dẫn điền (xoá khối này khi điền xong)</summary>
-
-1. Chọn 2 nhóm, dùng thử web của họ ~20 phút trên điện thoại và máy tính theo kịch bản trong [`docs/peer-review/`](docs/peer-review/README.md).
-2. Ghi nhận xét cụ thể (trang nào, vấn đề gì, đề xuất gì) và **trao đổi trực tiếp** với nhóm đó.
-3. Điền bảng (a): mỗi ô 1–2 câu.
-4. Góp ý nhóm mình nhận: sửa (ghi link PR) hoặc ghi lý do không sửa vào bảng (b).
-
-</details>
-
-### (a) Feedback cho các nhóm khác" hiện tại -->
 
 ### (a) Feedback cho các nhóm khác
 
