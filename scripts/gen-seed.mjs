@@ -150,4 +150,38 @@ w();
 w('commit;');
 
 fs.writeFileSync(path.join(ROOT, 'supabase/seed.sql'), out.join('\n') + '\n');
-console.log(`seed.sql: ${users.length} users, ${products.length} products, ${state.reviews.length} reviews, ${state.orders.length} orders`);
+// =====================================================================
+// catalog.sql — DỮ LIỆU THẬT cho production: chỉ danh mục, màu, giao hàng, mã giảm giá chuẩn,
+// sản phẩm + tồn kho ban đầu. KHÔNG có tài khoản demo, đơn giả, đánh giá giả.
+// Số đã bán / lượt thích bắt đầu từ 0. Chạy 1 lần trên DB trống (có chốt chặn chạy lại).
+// =====================================================================
+const C = [];
+const c = (x = '') => C.push(x);
+c('-- =====================================================================');
+c('-- Thai Tu Fashion · Catalogue production — SINH TỰ ĐỘNG bởi scripts/gen-seed.mjs. Không sửa tay.');
+c('-- Chạy MỘT LẦN sau migrations trên DB Supabase thật: psql "$SUPABASE_DB_URL" -f supabase/catalog.sql');
+c('-- Không chứa tài khoản demo / đơn giả. Tạo admin: cd backend && npm run make-admin -- <email>');
+c('-- =====================================================================');
+c('begin;');
+c("do $$ begin if exists (select 1 from public.products) then raise exception 'Catalogue đã có dữ liệu — bỏ qua để không ghi đè tồn kho thật.'; end if; end $$;");
+c();
+CATS0.forEach((x, i) => c(`insert into public.categories (id, name, description, sort_order) values (${q(x.id)}, ${q(x.name)}, ${q(x.sub)}, ${i + 1}) on conflict (id) do nothing;`));
+Object.entries(COLORS).forEach(([code, [name, hex]]) => c(`insert into public.colors (code, name, hex) values (${q(code)}, ${q(name)}, ${q(hex)}) on conflict (code) do nothing;`));
+Object.entries(SHIPPING).forEach(([code, sm], i) =>
+  c(`insert into public.shipping_methods (code, name, eta, fee, free_threshold, sort_order) values (${q(code)}, ${q(sm.name)}, ${q(sm.eta)}, ${sm.fee}, ${code === 'std' ? 1500000 : 'null'}, ${i + 1}) on conflict (code) do nothing;`));
+Object.entries(COUPONS).forEach(([code, cp]) =>
+  c(`insert into public.coupons (code, type, value, min_subtotal, label) values (${q(code)}, '${cp.type}', ${cp.v || 0}, ${cp.min || 0}, ${q(cp.label)}) on conflict (code) do nothing;`));
+c();
+for (const p of products) {
+  c(`insert into public.products (id, name, kor_name, category_id, sub_type, gender, template, texture, base_image, image_colors, price, sale_price, sizes, colors, badge, fit, fabric, occasions, styles, description, material, care, is_photo, status) values (` +
+    [q(p.id), q(p.name), q(p.kor), q(p.cat), q(p.sub), q(p.gender), q(p.tpl), q(p.tex), q(p.base), arr(p.baseColors),
+      p.price, p.sale && p.sale < p.price ? p.sale : 'null', arr(p.sizes), arr(p.colors), q(p.badge || ''), q(p.fit),
+      sarr(p.fabric), arr(p.occasions), arr(p.styles), q(p.desc), q(p.material), q(p.care), p.photo ? 'true' : 'false', q(p.status)].join(', ') + ');');
+  const rows = [];
+  for (const col of p.colors) for (const sz of p.sizes) rows.push(`(${q(p.id)}, ${q(col)}, ${q(sz)}, ${p.stock[col][sz] ?? 0})`);
+  c(`insert into public.product_variants (product_id, color_code, size, stock) values ${rows.join(', ')} on conflict (product_id, color_code, size) do update set stock = excluded.stock;`);
+}
+c('commit;');
+fs.writeFileSync(path.join(ROOT, 'supabase/catalog.sql'), C.join('\n') + '\n');
+
+console.log(`catalog.sql: ${products.length} products (production) · seed.sql: ${users.length} users, ${products.length} products, ${state.reviews.length} reviews, ${state.orders.length} orders`);

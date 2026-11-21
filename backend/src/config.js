@@ -37,7 +37,7 @@ export function loadConfig(env = process.env) {
     if (jwtSecret.length < 32) throw new Error('JWT_SECRET cần ít nhất 32 ký tự.');
   } else {
     if (!e.SUPABASE_URL || !e.SUPABASE_ANON_KEY) throw new Error('AUTH_PROVIDER=supabase cần SUPABASE_URL và SUPABASE_ANON_KEY.');
-    jwtSecret = e.SUPABASE_JWT_SECRET || undefined; // không có → xác minh bằng JWKS
+    jwtSecret = e.SUPABASE_JWT_SECRET || undefined; // tuỳ chọn: token HS256 (legacy); ES256 luôn qua JWKS
   }
   return Object.freeze({
     env: e.NODE_ENV,
