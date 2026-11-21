@@ -120,7 +120,7 @@ async function afterAuth(r) {
 async function completeAuth(r) {
   const guestCart = S.cart.slice();
   const guestWish = S.wish.slice();
-  API.setSession({ accessToken: r.accessToken, expiresAt: r.expiresAt, user: r.user });
+  API.setSession({ accessToken: r.accessToken, refreshToken: r.refreshToken || null, expiresAt: r.expiresAt, user: r.user });
   let merged = 0;
   for (const i of guestCart) {
     try { await API.post('/api/cart/items', { productId: i.pid, color: i.color, size: i.size, quantity: i.qty }); merged += 1; } catch (e) {}
@@ -133,7 +133,7 @@ async function completeAuth(r) {
   toast(`Xin chào, ${esc(r.user.name)}.${merged ? ` Đã chuyển ${merged} món trong giỏ vào tài khoản.` : ''}`);
   let next = ui.after && ui.after !== 'login' && ui.after !== 'register' ? ui.after : r.user.role === 'admin' ? 'admin' : 'account';
   if (isAdminRoute(next) && r.user.role !== 'admin') { next = 'account'; toast('Tài khoản này không có quyền quản trị.', { bad: true }); }
-  ui.after = null; ui.authNote = null;
+  ui.after = null; ui.authNote = null; ui.authOk = null;
   if (cur() === next) render(); else location.hash = next;
 }
 async function onSignedOut() {
@@ -151,7 +151,10 @@ API.onSessionChange(async () => {
 /* ---------- chặn route: cần đăng nhập / cần admin ---------- */
 const _resolve = resolve;
 resolve = function (h) {
+  h = captureAuthRedirect(h) || h; // link đặt lại mật khẩu từ email (AC-AUTH-07)
   if (h === 'login' || h === 'register') return viewLogin(h);
+  if (h === 'forgot') return viewForgot();
+  if (h === 'reset-password') return viewReset();
   if (isApi() && !loggedIn() && NEED_LOGIN(h)) {
     ui.after = h;
     ui.authNote = h === 'checkout' ? 'Đăng nhập để thanh toán. Giỏ hàng của bạn được giữ nguyên.' : 'Vui lòng đăng nhập để xem trang này.';
@@ -173,6 +176,8 @@ render = function (keepScroll) {
     return;
   }
   if (h !== 'login' && h !== 'register' && !NEED_LOGIN(h)) ui.authNote = null;
+  if (h !== 'login') ui.authOk = null;
+  if (h !== 'forgot') ui.fp = null;
   if (h !== 'checkout') ui.coStock = '';
   // Giữ nội dung người dùng đang gõ khi trang được vẽ lại do dữ liệu server về (VD: ô mã giảm giá)
   const typing = keepScroll ? ['cp'].map((id) => { const el = document.getElementById(id); return el && { id, v: el.value, f: document.activeElement === el }; }).filter(Boolean) : [];

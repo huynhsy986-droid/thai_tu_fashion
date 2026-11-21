@@ -104,7 +104,7 @@ test.describe('Mua hàng đầu-cuối', () => {
     await page.reload();
     await waitFor(page, () => SYNC.ready);
     await expect(page.locator('#u-name')).toHaveValue('Tên Mới E2E');
-    await page.click('[data-a=logout]');
+    await page.click('#main [data-a=logout]'); // nút trong khối phiên (menu header có nút riêng)
     await expect(page.locator('.toast').last()).toContainText('Đã đăng xuất');
     expect(await page.evaluate(() => API.session())).toBeNull();
     await expect(page.locator('a[aria-label="Đăng nhập"]')).toBeVisible();
