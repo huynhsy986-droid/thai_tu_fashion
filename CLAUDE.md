@@ -24,7 +24,7 @@ Dự án: **Thai Tu Fashion** — SPA thời trang (frontend/) + Express API (ba
 5. **DTO giữ hình dạng prototype** (`pid`, `qty`, `sale`, `stock[color][size]`…) — xem `backend/src/lib/mappers.js`.
 6. **Test ghi AC-ID** trong tên (`it('AC-ORD-02 …')`). Mỗi endpoint mới cần ít nhất 1 integration test.
 7. **Cập nhật `docs/openapi.yaml`** khi thêm/sửa route — `contract.test.js` sẽ fail nếu thiếu.
-8. Commit: `type(scope): mô tả` (feat, fix, test, docs, chore), tiếng Việt được.
+8. Commit: `type(scope): mô tả (#issue)` (feat, fix, test, docs, chore, perf), tiếng Việt được. Làm trên branch `feature/<issue>-…`, merge vào `main` qua Pull Request có `Closes #issue` (xem `docs/09-project-plan.md`).
 
 ## Constraints (ràng buộc)
 

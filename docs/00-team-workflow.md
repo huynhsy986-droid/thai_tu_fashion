@@ -10,7 +10,7 @@ Tài liệu này mô tả cách nhóm 3 người đưa **Thai Tu Fashion** từ 
 | TV2 | **nguyen06-vn** | Solution Architect & Backend Engineer | Solution Architecture, Database Schema (ERD) trên Supabase, API Docs (OpenAPI), backend + unit/integration test | Step 2 ③④⑤, Step 3 (Backend) |
 | TV3 | **huynhsy986-droid** | Frontend Engineer & QA | Nối giao diện với API/Supabase, đăng nhập, phân quyền admin, e2e test, CI, báo cáo kiểm thử | Step 3 (Frontend + QA) |
 
-Mỗi thành viên commit bằng tên của mình; mỗi nhiệm vụ kết thúc bằng một (hoặc vài) commit có tiền tố bước (`step1`, `step2`, `step3`).
+Mỗi thành viên commit bằng tài khoản GitHub của mình. Từ sprint 4, mọi việc đi theo **issue → branch `feature/<issue>-…` → Pull Request → merge**; chi tiết milestone, deadline và phân task ở [`09-project-plan.md`](09-project-plan.md).
 
 ## 2. Quy trình (ánh xạ với sơ đồ)
 
