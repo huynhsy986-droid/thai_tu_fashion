@@ -48,6 +48,7 @@ export async function makeTestApp(label, envOverrides = {}) {
     JWT_SECRET,
     RATE_LIMIT_AUTH: '1000',
     RATE_LIMIT_API: '100000',
+    RATE_LIMIT_CONTACT: '1000',
     STATIC_DIR: '',
     ...envOverrides,
   });
