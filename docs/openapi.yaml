@@ -19,6 +19,7 @@ tags:
   - name: orders
   - name: wishlist
   - name: me
+  - name: contact
   - name: admin
 security: []
 paths:
@@ -531,6 +532,39 @@ paths:
       requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }
       responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }, '404': { $ref: '#/components/responses/Error' } }
 
+  /api/contact:
+    post:
+      tags: [contact]
+      summary: Gửi tin nhắn liên hệ — công khai (AC-CON-01)
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ContactInput' } } } }
+      responses:
+        '201': { description: Đã nhận, content: { application/json: { schema: { type: object, properties: { id: { type: string, format: uuid }, ok: { type: boolean } } } } } }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+  /api/admin/contacts:
+    get:
+      tags: [admin]
+      summary: Danh sách tin nhắn liên hệ, lọc theo trạng thái (AC-CON-02)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: status, in: query, required: false, schema: { type: string, enum: [new, read, replied] } }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Contact' } }, unread: { type: integer } } } } } }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/admin/contacts/{id}:
+    patch:
+      tags: [admin]
+      summary: Đổi trạng thái tin nhắn (new → read → replied)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, format: uuid } }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [status], properties: { status: { type: string, enum: [new, read, replied] } } } } } }
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }, '404': { $ref: '#/components/responses/Error' } }
+    delete:
+      tags: [admin]
+      summary: Xoá tin nhắn
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, format: uuid } }]
+      responses: { '204': { description: Đã xoá }, '404': { $ref: '#/components/responses/Error' } }
+
 components:
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
@@ -554,6 +588,25 @@ components:
               expiresAt: { type: integer, description: epoch seconds }
               user: { $ref: '#/components/schemas/SessionUser' }
   schemas:
+    ContactInput:
+      type: object
+      required: [name, email, message]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 80 }
+        email: { type: string, format: email }
+        phone: { type: string, description: '0 + 9 chữ số, tuỳ chọn' }
+        topic: { type: string, enum: [order, product, size, return, partner, other], default: other }
+        orderCode: { type: string, example: TT1100 }
+        message: { type: string, minLength: 10, maxLength: 2000 }
+    Contact:
+      allOf:
+        - $ref: '#/components/schemas/ContactInput'
+        - type: object
+          properties:
+            id: { type: string, format: uuid }
+            status: { type: string, enum: [new, read, replied] }
+            userId: { type: string, format: uuid, nullable: true }
+            createdAt: { type: string, format: date-time }
     Error:
       type: object
       properties:
