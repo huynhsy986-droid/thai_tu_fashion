@@ -49,6 +49,9 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 - **AC-AUTH-03** Gọi API cần đăng nhập mà không có/sai token → 401.
 - **AC-AUTH-04** Người không phải admin gọi API quản trị → 403. Trên giao diện, vào `#admin*` khi chưa là admin → chuyển về `#login`.
 - **AC-AUTH-05** Đăng xuất xoá phiên ở client; header trở về trạng thái khách.
+- **AC-AUTH-06** *(sprint 6)* Phiên không tự mất sau khi access token (1 giờ) hết hạn: đăng nhập/đăng ký trả `refreshToken`; client tự gia hạn trước khi hết hạn và khi gặp 401 (gọi lại đúng 1 lần); refresh token sai/hết hạn → 401 `SESSION_EXPIRED`, client về trạng thái khách và báo người dùng. Access token và refresh token không dùng thay nhau được.
+- **AC-AUTH-07** *(sprint 6)* Quên mật khẩu: nhập email → luôn hiện cùng một câu (không tiết lộ email có tồn tại); email chứa liên kết về trang đặt mật khẩu mới (token không nằm lại trên URL). Mật khẩu mới theo quy tắc của AC-AUTH-01, nhập lại phải khớp, phải khác mật khẩu cũ; liên kết chỉ dùng 1 lần, hết hạn/hỏng → quay về màn Quên mật khẩu với lời nhắc.
+- **AC-AUTH-08** *(sprint 6)* Trải nghiệm đăng nhập: nút hiện/ẩn mật khẩu; thanh độ mạnh + điều kiện (≥ 8 ký tự, có chữ và số) khi tạo mật khẩu; khung "Tài khoản dùng thử" chỉ hiện ở môi trường có dữ liệu mẫu, không hiện trên production; khi đã đăng nhập, header hiện chữ cái đầu tên kèm menu (tài khoản, đơn hàng, yêu thích, thông báo, quản trị nếu là admin, đăng xuất).
 
 ### F2. Danh mục & sản phẩm (P0)
 
@@ -108,6 +111,12 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 - **AC-CON-01** Trang **Liên hệ** (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥ 2 ký tự, email hợp lệ, điện thoại `0` + 9 chữ số (tuỳ chọn), chủ đề, mã đơn `TTxxxx` (tuỳ chọn), nội dung 10–2000 ký tự; dữ liệu sai → thông báo tiếng Việt ngay dưới ô. Tin nhắn lưu vào bảng `contact_messages`; quá 5 tin/email/giờ → 429.
 - **AC-CON-02** Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new → read → replied`, xoá; khách thường không đọc được tin nhắn của ai.
 - **AC-CON-03** Trang **Giới thiệu** (`#about`): câu chuyện thương hiệu, giá trị, hệ thống cửa hàng, số liệu (số sản phẩm, danh mục, đánh giá) lấy từ dữ liệu thật; có liên kết ở menu và footer.
+- **AC-CON-04** *(sprint 6)* Thông tin liên hệ chính thức hiển thị ở chân trang mọi trang, trang Giới thiệu và Liên hệ: email `support@thaitufashion.vn`, địa chỉ Số 174 Lê Lợi, Quận Hải Châu, TP. Đà Nẵng, hotline 1900 5368 · +84 393 131 385 (bấm để gọi/gửi email).
+
+### F10. Trải nghiệm giao diện (sprint 6)
+
+- **AC-UI-01** Khi đang tải dữ liệu, trang hiện khung tải (skeleton) cùng bố cục trang thật thay cho dòng chữ; có chữ cho trình đọc màn hình; không gây dịch chuyển bố cục (CLS = 0).
+- **AC-UI-02** Tiêu đề tab trình duyệt đổi theo trang (tên sản phẩm, danh mục, trang tài khoản/quản trị, 404) theo dạng `<Trang> | Thai Tu Fashion`.
 
 ## 5. Yêu cầu phi chức năng
 
@@ -136,4 +145,5 @@ Tài khoản demo:
 ## 7. Phát hành
 
 - **v1 (đợt này):** F1–F9 (P0) + AC-ADM-08 ở mức API.
+- **Sprint 6:** AC-AUTH-06..08, AC-CON-04, F10.
 - **v1.1:** cổng thanh toán thật (VNPay/MoMo), đơn vị vận chuyển, upload ảnh đánh giá lên Supabase Storage.
