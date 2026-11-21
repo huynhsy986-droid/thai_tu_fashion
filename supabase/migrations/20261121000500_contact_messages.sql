@@ -57,7 +57,7 @@ begin
   return v_id;
 end $$;
 
-revoke all on function public.submit_contact(text, text, text, text, text, text) from public;
+revoke all on function public.submit_contact(text, text, text, text, text, text) from public;  -- chỉ cấp lại đúng 2 role
 grant execute on function public.submit_contact(text, text, text, text, text, text) to anon, authenticated;
 
 -- RLS: chỉ admin đọc/sửa/xoá; không ai insert trực tiếp (đi qua submit_contact)
@@ -72,4 +72,5 @@ create or replace function public.admin_contact_unread() returns int
 language sql stable security definer set search_path = public as $$
   select case when public.is_admin() then (select count(*)::int from public.contact_messages where status = 'new') else 0 end
 $$;
+revoke all on function public.admin_contact_unread() from public, anon;
 grant execute on function public.admin_contact_unread() to authenticated;
