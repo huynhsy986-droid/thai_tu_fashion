@@ -23,10 +23,11 @@ const measureSchema = z.object({
   hip: range('Vòng mông', 70, 160),
   fit: z.enum(['oversized', 'relaxed', 'regular', 'slim'], { error: 'Hãy chọn dáng mặc.' }).default('regular'),
 });
-const slotSchema = z.object({ pid: z.string().max(40), color: z.string().max(20) });
+const CODE = /^[a-z0-9-]{1,40}$/;
+const slotSchema = z.object({ pid: z.string().regex(CODE, { error: 'Outfit không hợp lệ.' }), color: z.string().regex(CODE, { error: 'Outfit không hợp lệ.' }) });
 const outfitSchema = z.object({
   name: z.string({ error: 'Đặt tên để dễ tìm lại.' }).trim().min(1, { error: 'Đặt tên để dễ tìm lại.' }).max(80),
-  slots: z.record(z.string().max(20), slotSchema),
+  slots: z.record(z.string().regex(/^[a-z]{2,10}$/, { error: 'Outfit không hợp lệ.' }), slotSchema),
 });
 const newsSchema = z.object({ email: z.string({ error: 'Email chưa đúng định dạng, ví dụ: ten@email.com' }).trim() });
 

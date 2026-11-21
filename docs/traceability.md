@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 37 AC + 7 NFR · 44/44 mục có test · số lần được test: unit 15, integration 75, e2e 30.
+**Tổng:** 37 AC + 7 NFR · 44/44 mục có test · số lần được test: unit 15, integration 78, e2e 30.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -12,11 +12,11 @@
 | AC-AUTH-03 | P0 | Gọi API cần đăng nhập mà không có/sai token → 401. | `auth/middleware.js` `routes/auth.js` | 3 · tokens | 2 · auth | — |
 | AC-AUTH-04 | P0 | Người không phải admin gọi API quản trị → 403. Trên giao diện, vào… | `auth/middleware.js` `20261121000200_functions_triggers.sql` | — | 1 · admin | 2 · admin, guest |
 | AC-AUTH-05 | P0 | Đăng xuất xoá phiên ở client; header trở về trạng thái khách. | `routes/auth.js` `auth.js` | — | 1 · auth | 1 · purchase |
-| AC-CAT-01 | P0 | Khách (kể cả chưa đăng nhập) xem danh sách sản phẩm đang bán: tên,… | `routes/catalog.js` | 1 · mappers | 2 · catalog | 1 · guest |
+| AC-CAT-01 | P0 | Khách (kể cả chưa đăng nhập) xem danh sách sản phẩm đang bán: tên,… | `routes/catalog.js` | 1 · mappers | 3 · catalog | 1 · guest |
 | AC-CAT-02 | P0 | Lọc theo danh mục, giới tính, khoảng giá, từ khoá (tìm không dấu:… | `routes/catalog.js` | — | 4 · catalog | 1 · guest |
 | AC-CAT-03 | P0 | Xem chi tiết theo mã; sản phẩm ẩn hoặc không tồn tại → 404 với khách. | `routes/catalog.js` | — | 1 · catalog | — |
 | AC-CAT-04 | P0 | Danh sách danh mục kèm số sản phẩm đang bán. | `routes/catalog.js` | — | 1 · catalog | — |
-| AC-REV-01 | P0 | Khách đã đăng nhập gửi đánh giá: số sao 1–5, nhận xét ≥ 10 ký tự,… | `routes/catalog.js` `20261121000200_functions_triggers.sql` `sync.js` | — | 3 · catalog | 1 · purchase |
+| AC-REV-01 | P0 | Khách đã đăng nhập gửi đánh giá: số sao 1–5, nhận xét ≥ 10 ký tự,… | `routes/catalog.js` `20261121000200_functions_triggers.sql` `sync.js` | — | 4 · catalog | 1 · purchase |
 | AC-REV-02 | P0 | Khách chỉ thấy đánh giá `visible`. Admin xem tất cả, ẩn/hiện, xoá. | `routes/catalog.js` | — | 1 · catalog | — |
 | AC-CART-01 | P0 | Thêm biến thể (màu + size) vào giỏ; tổng số lượng không vượt tồn… | `routes/cart.js` `sync.js` | — | 2 · cart | 1 · guest |
 | AC-CART-02 | P0 | Đổi số lượng, xoá dòng; giỏ lưu trên server, đăng nhập thiết bị… | `routes/cart.js` | — | 3 · cart | — |
@@ -44,7 +44,7 @@
 | AC-ADM-06 | P0 | Khách hàng: danh sách kèm số đơn và tổng chi tiêu. | `routes/admin/misc.js` | — | 1 · admin | — |
 | AC-ADM-07 | P0 | Kiểm duyệt đánh giá: lọc theo trạng thái, ẩn/hiện, xoá. | `routes/admin/misc.js` | — | 1 · admin | 1 · admin |
 | AC-ADM-08 | P1 | Mã giảm giá: xem, tạo, bật/tắt qua API quản trị. | `routes/admin/misc.js` | — | 1 · admin | — |
-| NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 6 · rls | — |
+| NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 7 · catalog, rls | — |
 | NFR-SEC-02 | NFR | Secret (service role key, JWT secret, DB URL) chỉ ở biến môi… | `config.js` | 1 · config | — | — |
 | NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 4 · security | — |
 | NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 1 · security | — |

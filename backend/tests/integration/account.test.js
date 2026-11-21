@@ -43,6 +43,8 @@ describe('F7 · Tài khoản cá nhân', () => {
     expect((await t.api().delete(`/api/me/outfits/${o.body.id}`).set(bearer(other.token))).status).toBe(404);
     expect((await t.api().delete(`/api/me/outfits/${o.body.id}`).set(bearer(c.token))).status).toBe(204);
     expect((await t.api().post('/api/me/outfits').set(bearer(c.token)).send({ name: '', slots: {} })).body.error.message).toBe('Đặt tên để dễ tìm lại.');
+    const evil = await t.api().post('/api/me/outfits').set(bearer(c.token)).send({ name: 'X', slots: { top: { pid: '<img src=x onerror=alert(1)>', color: 'white' } } });
+    expect(evil.status).toBe(422);
   });
 
   it('AC-ACC-04 thông báo: đánh dấu từng cái và tất cả', async () => {

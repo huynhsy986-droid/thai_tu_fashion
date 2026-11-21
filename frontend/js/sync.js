@@ -31,16 +31,21 @@ const variantOf = (pid, color, size) => { const p = P(pid); return p && p.varian
 /* ---------- lưu cục bộ: chỉ dữ liệu giao diện (+ giỏ/yêu thích của khách vãng lai) ---------- */
 const _save = save;
 let uiSaveT;
+function flushUi() {
+  clearTimeout(uiSaveT);
+  uiSaveT = null;
+  const keep = {};
+  UI_KEYS.forEach((k) => { keep[k] = S[k]; });
+  if (!loggedIn()) GUEST_KEYS.forEach((k) => { keep[k] = S[k]; });
+  try { localStorage.setItem(UIKEY, JSON.stringify(keep)); } catch (e) {}
+}
 save = function () {
   if (!isApi()) return _save();
   clearTimeout(uiSaveT);
-  uiSaveT = setTimeout(() => {
-    const keep = {};
-    UI_KEYS.forEach((k) => { keep[k] = S[k]; });
-    if (!loggedIn()) GUEST_KEYS.forEach((k) => { keep[k] = S[k]; });
-    try { localStorage.setItem(UIKEY, JSON.stringify(keep)); } catch (e) {}
-  }, 120);
+  uiSaveT = setTimeout(flushUi, 120);
 };
+// Không mất giỏ của khách vãng lai khi tải lại/đóng tab ngay sau thao tác
+window.addEventListener('pagehide', () => { if (isApi() && uiSaveT) flushUi(); });
 function loadUiState() { try { return JSON.parse(localStorage.getItem(UIKEY) || '{}') || {}; } catch (e) { return {}; } }
 
 /* ---------- áp dữ liệu server vào S ---------- */
@@ -109,6 +114,10 @@ async function reloadNotifs() { try { S.notifs = (await API.get('/api/me/notific
 
 /* ---------- đăng nhập / đăng xuất ---------- */
 async function afterAuth(r) {
+  SYNC.authBusy = true;
+  try { await completeAuth(r); } finally { SYNC.authBusy = false; }
+}
+async function completeAuth(r) {
   const guestCart = S.cart.slice();
   const guestWish = S.wish.slice();
   API.setSession({ accessToken: r.accessToken, expiresAt: r.expiresAt, user: r.user });

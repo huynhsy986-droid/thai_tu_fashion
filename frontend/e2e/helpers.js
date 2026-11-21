@@ -41,7 +41,7 @@ async function login(page, { email, password }) {
   await page.fill('#au-email', email);
   await page.fill('#au-pass', password);
   await page.click('#au-submit');
-  await waitFor(page, () => Boolean(API.session()) && S.meId);
+  await waitFor(page, () => Boolean(API.session()) && S.meId && !SYNC.authBusy && location.hash !== '#login' && location.hash !== '#register');
 }
 
 async function register(page, name = 'Khách E2E') {
@@ -51,7 +51,7 @@ async function register(page, name = 'Khách E2E') {
   await page.fill('#au-email', email);
   await page.fill('#au-pass', 'Matkhau123');
   await page.click('#au-submit');
-  await waitFor(page, () => Boolean(API.session()) && S.meId);
+  await waitFor(page, () => Boolean(API.session()) && S.meId && !SYNC.authBusy && location.hash !== '#login' && location.hash !== '#register');
   return { email, password: 'Matkhau123', name };
 }
 

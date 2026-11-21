@@ -46,8 +46,8 @@ tests/
 | Lệnh | Nội dung |
 |---|---|
 | `npm run test:unit` | 54 unit test, không cần DB |
-| `npm run test:integration` | 94 test trên Postgres thật (tự tạo DB mẫu `thaitu_test_tpl`, mỗi file clone 1 DB) |
+| `npm run test:integration` | 97 test trên Postgres thật (tự tạo DB mẫu `thaitu_test_tpl`, mỗi file clone 1 DB) |
 | `npm test` | tất cả |
-| `npm run test:coverage` | độ phủ (≈97% dòng) |
+| `npm run test:coverage` | độ phủ (≈99% dòng) |
 
 Biến `TEST_PG_URL` (mặc định `postgres://postgres:postgres@localhost:5432`) trỏ tới máy chủ Postgres dùng cho test.

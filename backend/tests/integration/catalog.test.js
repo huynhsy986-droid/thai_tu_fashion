@@ -113,6 +113,25 @@ describe('F3 · Đánh giá', () => {
     expect((await t.api().post('/api/products/khongco/reviews').set(bearer(c.token)).send({ rating: 5, name: 'AA', text: '1234567890ab' })).status).toBe(404);
   });
 
+  it('AC-REV-01 NFR-SEC-01 ảnh đánh giá phải là data URL base64 thuần (chống chèn HTML vào <img src>)', async () => {
+    const c = await t.newCustomer();
+    const body = { rating: 5, name: 'Khách Ảnh', text: 'Ảnh thật của mình nè mọi người.' };
+    const evil = await t.api().post('/api/products/k03/reviews').set(bearer(c.token)).send({ ...body, img: 'data:image/png;base64,AAAA" onerror="alert(1)' });
+    expect(evil.status).toBe(422);
+    expect(evil.body.error.message).toBe('Ảnh không hợp lệ.');
+    const ok = await t.api().post('/api/products/k03/reviews').set(bearer(c.token)).send({ ...body, img: 'data:image/png;base64,iVBORw0KGgo=' });
+    expect(ok.status).toBe(201);
+    expect(ok.body.img).toBe('data:image/png;base64,iVBORw0KGgo=');
+  });
+
+  it('AC-CAT-01 catalogue gửi Vary: Authorization để cache của khách không lẫn với admin', async () => {
+    const res = await t.api().get('/api/catalog');
+    expect(res.headers.vary).toMatch(/Authorization/i);
+    expect(res.headers['cache-control']).toContain('public');
+    const adm = await t.api().get('/api/catalog').set(bearer(await t.login(ADMIN)));
+    expect(adm.headers['cache-control']).toContain('no-store');
+  });
+
   it('AC-REV-02 đánh giá bị ẩn không xuất hiện với khách', async () => {
     const { rows } = await t.sql("update public.reviews set status = 'hidden' where id = (select id from public.reviews where product_id = 'k06' limit 1) returning id");
     const res = await t.api().get('/api/products/k06/reviews');

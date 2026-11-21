@@ -38,7 +38,8 @@ const reviewSchema = z.object({
   img: z
     .string()
     .max(200_000, { error: 'Ảnh quá lớn (tối đa ~150 KB sau khi thu nhỏ).' })
-    .regex(/^data:image\/(jpeg|png|webp);base64,/, { error: 'Ảnh không hợp lệ.' })
+    // Toàn bộ chuỗi phải là base64 hợp lệ: ảnh được chèn vào <img src> ở frontend (chống XSS)
+    .regex(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/, { error: 'Ảnh không hợp lệ.' })
     .nullish(),
 });
 
@@ -62,7 +63,8 @@ export function catalogRoutes() {
         reviews: reviews.rows.map((x) => toReview(x, req.user?.id)),
       };
     });
-    res.set('Cache-Control', req.user ? 'private, no-store' : 'public, max-age=30').json(data);
+    // Vary: Authorization để trình duyệt không dùng bản cache của khách vãng lai cho admin (và ngược lại)
+    res.set('Vary', 'Authorization').set('Cache-Control', req.user ? 'private, no-store' : 'public, max-age=30').json(data);
   });
 
   // AC-CAT-04
