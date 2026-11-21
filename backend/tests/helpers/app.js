@@ -8,6 +8,7 @@ import { createDb } from '../../src/db/index.js';
 import { createTokenService } from '../../src/auth/tokens.js';
 import { createAuthProvider } from '../../src/auth/providers.js';
 import { createApp } from '../../src/app.js';
+import { silentLogger } from '../../src/lib/logger.js';
 import { TEMPLATE_DB, baseUrl, JWT_SECRET } from './env.js';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -50,12 +51,13 @@ export async function makeTestApp(label, envOverrides = {}) {
     RATE_LIMIT_API: '100000',
     RATE_LIMIT_CONTACT: '1000',
     STATIC_DIR: '',
+    LOG_REQUESTS: 'false',
     ...envOverrides,
   });
   const db = createDb(config);
   const tokens = createTokenService(config);
   const authProvider = createAuthProvider(config, db, tokens);
-  const silent = { log() {}, error() {}, warn() {} };
+  const silent = silentLogger; // đủ debug/info/warn/error/log — app production gọi logger.info
   const app = createApp({ config, db, tokens, authProvider, logger: silent });
   const api = () => request(app);
 
