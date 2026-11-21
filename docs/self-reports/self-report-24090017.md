@@ -133,6 +133,6 @@ Tham gia review 2 nhóm (giao diện/trải nghiệm); sửa giao diện theo g�
 
 ⟨3–5 câu: đóng góp chính, điều tự hào nhất, kỹ năng học được⟩
 
-**Estimated % contribution relative to the whole team:** ⟨~%⟩
+**Estimated % contribution relative to the whole team:** 34% *(tỷ lệ cả nhóm thống nhất, xem README → Đánh giá mức độ đóng góp)*
 
 **Overall self-assessment score:** ⟨1–10⟩
