@@ -51,6 +51,11 @@
 | **4 · Optimization** | Task 4 | Lighthouse đo → sửa → đo lại | TV3 | #8 |
 | | | Google Analytics + Sentry trình duyệt | TV3 | #7 |
 | | | Log có cấu trúc + Sentry backend | TV2 | #4 |
+| **6 · Cải thiện giao diện & đăng nhập** | Task 2–4 | PRD: AC-AUTH-06..08, AC-CON-04, AC-UI-01/02 | TV1 | #19 |
+| | | Thông tin liên hệ chính thức ở chân trang | TV3 | #20 |
+| | | API gia hạn phiên, quên/đặt lại mật khẩu | TV2 | #21 |
+| | | Giao diện đăng nhập: gia hạn phiên, quên mật khẩu, menu người dùng | TV3 | #22 |
+| | | Skeleton & tiêu đề trang | TV3 | #23 |
 | **5 · Peer review & nộp bài** | Task 5 | Review UI/UX 2 nhóm khác, trao đổi trực tiếp | Cả nhóm | `docs/peer-review/` |
 | | | Xử lý góp ý nhận được (sửa hoặc giải thích) | Người phụ trách phần bị góp ý | issue mới cho từng góp ý |
 | | | README theo Report Template, kịch bản video, khung Self-Report | TV1 | #9 |

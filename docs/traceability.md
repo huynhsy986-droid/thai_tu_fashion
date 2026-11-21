@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 29, integration 90, e2e 36.
+**Tổng:** 46 AC + 8 NFR · 54/54 mục có test · số lần được test: unit 32, integration 95, e2e 44.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -12,6 +12,9 @@
 | AC-AUTH-03 | P0 | Gọi API cần đăng nhập mà không có/sai token → 401. | `auth/middleware.js` `routes/auth.js` | 9 · jwks, tokens | 2 · auth | — |
 | AC-AUTH-04 | P0 | Người không phải admin gọi API quản trị → 403. Trên giao diện, vào… | `auth/middleware.js` `20261121000200_functions_triggers.sql` | — | 1 · admin | 2 · admin, guest |
 | AC-AUTH-05 | P0 | Đăng xuất xoá phiên ở client; header trở về trạng thái khách. | `auth/providers.js` `routes/auth.js` `auth.js` | 1 · providers | 1 · auth | 1 · purchase |
+| AC-AUTH-06 | P0 | *(sprint 6)* Phiên không tự mất sau khi access token (1 giờ) hết… | `auth/providers.js` `routes/auth.js` `api.js` | 1 · providers | 2 · session | 1 · auth-ux |
+| AC-AUTH-07 | P0 | *(sprint 6)* Quên mật khẩu: nhập email → luôn hiện cùng một câu… | `auth/providers.js` `routes/auth.js` `auth.js` | 2 · providers | 3 · session | 2 · auth-ux |
+| AC-AUTH-08 | P0 | *(sprint 6)* Trải nghiệm đăng nhập: nút hiện/ẩn mật khẩu; thanh độ… | `app.js` `auth.js` | — | — | 2 · auth-ux |
 | AC-CAT-01 | P0 | Khách (kể cả chưa đăng nhập) xem danh sách sản phẩm đang bán: tên,… | `routes/catalog.js` | 1 · mappers | 3 · catalog | 1 · guest |
 | AC-CAT-02 | P0 | Lọc theo danh mục, giới tính, khoảng giá, từ khoá (tìm không dấu:… | `routes/catalog.js` | — | 4 · catalog | 1 · guest |
 | AC-CAT-03 | P0 | Xem chi tiết theo mã; sản phẩm ẩn hoặc không tồn tại → 404 với khách. | `routes/catalog.js` | — | 1 · catalog | — |
@@ -47,6 +50,9 @@
 | AC-CON-01 | P0 | Trang Liên hệ (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥… | `routes/contact.js` `20261121000500_contact_messages.sql` | 3 · contact | 4 · contact | 1 · contact |
 | AC-CON-02 | P0 | Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new… | `lib/mappers.js` `routes/contact.js` `20261121000500_contact_messages.sql` | 1 · contact | 2 · contact | 1 · contact |
 | AC-CON-03 | P0 | Trang Giới thiệu (`#about`): câu chuyện thương hiệu, giá trị, hệ… | — | — | — | 1 · contact |
+| AC-CON-04 | P0 | *(sprint 6)* Thông tin liên hệ chính thức hiển thị ở chân trang… | — | — | — | 1 · contact |
+| AC-UI-01 | P0 | Khi đang tải dữ liệu, trang hiện khung tải (skeleton) cùng bố cục… | — | — | — | 1 · ux |
+| AC-UI-02 | P0 | Tiêu đề tab trình duyệt đổi theo trang (tên sản phẩm, danh mục,… | — | — | — | 1 · ux |
 | NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 7 · catalog, rls | — |
 | NFR-SEC-02 | NFR | Secret (service role key, JWT secret, DB URL) chỉ ở biến môi… | `config.js` | 1 · config | — | — |
 | NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 5 · security | — |

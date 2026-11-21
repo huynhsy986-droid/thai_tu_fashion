@@ -33,13 +33,14 @@
 | Layer | Công nghệ |
 |---|---|
 | Frontend | HTML, CSS (design system riêng) + **Tailwind CSS 3** (prefix `tw-`), JavaScript thuần (SPA định tuyến bằng `#hash`) |
-| Backend | Node.js 22, Express 5, zod (validate), jose (JWT/JWKS), helmet + CSP, rate-limit, compression |
+| Backend | Node.js 22, Express 5, zod (validate), jose (JWT/JWKS), Supabase Auth (refresh token, khôi phục mật khẩu), helmet + CSP, rate-limit, compression |
 | Database | **PostgreSQL 17 trên Supabase** (Auth, Row Level Security, function/trigger PL/pgSQL) |
 | Giám sát | Google Analytics 4, Sentry (trình duyệt + Node), log JSON có request id |
 | Kiểm thử / CI | Vitest + Supertest, Playwright, GitHub Actions |
 | Deploy | Render (Node, không Docker) — `render.yaml` · Supabase `thai-tu-fashion-v1` (Singapore) |
 
 **Tính năng chính:**
+- Tài khoản: đăng ký/đăng nhập, **tự gia hạn phiên** (không bị đăng xuất sau 1 giờ), **quên & đặt lại mật khẩu qua email**, hiện/ẩn và đo độ mạnh mật khẩu, menu người dùng trên header.
 - Cửa hàng: tìm kiếm không dấu, lọc theo danh mục/size/màu/giá/dáng, sắp xếp, tồn kho theo từng biến thể màu × size.
 - Giỏ hàng lưu trên server, mã giảm giá, đặt hàng **nguyên tử trong 1 transaction** (không bán vượt kho khi 2 người mua cùng lúc), thanh toán COD/online mô phỏng.
 - Tài khoản: đơn hàng + dòng thời gian trạng thái, huỷ đơn, yêu thích + báo giảm giá, báo có hàng, số đo, outfit, thông báo.
@@ -111,9 +112,9 @@ Khi API không chạy, giao diện tự chuyển **chế độ dự phòng** (d�
 **Kiểm thử:**
 
 ```bash
-cd backend  && npm test             # 71 unit + 114 integration (Postgres thật, RLS)
-cd frontend && npm ci && npm run test:e2e   # 26 e2e (Chrome + backend + DB thật)
-node scripts/trace.mjs --check      # ma trận AC → code → test (48/48)
+cd backend  && npm test             # 75 unit + 119 integration (Postgres thật, RLS)
+cd frontend && npm ci && npm run test:e2e   # 34 e2e (Chrome + backend + DB thật)
+node scripts/trace.mjs --check      # ma trận AC → code → test (54/54)
 ```
 
 ---
@@ -126,8 +127,8 @@ Nhóm 3 người chia theo tầng để mỗi người chịu trách nhiệm tr�
 
 | Thành viên | Phụ trách | Tài liệu / mã nguồn chính |
 |---|---|---|
-| TV1 · lequangkhanh6002-pixel | Review prototype, PRD (40 tiêu chí nghiệm thu AC), wireframe, project plan, README, kịch bản video, điều phối peer review | [`docs/01`](docs/01-design-review.md), [`02-PRD`](docs/02-PRD.md), [`wireframes/`](docs/wireframes/), [`09-project-plan`](docs/09-project-plan.md) |
-| TV2 · nguyen06-vn | Kiến trúc, ERD, migrations + RLS trên Supabase, REST API 62 operation, logging & Sentry backend | [`03`](docs/03-solution-architecture.md), [`04-ERD`](docs/04-database-erd.md), [`openapi.yaml`](docs/openapi.yaml), `backend/`, `supabase/` |
+| TV1 · lequangkhanh6002-pixel | Review prototype, PRD (46 tiêu chí nghiệm thu AC), wireframe, project plan, README, kịch bản video, điều phối peer review | [`docs/01`](docs/01-design-review.md), [`02-PRD`](docs/02-PRD.md), [`wireframes/`](docs/wireframes/), [`09-project-plan`](docs/09-project-plan.md) |
+| TV2 · nguyen06-vn | Kiến trúc, ERD, migrations + RLS trên Supabase, REST API 65 operation, logging & Sentry backend | [`03`](docs/03-solution-architecture.md), [`04-ERD`](docs/04-database-erd.md), [`openapi.yaml`](docs/openapi.yaml), `backend/`, `supabase/` |
 | TV3 · huynhsy986-droid | Nối giao diện với API, đăng nhập/phân quyền, Tailwind, trang Giới thiệu/Liên hệ, GA4 + Sentry, Lighthouse, e2e, CI | `frontend/`, [`06-test-report`](docs/06-test-report.md), [`10-lighthouse`](docs/10-lighthouse.md) |
 
 Quy trình chi tiết: [`docs/00-team-workflow.md`](docs/00-team-workflow.md).
@@ -221,12 +222,13 @@ Danh sách PR đã merge: https://github.com/huynhsy986-droid/thai_tu_fashion/pu
 
 | Tính năng | Mô tả | File / Component | Người thực hiện |
 |---|---|---|---|
-| Form validation | Đăng nhập/đăng ký, thanh toán, liên hệ (6 ô, đếm ký tự), đánh giá, số đo — lỗi tiếng Việt dưới từng ô, cùng quy tắc với server | `js/auth.js`, `js/info.js`, `js/pages.js` | TV3 |
+| Form validation | Đăng nhập/đăng ký (thanh độ mạnh mật khẩu), quên/đặt lại mật khẩu, thanh toán, liên hệ (6 ô, đếm ký tự), đánh giá, số đo — lỗi tiếng Việt dưới từng ô, cùng quy tắc với server | `js/auth.js`, `js/info.js`, `js/pages.js` | TV3 |
 | Modal / ngăn kéo | Tìm kiếm gợi ý, menu mobile, xác nhận huỷ đơn, cổng thanh toán mô phỏng | `js/app.js`, `js/store.js` | Cả nhóm (prototype) |
 | Slider / marquee | Thanh thông báo chạy, thư viện ảnh sản phẩm, thẻ đổi ảnh khi hover | `js/components.js`, `js/pages.js` | Cả nhóm (prototype) |
 | Bộ lọc động | Lọc + sắp xếp + tìm không dấu, chip bộ lọc đang chọn | `js/pages.js` | Cả nhóm (prototype) |
 | Chọn biến thể | Màu/size, size hết hàng bị khoá, "báo khi có hàng" | `js/pages.js`, `js/sync.js` | TV3 |
 | Accordion | FAQ Liên hệ, chất liệu/giao hàng ở trang sản phẩm | `js/info.js`, `js/pages.js` | TV3 · prototype |
+| Menu người dùng · skeleton | Menu thả xuống theo chữ cái đầu tên (đóng bằng Esc/bấm ngoài); khung tải cùng bố cục trang | `js/auth.js`, `index.html` | TV3 |
 | Toast & cập nhật lạc quan | Thêm giỏ/yêu thích phản hồi ngay, đồng bộ server phía sau | `js/sync.js` | TV3 |
 | Smart Studio | Size Advisor, Outfit Builder kéo chọn, Visual Search bằng canvas | `js/studio.js` | Cả nhóm (prototype) |
 
@@ -275,7 +277,7 @@ ER diagram đầy đủ (Mermaid) và ma trận RLS: [`docs/04-database-erd.md`]
 ### (b) Kết nối cơ sở dữ liệu
 
 - **Công nghệ server-side:** Node.js 22 + Express 5, driver `pg`
-- **Cách kết nối:** RESTful API (62 operation, [`docs/openapi.yaml`](docs/openapi.yaml)); mỗi request chạy SQL dưới **quyền của người dùng** (`SET LOCAL ROLE` + JWT claims) nên RLS của Supabase là lớp phân quyền thật. Tính tiền/trừ kho nằm trong function SQL (`cart_quote`, `place_order`) — một nguồn sự thật.
+- **Cách kết nối:** RESTful API (65 operation, [`docs/openapi.yaml`](docs/openapi.yaml)); mỗi request chạy SQL dưới **quyền của người dùng** (`SET LOCAL ROLE` + JWT claims) nên RLS của Supabase là lớp phân quyền thật. Tính tiền/trừ kho nằm trong function SQL (`cart_quote`, `place_order`) — một nguồn sự thật.
 - **Các thao tác CRUD đã implement:**
   - [x] Create — đăng ký, thêm giỏ, đặt hàng, đánh giá, gửi liên hệ, admin tạo sản phẩm/danh mục/mã giảm giá
   - [x] Read — catalogue, chi tiết, đơn hàng, dashboard, tin nhắn
@@ -305,7 +307,7 @@ Chi tiết: [`docs/03-solution-architecture.md`](docs/03-solution-architecture.m
 |---|---|
 | ![](docs/screenshots/admin-orders.jpg) | ![](docs/screenshots/cart-mobile.jpg) |
 
-Được kiểm thử bằng 114 integration test trên Postgres thật và e2e — [`docs/06-test-report.md`](docs/06-test-report.md).
+Được kiểm thử bằng 119 integration test trên Postgres thật và e2e — [`docs/06-test-report.md`](docs/06-test-report.md).
 
 ---
 
@@ -427,7 +429,7 @@ Quy trình và biểu mẫu: [`docs/peer-review/`](docs/peer-review/README.md).
 |---|---|
 | [`docs/00-team-workflow.md`](docs/00-team-workflow.md) | Nhóm, quy trình 3 bước |
 | [`docs/01-design-review.md`](docs/01-design-review.md) | Review prototype |
-| [`docs/02-PRD.md`](docs/02-PRD.md) | Yêu cầu + 40 AC + 8 NFR |
+| [`docs/02-PRD.md`](docs/02-PRD.md) | Yêu cầu + 46 AC + 8 NFR |
 | [`docs/05-api-docs.md`](docs/05-api-docs.md) · [`openapi.yaml`](docs/openapi.yaml) | Tài liệu API |
 | [`docs/06-test-report.md`](docs/06-test-report.md) · [`traceability.md`](docs/traceability.md) | Kiểm thử, truy vết AC → test |
 | [`docs/07-supabase-production.md`](docs/07-supabase-production.md) · [`08-deployment.md`](docs/08-deployment.md) | Supabase thật, deploy Render |
