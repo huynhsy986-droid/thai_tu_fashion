@@ -18,15 +18,15 @@
 
 | Tầng | Số test | Kết quả | Ghi chú |
 |---|---|---|---|
-| Unit (backend) | 71 | ✅ 71/71 | errors, validate, tokens, JWKS/ES256 + xác minh qua Supabase Auth, máy trạng thái, mappers, config, Supabase Auth provider (mock), form liên hệ, logger |
-| Integration (backend + Postgres thật) | 114 | ✅ 114/114 | mỗi file test clone 1 DB riêng từ template; gồm RLS trực tiếp, đặt hàng đồng thời, contract với OpenAPI, liên hệ, request id / lỗi 500 / gzip |
-| E2E (Chrome + backend + DB thật) | 26 | ✅ 26/26 | 25 desktop + 1 mobile (Pixel 7); gồm Giới thiệu/Liên hệ, GA4/Sentry |
-| **Tổng** | **211** | ✅ | *(cập nhật sprint 4, 21/11/2026)* |
+| Unit (backend) | 75 | ✅ 75/75 | errors, validate, tokens, JWKS/ES256 + xác minh qua Supabase Auth, máy trạng thái, mappers, config, Supabase Auth provider (mock), form liên hệ, logger, Supabase refresh/quên mật khẩu |
+| Integration (backend + Postgres thật) | 119 | ✅ 119/119 | mỗi file test clone 1 DB riêng từ template; gồm RLS trực tiếp, đặt hàng đồng thời, contract với OpenAPI, liên hệ, request id / lỗi 500 / gzip, gia hạn phiên & đặt lại mật khẩu |
+| E2E (Chrome + backend + DB thật) | 34 | ✅ 34/34 | 33 desktop + 1 mobile (Pixel 7); gồm Giới thiệu/Liên hệ, GA4/Sentry, phiên/quên mật khẩu/menu người dùng, skeleton |
+| **Tổng** | **228** | ✅ | *(cập nhật sprint 6, 21/11/2026)* |
 
 - **Độ ổn định:** e2e chạy liên tiếp nhiều lần đều xanh. Pipeline đầy đủ chạy lại trên **bản clone sạch** của repo (`npm ci` → seed → migrations → unit → integration → e2e → truy vết) cũng xanh.
-- **Độ phủ backend:** 97,7% dòng · 90,4% nhánh · 89% hàm (phần chưa phủ chủ yếu là nhánh khởi tạo Sentry thật, chỉ chạy khi có DSN).
-- **Truy vết:** 40 AC + 8 NFR = **48/48 mục có test** (`docs/traceability.md`, CI chặn khi có AC không có test).
-- **Contract:** 62 operation trong `openapi.yaml` khớp 1-1 với route Express; bảng trạng thái đơn JS khớp SQL; mọi mã lỗi SQL có trong OpenAPI.
+- **Độ phủ backend:** 98,3% dòng · 90,0% nhánh · 90,6% hàm (phần chưa phủ chủ yếu là nhánh khởi tạo Sentry thật, chỉ chạy khi có DSN).
+- **Truy vết:** 46 AC + 8 NFR = **54/54 mục có test** (`docs/traceability.md`, CI chặn khi có AC không có test).
+- **Contract:** 65 operation trong `openapi.yaml` khớp 1-1 với route Express; bảng trạng thái đơn JS khớp SQL; mọi mã lỗi SQL có trong OpenAPI.
 - **Hiệu năng:** `GET /api/catalog` (66 SP, 319 biến thể, 262 đánh giá) p95 < 300 ms (NFR-PERF-01).
 - **Bảo mật:** RLS bật 19/19 bảng; anon không đọc được hồ sơ/đơn/coupon; khách không sửa được giá, không ghi đơn trực tiếp, không gọi được function nội bộ, không tự nâng quyền admin.
 
@@ -53,7 +53,7 @@ Không còn lỗi mở ở mức Cao/Trung bình.
 
 | Nhóm | Kết luận |
 |---|---|
-| F1 Tài khoản & xác thực | ✅ Đăng ký/đăng nhập/đăng xuất, 401/403 đúng, chặn route trên UI |
+| F1 Tài khoản & xác thực | ✅ Đăng ký/đăng nhập/đăng xuất, 401/403 đúng, chặn route trên UI; tự gia hạn phiên, quên/đặt lại mật khẩu (link 1 lần), menu người dùng |
 | F2 Danh mục & sản phẩm | ✅ Tìm không dấu, lọc, sắp xếp, phân trang, SP ẩn → 404 |
 | F3 Đánh giá | ✅ Nhãn "đã mua" do server tính; kiểm duyệt |
 | F4 Giỏ & mã giảm giá | ✅ Giỏ trên server, gộp giỏ khách vãng lai; tiền do server tính; 5 tình huống mã sai |
@@ -71,7 +71,7 @@ Không còn lỗi mở ở mức Cao/Trung bình.
 ```bash
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/thaitu scripts/db-reset.sh
 cd backend  && npm ci && npm test                  # 151 test
-cd frontend && npm ci && npm run test:e2e          # 26 test
+cd frontend && npm ci && npm run test:e2e          # 34 test
 node scripts/trace.mjs --check                     # truy vết AC
 ```
 
