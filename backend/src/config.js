@@ -34,6 +34,7 @@ const schema = z.object({
   SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0),
   GA_MEASUREMENT_ID: z.string().regex(/^G-[A-Z0-9]{4,20}$/, 'GA_MEASUREMENT_ID có dạng G-XXXXXXXXXX').optional().or(z.literal('')),
   RELEASE: z.string().optional(),
+  PUBLIC_URL: z.string().url().optional().or(z.literal('')),
   RENDER_GIT_COMMIT: z.string().optional(),
 });
 
@@ -77,6 +78,7 @@ export function loadConfig(env = process.env) {
     sentryEnvironment: e.SENTRY_ENVIRONMENT || e.NODE_ENV,
     sentryTracesSampleRate: e.SENTRY_TRACES_SAMPLE_RATE,
     gaMeasurementId: e.GA_MEASUREMENT_ID || undefined,
+    publicUrl: e.PUBLIC_URL || undefined,
     release: e.RELEASE || (e.RENDER_GIT_COMMIT ? e.RENDER_GIT_COMMIT.slice(0, 7) : undefined),
   });
 }

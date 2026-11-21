@@ -45,6 +45,7 @@ paths:
                   sentryDsn: { type: string, nullable: true }
                   environment: { type: string }
                   release: { type: string, nullable: true }
+                  demoAccounts: { type: boolean, description: 'Có tài khoản dùng thử (chỉ dữ liệu mẫu local)' }
 
   /api/auth/register:
     post:
@@ -77,10 +78,45 @@ paths:
       responses:
         '200': { $ref: '#/components/responses/Session' }
         '401': { $ref: '#/components/responses/Error' }
+  /api/auth/refresh:
+    post:
+      tags: [auth]
+      summary: Gia hạn phiên bằng refresh token, token được xoay vòng (AC-AUTH-06)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [refreshToken], properties: { refreshToken: { type: string } } } } } }
+      responses:
+        '200': { $ref: '#/components/responses/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+  /api/auth/forgot:
+    post:
+      tags: [auth]
+      summary: Gửi email đặt lại mật khẩu — luôn trả cùng một câu, không tiết lộ email có tồn tại (AC-AUTH-07)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string, format: email } } } } } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  message: { type: string }
+                  devResetLink: { type: string, description: 'Chỉ khi AUTH_PROVIDER=local và không phải production' }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+  /api/auth/reset:
+    post:
+      tags: [auth]
+      summary: Đặt mật khẩu mới bằng token trong link email (type=recovery) (AC-AUTH-07)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [token, password], properties: { token: { type: string }, password: { type: string, minLength: 8 } } } } } }
+      responses:
+        '200': { description: Đã đổi mật khẩu, content: { application/json: { schema: { type: object, properties: { ok: { type: boolean }, message: { type: string } } } } } }
+        '400': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/auth/logout:
     post:
       tags: [auth]
-      summary: Đăng xuất (AC-AUTH-05)
+      summary: Đăng xuất; với Supabase thu hồi refresh token (AC-AUTH-05)
       security: [{ bearerAuth: [] }]
       responses: { '204': { description: Đã đăng xuất } }
   /api/auth/me:
@@ -601,6 +637,7 @@ components:
             type: object
             properties:
               accessToken: { type: string }
+              refreshToken: { type: string, nullable: true, description: 'Dùng cho POST /api/auth/refresh (AC-AUTH-06)' }
               expiresAt: { type: integer, description: epoch seconds }
               user: { $ref: '#/components/schemas/SessionUser' }
   schemas:

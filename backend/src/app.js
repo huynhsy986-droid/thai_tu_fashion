@@ -113,11 +113,13 @@ export function createApp({ config, db, tokens, authProvider, logger = console, 
       sentryDsn: config.sentryDsnBrowser || null,
       environment: config.sentryEnvironment,
       release: config.release || null,
+      // Tài khoản dùng thử chỉ có trong dữ liệu mẫu local (AC-AUTH-08)
+      demoAccounts: config.authProvider === 'local' && !config.isProd,
     });
   });
 
   app.use('/api', authenticate(tokens, db));
-  app.use('/api/auth', authLimiter, authRoutes({ db, authProvider }));
+  app.use('/api/auth', authLimiter, authRoutes({ db, authProvider, config }));
   app.use('/api', catalogRoutes());
   app.use('/api/cart', cartRoutes());
   app.use('/api/orders', orderRoutes());

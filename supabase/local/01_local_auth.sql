@@ -31,3 +31,22 @@ $$;
 
 revoke execute on function public.local_auth_signup(text, text, text) from public, anon, authenticated;
 revoke execute on function public.local_auth_login(text, text) from public, anon, authenticated;
+
+-- Đặt lại mật khẩu (chỉ local/CI; production dùng Supabase Auth). Issue #21 · AC-AUTH-07
+create or replace function public.local_auth_set_password(p_user uuid, p_password text)
+returns void language sql security definer set search_path = public, extensions as $$
+  update auth.users set encrypted_password = extensions.crypt(p_password, extensions.gen_salt('bf', 10)), updated_at = now()
+   where id = p_user
+$$;
+-- Dấu vân tay mật khẩu hiện tại: link đặt lại chỉ dùng được 1 lần (đổi mật khẩu → dấu vân tay đổi)
+create or replace function public.local_auth_password_fingerprint(p_user uuid)
+returns text language sql stable security definer set search_path = public, extensions as $$
+  select left(md5(encrypted_password), 16) from auth.users where id = p_user
+$$;
+create or replace function public.local_auth_find(p_email text)
+returns table (id uuid, email text) language sql stable security definer set search_path = public as $$
+  select u.id, u.email::text from auth.users u where u.email = lower(btrim(p_email))
+$$;
+revoke execute on function public.local_auth_set_password(uuid, text) from public, anon, authenticated;
+revoke execute on function public.local_auth_password_fingerprint(uuid) from public, anon, authenticated;
+revoke execute on function public.local_auth_find(text) from public, anon, authenticated;
