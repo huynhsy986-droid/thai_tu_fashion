@@ -65,8 +65,26 @@ function Header(cur){return`<header class="hdr"><div class="wrap hdr-in">
  <div class="hdr-r"><button class="iconbtn" data-a="search" aria-label="Tìm kiếm">${I('search')}</button><a class="iconbtn" href="#notifications" aria-label="Thông báo">${I('bell')}<span class="count" data-c="notif"></span></a><a class="iconbtn" href="#account" aria-label="Tài khoản">${I('user')}</a><a class="iconbtn d-only" href="#wishlist" aria-label="Yêu thích">${I('heart')}<span class="count" data-c="wish"></span></a><a class="iconbtn d-only" href="#cart" aria-label="Giỏ hàng">${I('bag')}<span class="count" data-c="cart"></span></a><button class="iconbtn burger" data-a="menu" aria-label="Mở menu">${I('menu')}</button></div>
  </div></header>
  <nav class="mnav" aria-label="Điều hướng nhanh"><a href="#home" class="${cur==='home'?'on':''}">${I('home')}Trang chủ</a><a href="#shop" class="${cur.startsWith('shop')?'on':''}">${I('grid')}Cửa hàng</a><a href="#studio" class="${/^(studio|outfit|size|stylist|visual|tryon)/.test(cur)?'on':''}">${I('spark')}Studio</a><a href="#wishlist" class="${cur==='wishlist'?'on':''}">${I('heart')}Yêu thích<span class="count" data-c="wish"></span></a><a href="#cart" class="${cur==='cart'?'on':''}">${I('bag')}Giỏ hàng<span class="count" data-c="cart"></span></a></nav>`}
+/* Thông tin liên hệ chính thức (AC-CON-04) — dùng chung cho chân trang, Giới thiệu, Liên hệ */
+const SHOP_INFO={
+ email:'support@thaitufashion.vn',
+ address:'Số 174 Lê Lợi, Quận Hải Châu, TP. Đà Nẵng',
+ hotlines:[['1900 5368','19005368'],['+84 393 131 385','+84393131385']],
+ hours:'Thứ 2 – Chủ nhật · 9:00 – 21:00',
+ reply:'Phản hồi trong vòng 24 giờ làm việc',
+ map:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('174 Lê Lợi, Hải Châu, Đà Nẵng'),
+};
+icons.mail='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>';
+icons.phone='<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>';
+icons.pin='<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>';
+const hotlineLinks=(sep=' · ')=>SHOP_INFO.hotlines.map(([t,n])=>`<a href="tel:${n}" class="num">${t}</a>`).join(sep);
+const ShopContact=()=>`<address class="ftr-contact tw-not-italic tw-mt-5 tw-flex tw-flex-col tw-gap-2 small" aria-label="Thông tin liên hệ">
+ <span class="tw-flex tw-gap-2 tw-items-start">${I('pin')}<span>${SHOP_INFO.address}</span></span>
+ <span class="tw-flex tw-gap-2 tw-items-start">${I('phone')}<span>Hotline: ${hotlineLinks()}</span></span>
+ <span class="tw-flex tw-gap-2 tw-items-start">${I('mail')}<a href="mailto:${SHOP_INFO.email}">${SHOP_INFO.email}</a></span>
+</address>`;
 const Footer=()=>`<footer class="ftr"><div class="wrap"><div class="ftr-news"><div class="stack" style="gap:4px"><b>Nhận tin đợt drop mới</b><span class="small muted">Một email trước mỗi đợt drop thứ Sáu và ưu đãi riêng.</span></div><form class="stack" data-form="news" novalidate style="gap:4px"><div class="inline-form"><div class="field"><label for="news-mail" class="xs muted">Email của bạn</label><input class="input" id="news-mail" type="email" placeholder="ten@email.com" autocomplete="email"></div><button class="btn" style="align-self:flex-end">Đăng ký</button></div><div class="err" data-err="news-mail"></div><div id="news-ok"></div></form></div><div class="ftr-grid">
- <div class="ftr-brand"><div class="logo" role="img" aria-label="Thai Tu Fashion" style="margin-bottom:18px">${Logo('primary')}</div><p class="small muted" style="max-width:36ch">Trang phục unisex phong cách Seoul, chất liệu tốt, ra mắt theo từng đợt drop mỗi thứ Sáu.</p></div>
+ <div class="ftr-brand"><div class="logo" role="img" aria-label="Thai Tu Fashion" style="margin-bottom:18px">${Logo('primary')}</div><p class="small muted" style="max-width:36ch">Trang phục unisex phong cách Seoul, chất liệu tốt, ra mắt theo từng đợt drop mỗi thứ Sáu.</p>${ShopContact()}</div>
  <div><h2 class="fh">Mua sắm</h2><ul><li><a href="#shop-new">Hàng mới</a></li><li><a href="#shop-tops">Áo</a></li><li><a href="#shop-outer">Áo khoác</a></li><li><a href="#shop-bottoms">Quần & váy</a></li><li><a href="#shop-shoes">Giày</a></li><li><a href="#shop-accessories">Phụ kiện</a></li><li><a href="#shop-dresses">Đầm</a></li><li><a href="#shop-jewelry">Trang sức & đồng hồ</a></li></ul></div>
  <div><h2 class="fh">Smart Studio</h2><ul><li><a href="#outfit">Outfit Builder</a></li><li><a href="#size">Size Advisor</a></li><li><a href="#stylist">AI Stylist</a></li><li><a href="#visual">Visual Search</a></li><li><a href="#tryon">Virtual Try-On</a></li></ul></div>
  <div><h2 class="fh">Hỗ trợ</h2><ul><li><a href="#about">Giới thiệu</a></li><li><a href="#contact">Liên hệ</a></li><li><a href="#info-shipping">Giao hàng</a></li><li><a href="#info-returns">Đổi trả</a></li><li><a href="#info-privacy">Quyền riêng tư</a></li><li><a href="#account">Tài khoản</a></li><li><a href="#admin">Khu quản trị</a></li>${typeof SYNC!=='undefined'&&SYNC.mode==='api'?'':'<li><button data-a="resetAsk">Đặt lại dữ liệu demo</button></li>'}</ul></div>

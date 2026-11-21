@@ -5,13 +5,6 @@
    - Chạy được cả khi API tắt (chế độ demo): tin nhắn lưu trong trình duyệt (S.contacts).
    Nạp trước sync.js (sync.js có thể khởi động ngay ở chế độ ?demo); chỉ gọi isApi()/API lúc chạy. */
 
-/* Thông tin liên hệ hiển thị trên web — sửa tại đây khi có số liệu chính thức */
-const SHOP_INFO = {
-  email: 'hello@thaitu.vn',
-  hours: 'Thứ 2 – Chủ nhật · 9:00 – 21:00',
-  showroom: 'Showroom Thai Tu · Quận 1, TP. Hồ Chí Minh',
-  reply: 'Phản hồi trong vòng 24 giờ làm việc',
-};
 const CONTACT_TOPICS = [
   ['order', 'Đơn hàng & giao hàng'],
   ['size', 'Tư vấn size'],
@@ -22,7 +15,6 @@ const CONTACT_TOPICS = [
 ];
 const CONTACT_STATUS = { new: ['Mới', 's-pending'], read: ['Đã xem', 's-processing'], replied: ['Đã trả lời', 's-delivered'] };
 const PHONE_RE = /^0\d{9}$/;
-icons.mail = '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>';
 
 /* Quyền riêng tư: nội dung đúng cho cả 2 chế độ (máy chủ Supabase / demo trong trình duyệt) */
 INFO.privacy = ['Quyền riêng tư', [
@@ -78,10 +70,12 @@ function viewAbout() {
     </ul>
     <div class="row"><a class="tlink" href="#info-shipping">Chính sách giao hàng</a><a class="tlink" href="#info-returns">Chính sách đổi trả</a></div>
    </div>
-   <div class="card tw-flex tw-flex-col tw-gap-3"><span class="eyebrow">Ghé thăm</span><h2 class="h-md">${esc(SHOP_INFO.showroom)}</h2>
+   <div class="card tw-flex tw-flex-col tw-gap-3"><span class="eyebrow">Ghé thăm</span><h2 class="h-md">Showroom Thai Tu Đà Nẵng</h2>
+    <p class="small tw-text-ink-soft">${esc(SHOP_INFO.address)}</p>
     <p class="small tw-text-ink-soft">${esc(SHOP_INFO.hours)}</p>
+    <p class="small tw-text-ink-soft">Hotline: ${hotlineLinks()}</p>
     <p class="small tw-text-ink-soft">Email: <a class="tlink" href="mailto:${SHOP_INFO.email}">${SHOP_INFO.email}</a></p>
-    <div class="row"><a class="btn ghost sm" href="#contact">Gửi tin nhắn</a></div>
+    <div class="row"><a class="btn ghost sm" href="#contact">Gửi tin nhắn</a><a class="tlink" href="${SHOP_INFO.map}" target="_blank" rel="noopener">Xem bản đồ</a></div>
    </div>
   </div>
  </section>`;
@@ -110,8 +104,9 @@ function viewContact() {
     <p class="lede">Hỏi về đơn hàng, size, chất liệu hay hợp tác — để lại lời nhắn, đội ngũ Thai Tu sẽ trả lời qua email.</p>
     <dl class="card tw-grid tw-grid-cols-1 tw-gap-4 tw-mt-2">
      <div><dt class="xs muted">Email</dt><dd class="tw-m-0 h-sm"><a href="mailto:${SHOP_INFO.email}">${SHOP_INFO.email}</a></dd></div>
+     <div><dt class="xs muted">Hotline</dt><dd class="tw-m-0 h-sm">${hotlineLinks('<br>')}</dd></div>
+     <div><dt class="xs muted">Showroom</dt><dd class="tw-m-0 small">${esc(SHOP_INFO.address)} · <a class="tlink" href="${SHOP_INFO.map}" target="_blank" rel="noopener">Xem bản đồ</a></dd></div>
      <div><dt class="xs muted">Giờ làm việc</dt><dd class="tw-m-0 small">${esc(SHOP_INFO.hours)}</dd></div>
-     <div><dt class="xs muted">Showroom</dt><dd class="tw-m-0 small">${esc(SHOP_INFO.showroom)}</dd></div>
      <div><dt class="xs muted">Thời gian phản hồi</dt><dd class="tw-m-0 small">${esc(SHOP_INFO.reply)}</dd></div>
     </dl>
    </div>

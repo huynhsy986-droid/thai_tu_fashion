@@ -793,3 +793,6 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 /* ===== Bổ sung Step 3 (TV3): trạng thái tải. Layout đăng nhập/phiên chuyển sang Tailwind (tw-*) — Issue #5 ===== */
 .boot{min-height:60vh;display:grid;place-items:center;color:var(--muted,#6b6b70);font-size:14px;letter-spacing:.02em}
 .mode-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--warn-tint);color:var(--warn)}
+/* Thông tin liên hệ ở chân trang (AC-CON-04) */
+.ftr-contact .ic{width:16px;height:16px;flex:none;margin-top:3px}
+.ftr-contact a:hover{color:var(--hi)}
