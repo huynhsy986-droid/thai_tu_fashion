@@ -117,7 +117,7 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 
 ## 6. Dữ liệu mẫu (giả lập)
 
-Sinh từ catalogue của prototype để giao diện khớp 100%: 66 sản phẩm, ~600 biến thể, 7 danh mục, 13 khách + 1 admin, ~35 đơn rải trong 55 ngày, ~250 đánh giá, 3 mã giảm giá, thông báo/outfit/số đo cho khách demo.
+Sinh từ catalogue của prototype để giao diện khớp 100%: 66 sản phẩm, ~320 biến thể, 7 danh mục, 13 khách + 1 admin, ~35 đơn rải trong 55 ngày, ~250 đánh giá, 3 mã giảm giá, thông báo/outfit/số đo cho khách demo.
 
 Tài khoản demo:
 

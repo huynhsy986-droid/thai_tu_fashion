@@ -1,0 +1,721 @@
+openapi: 3.1.0
+info:
+  title: Thai Tu Fashion API
+  version: 1.0.0
+  description: |
+    REST API cho Thai Tu Fashion, chạy trên Supabase (Postgres + Auth).
+    Xác thực: `Authorization: Bearer <access_token>` (JWT của Supabase Auth).
+    Lỗi: `{ "error": { "code": "...", "message": "...", "details": ... } }`.
+    Tiền tệ: số nguyên VND. Thời gian: epoch milliseconds (`at`) để khớp frontend.
+servers:
+  - url: http://localhost:4000
+    description: Local
+tags:
+  - name: system
+  - name: auth
+  - name: catalog
+  - name: reviews
+  - name: cart
+  - name: orders
+  - name: wishlist
+  - name: me
+  - name: admin
+security: []
+paths:
+  /api/health:
+    get:
+      tags: [system]
+      summary: Kiểm tra API và kết nối DB
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { ok: { type: boolean }, db: { type: string }, authProvider: { type: string } } } } } }
+
+  /api/auth/register:
+    post:
+      tags: [auth]
+      summary: Đăng ký (AC-AUTH-01)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, fullName]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8, description: 'Có cả chữ và số' }
+                fullName: { type: string, minLength: 2 }
+      responses:
+        '201': { $ref: '#/components/responses/Session' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/auth/login:
+    post:
+      tags: [auth]
+      summary: Đăng nhập (AC-AUTH-02)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, required: [email, password], properties: { email: { type: string }, password: { type: string } } }
+      responses:
+        '200': { $ref: '#/components/responses/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+  /api/auth/logout:
+    post:
+      tags: [auth]
+      summary: Đăng xuất (AC-AUTH-05)
+      security: [{ bearerAuth: [] }]
+      responses: { '204': { description: Đã đăng xuất } }
+  /api/auth/me:
+    get:
+      tags: [auth]
+      summary: Người dùng hiện tại
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { user: { $ref: '#/components/schemas/SessionUser' } } } } } }
+        '401': { $ref: '#/components/responses/Error' }
+
+  /api/catalog:
+    get:
+      tags: [catalog]
+      summary: Tải toàn bộ catalogue cho SPA (categories, colors, shipping, products, reviews visible)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories: { type: array, items: { $ref: '#/components/schemas/Category' } }
+                  colors: { type: array, items: { $ref: '#/components/schemas/Color' } }
+                  shipping: { type: array, items: { $ref: '#/components/schemas/ShippingMethod' } }
+                  products: { type: array, items: { $ref: '#/components/schemas/Product' } }
+                  reviews: { type: array, items: { $ref: '#/components/schemas/Review' } }
+  /api/categories:
+    get:
+      tags: [catalog]
+      summary: Danh mục kèm số SP đang bán (AC-CAT-04)
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Category' } } } } } } } }
+  /api/colors:
+    get:
+      tags: [catalog]
+      summary: Bảng màu
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Color' } } } } } } } }
+  /api/shipping-methods:
+    get:
+      tags: [catalog]
+      summary: Phương thức giao hàng
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/ShippingMethod' } } } } } } } }
+  /api/products:
+    get:
+      tags: [catalog]
+      summary: Danh sách sản phẩm đang bán, lọc & phân trang (AC-CAT-01, AC-CAT-02)
+      parameters:
+        - { name: q, in: query, schema: { type: string }, description: 'Tìm không dấu' }
+        - { name: category, in: query, schema: { type: string } }
+        - { name: gender, in: query, schema: { type: string, enum: [unisex, nu, nam] } }
+        - { name: minPrice, in: query, schema: { type: integer } }
+        - { name: maxPrice, in: query, schema: { type: integer } }
+        - { name: sort, in: query, schema: { type: string, enum: [new, price_asc, price_desc, best], default: best } }
+        - { name: page, in: query, schema: { type: integer, default: 1 } }
+        - { name: pageSize, in: query, schema: { type: integer, default: 24, maximum: 100 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/Product' } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  pageSize: { type: integer }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/products/{id}:
+    get:
+      tags: [catalog]
+      summary: Chi tiết sản phẩm (AC-CAT-03)
+      parameters: [{ $ref: '#/components/parameters/ProductId' }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+  /api/products/{id}/reviews:
+    get:
+      tags: [reviews]
+      summary: Đánh giá hiển thị của sản phẩm (AC-REV-02)
+      parameters: [{ $ref: '#/components/parameters/ProductId' }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Review' } } } } } } } }
+    post:
+      tags: [reviews]
+      summary: Gửi đánh giá (AC-REV-01)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/ProductId' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating, text, name]
+              properties:
+                rating: { type: integer, minimum: 1, maximum: 5 }
+                text: { type: string, minLength: 10 }
+                name: { type: string, minLength: 2 }
+                size: { type: string }
+                color: { type: string }
+                img: { type: string, description: 'data URL ảnh đã thu nhỏ (≤ 150 KB)' }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Review' } } } }
+        '401': { $ref: '#/components/responses/Error' }
+        '404': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /api/cart:
+    get:
+      tags: [cart]
+      summary: Giỏ hàng của tôi (AC-CART-02)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/CartItem' } } } } } } } }
+    delete:
+      tags: [cart]
+      summary: Xoá toàn bộ giỏ
+      security: [{ bearerAuth: [] }]
+      responses: { '204': { description: Đã xoá } }
+  /api/cart/items:
+    post:
+      tags: [cart]
+      summary: Thêm vào giỏ, cộng dồn số lượng (AC-CART-01)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [productId, color, size]
+              properties:
+                productId: { type: string }
+                color: { type: string }
+                size: { type: string }
+                quantity: { type: integer, minimum: 1, default: 1 }
+      responses:
+        '201': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/CartItem' } } } } } } }
+        '404': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+  /api/cart/items/{variantId}:
+    patch:
+      tags: [cart]
+      summary: Đổi số lượng (AC-CART-02)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: variantId, in: path, required: true, schema: { type: integer } }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [quantity], properties: { quantity: { type: integer, minimum: 1 } } } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/CartItem' } } } } } } }
+        '404': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [cart]
+      summary: Xoá dòng khỏi giỏ
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: variantId, in: path, required: true, schema: { type: integer } }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/CartItem' } } } } } } } }
+  /api/cart/quote:
+    post:
+      tags: [cart]
+      summary: Báo giá do server tính (AC-CART-03, AC-CART-04)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { shipping: { type: string, enum: [std, exp], default: std }, coupon: { type: string } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Quote' } } } }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /api/orders:
+    get:
+      tags: [orders]
+      summary: Đơn hàng của tôi (AC-ORD-04)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Order' } } } } } } } }
+    post:
+      tags: [orders]
+      summary: Đặt hàng từ giỏ (AC-ORD-01/02/03/06)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, phone, address]
+              properties:
+                name: { type: string, minLength: 2 }
+                phone: { type: string, pattern: '^0\d{9}$', description: 'Cho phép khoảng trắng' }
+                address: { type: string, minLength: 10 }
+                note: { type: string, maxLength: 500 }
+                ship: { type: string, enum: [std, exp], default: std }
+                pay: { type: string, enum: [cod, online], default: cod }
+                coupon: { type: string }
+                paymentOk: { type: boolean, default: true, description: 'Kết quả cổng thanh toán mô phỏng' }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+        '402': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/orders/{id}:
+    get:
+      tags: [orders]
+      summary: Chi tiết đơn của tôi kèm lịch sử trạng thái (AC-ORD-04)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/OrderId' }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+  /api/orders/{id}/cancel:
+    post:
+      tags: [orders]
+      summary: Khách huỷ đơn đang chờ xác nhận (AC-ORD-05)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/OrderId' }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+
+  /api/wishlist:
+    get:
+      tags: [wishlist]
+      summary: Danh sách yêu thích (AC-WISH-01)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/WishItem' } } } } } } } }
+  /api/wishlist/{productId}:
+    put:
+      tags: [wishlist]
+      summary: Thêm/cập nhật giá mong muốn (AC-WISH-01)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: productId, in: path, required: true, schema: { type: string } }]
+      requestBody: { content: { application/json: { schema: { type: object, properties: { target: { type: integer, minimum: 0 } } } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/WishItem' } } } } } } }
+        '404': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [wishlist]
+      summary: Bỏ yêu thích
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: productId, in: path, required: true, schema: { type: string } }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/WishItem' } } } } } } } }
+  /api/restock-subscriptions:
+    get:
+      tags: [wishlist]
+      summary: Đăng ký báo có hàng của tôi (AC-WISH-03)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/RestockItem' } } } } } } } }
+    post:
+      tags: [wishlist]
+      summary: Bật/tắt đăng ký báo có hàng cho biến thể (toggle)
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/RestockItem' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { subscribed: { type: boolean }, items: { type: array, items: { $ref: '#/components/schemas/RestockItem' } } } } } } }
+        '404': { $ref: '#/components/responses/Error' }
+
+  /api/me/profile:
+    get:
+      tags: [me]
+      summary: Hồ sơ (AC-ACC-01)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Profile' } } } } }
+    patch:
+      tags: [me]
+      summary: Sửa hồ sơ (AC-ACC-01)
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Profile' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Profile' } } } }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/me/measurements:
+    get:
+      tags: [me]
+      summary: Số đo (AC-ACC-02)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Measurements' } } } } }
+    put:
+      tags: [me]
+      summary: Lưu số đo (AC-ACC-02)
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Measurements' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Measurements' } } } }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/me/outfits:
+    get:
+      tags: [me]
+      summary: Outfit đã lưu (AC-ACC-03)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Outfit' } } } } } } } }
+    post:
+      tags: [me]
+      summary: Lưu outfit
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [name, slots], properties: { name: { type: string }, slots: { type: object } } } } } }
+      responses: { '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Outfit' } } } } }
+  /api/me/outfits/{id}:
+    delete:
+      tags: [me]
+      summary: Xoá outfit
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, format: uuid } }]
+      responses: { '204': { description: Đã xoá }, '404': { $ref: '#/components/responses/Error' } }
+  /api/me/notifications:
+    get:
+      tags: [me]
+      summary: Thông báo (AC-ACC-04)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Notification' } } } } } } } }
+  /api/me/notifications/{id}/read:
+    post:
+      tags: [me]
+      summary: Đánh dấu đã đọc
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses: { '204': { description: OK } }
+  /api/me/notifications/read-all:
+    post:
+      tags: [me]
+      summary: Đánh dấu tất cả đã đọc
+      security: [{ bearerAuth: [] }]
+      responses: { '204': { description: OK } }
+  /api/newsletter:
+    post:
+      tags: [me]
+      summary: Đăng ký nhận tin (AC-ACC-05)
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string } } } } } }
+      responses: { '201': { description: OK }, '422': { $ref: '#/components/responses/Error' } }
+
+  /api/admin/dashboard:
+    get:
+      tags: [admin]
+      summary: Tổng quan (AC-ADM-01)
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Dashboard' } } } }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/admin/products:
+    get:
+      tags: [admin]
+      summary: Tất cả sản phẩm, kể cả đang ẩn
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Product' } } } } } } } }
+    post:
+      tags: [admin]
+      summary: Tạo sản phẩm (AC-ADM-02)
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ProductInput' } } } }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/admin/products/{id}:
+    patch:
+      tags: [admin]
+      summary: Sửa/ẩn sản phẩm (AC-ADM-02)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/ProductId' }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ProductInput' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/admin/products/{id}/stock:
+    put:
+      tags: [admin]
+      summary: Đặt tồn kho cho biến thể (AC-ADM-04)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/ProductId' }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [color, size, stock], properties: { color: { type: string }, size: { type: string }, stock: { type: integer, minimum: 0 } } } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Product' } } } }
+        '404': { $ref: '#/components/responses/Error' }
+  /api/admin/categories:
+    post:
+      tags: [admin]
+      summary: Thêm danh mục (AC-ADM-03)
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [name], properties: { id: { type: string }, name: { type: string }, sub: { type: string } } } } } }
+      responses: { '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Category' } } } } }
+  /api/admin/categories/{id}:
+    patch:
+      tags: [admin]
+      summary: Đổi tên danh mục
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, properties: { name: { type: string }, sub: { type: string } } } } } }
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Category' } } } }, '404': { $ref: '#/components/responses/Error' } }
+    delete:
+      tags: [admin]
+      summary: Xoá danh mục (409 nếu còn sản phẩm)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+      responses: { '204': { description: Đã xoá }, '409': { $ref: '#/components/responses/Error' } }
+  /api/admin/orders:
+    get:
+      tags: [admin]
+      summary: Tất cả đơn, lọc trạng thái (AC-ADM-05)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: status, in: query, schema: { $ref: '#/components/schemas/OrderStatus' } }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Order' } } } } } } } }
+  /api/admin/orders/{id}:
+    get:
+      tags: [admin]
+      summary: Chi tiết đơn (admin)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/OrderId' }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }, '404': { $ref: '#/components/responses/Error' } }
+  /api/admin/orders/{id}/status:
+    patch:
+      tags: [admin]
+      summary: Đổi trạng thái theo máy trạng thái (AC-ADM-05)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/OrderId' }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [status], properties: { status: { $ref: '#/components/schemas/OrderStatus' }, note: { type: string } } } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Order' } } } }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/admin/customers:
+    get:
+      tags: [admin]
+      summary: Khách hàng + số đơn + tổng chi (AC-ADM-06)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Customer' } } } } } } } }
+  /api/admin/reviews:
+    get:
+      tags: [admin]
+      summary: Tất cả đánh giá, lọc trạng thái (AC-ADM-07)
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: status, in: query, schema: { type: string, enum: [visible, hidden] } }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Review' } } } } } } } }
+  /api/admin/reviews/{id}:
+    patch:
+      tags: [admin]
+      summary: Ẩn/hiện đánh giá
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, format: uuid } }]
+      requestBody: { required: true, content: { application/json: { schema: { type: object, required: [status], properties: { status: { type: string, enum: [visible, hidden] } } } } } }
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Review' } } } }, '404': { $ref: '#/components/responses/Error' } }
+    delete:
+      tags: [admin]
+      summary: Xoá đánh giá
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: id, in: path, required: true, schema: { type: string, format: uuid } }]
+      responses: { '204': { description: Đã xoá }, '404': { $ref: '#/components/responses/Error' } }
+  /api/admin/coupons:
+    get:
+      tags: [admin]
+      summary: Mã giảm giá (AC-ADM-08)
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: OK, content: { application/json: { schema: { type: object, properties: { items: { type: array, items: { $ref: '#/components/schemas/Coupon' } } } } } } } }
+    post:
+      tags: [admin]
+      summary: Tạo mã giảm giá
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }
+      responses: { '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }, '409': { $ref: '#/components/responses/Error' } }
+  /api/admin/coupons/{code}:
+    patch:
+      tags: [admin]
+      summary: Bật/tắt, sửa mã giảm giá
+      security: [{ bearerAuth: [] }]
+      parameters: [{ name: code, in: path, required: true, schema: { type: string } }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }
+      responses: { '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Coupon' } } } }, '404': { $ref: '#/components/responses/Error' } }
+
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+  parameters:
+    ProductId: { name: id, in: path, required: true, schema: { type: string, example: k01 } }
+    OrderId: { name: id, in: path, required: true, schema: { type: string, example: TT1100 } }
+  responses:
+    Error:
+      description: Lỗi
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Session:
+      description: Phiên đăng nhập
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accessToken: { type: string }
+              expiresAt: { type: integer, description: epoch seconds }
+              user: { $ref: '#/components/schemas/SessionUser' }
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, enum: [AUTH_REQUIRED, FORBIDDEN, NOT_FOUND, OUT_OF_STOCK, CONFLICT, VALIDATION, CART_EMPTY, COUPON_INVALID, INVALID_TRANSITION, PAYMENT_FAILED, RATE_LIMITED, INTERNAL] }
+            message: { type: string }
+            details: {}
+    SessionUser:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string }
+        name: { type: string }
+        role: { type: string, enum: [customer, admin] }
+    OrderStatus: { type: string, enum: [pending, confirmed, processing, shipping, delivered, cancelled] }
+    Category:
+      type: object
+      properties: { id: { type: string }, name: { type: string }, sub: { type: string }, count: { type: integer } }
+    Color:
+      type: object
+      properties: { code: { type: string }, name: { type: string }, hex: { type: string } }
+    ShippingMethod:
+      type: object
+      properties: { code: { type: string }, name: { type: string }, eta: { type: string }, fee: { type: integer }, freeThreshold: { type: [integer, 'null'] } }
+    Product:
+      type: object
+      description: Cùng hình dạng với đối tượng sản phẩm trong prototype (S.products)
+      properties:
+        id: { type: string }
+        name: { type: string }
+        kor: { type: string }
+        cat: { type: string }
+        sub: { type: string }
+        gender: { type: string }
+        tpl: { type: string }
+        tex: { type: string }
+        price: { type: integer }
+        sale: { type: integer, description: '0 nếu không giảm' }
+        sizes: { type: array, items: { type: string } }
+        colors: { type: array, items: { type: string } }
+        badge: { type: string }
+        added: { type: integer, description: số ngày từ khi lên kệ }
+        sold: { type: integer }
+        likes: { type: integer }
+        fit: { type: string }
+        fabric: { type: [array, 'null'], items: { type: integer } }
+        occasions: { type: array, items: { type: string } }
+        styles: { type: array, items: { type: string } }
+        photo: { type: boolean }
+        status: { type: string, enum: [active, hidden] }
+        desc: { type: string }
+        material: { type: string }
+        care: { type: string }
+        base: { type: string }
+        baseColors: { type: array, items: { type: string } }
+        stock: { type: object, additionalProperties: { type: object, additionalProperties: { type: integer } }, example: { lav: { S: 4, M: 6 } } }
+        variants: { type: object, additionalProperties: { type: object, additionalProperties: { type: integer } }, description: 'variantId theo màu/size' }
+        rating: { type: object, properties: { avg: { type: number }, count: { type: integer } } }
+    ProductInput:
+      type: object
+      properties:
+        name: { type: string, minLength: 3 }
+        cat: { type: string }
+        sub: { type: string }
+        gender: { type: string, enum: [unisex, nu, nam] }
+        badge: { type: string, enum: ['', new, best, sale] }
+        price: { type: integer, minimum: 1 }
+        sale: { type: integer, minimum: 0 }
+        sizes: { type: array, minItems: 1, items: { type: string } }
+        colors: { type: array, minItems: 1, items: { type: string } }
+        desc: { type: string }
+        base: { type: string, description: 'Mã sản phẩm lấy ảnh/mô tả mẫu' }
+        status: { type: string, enum: [active, hidden] }
+    Review:
+      type: object
+      properties:
+        id: { type: string }
+        pid: { type: string }
+        name: { type: string }
+        rating: { type: integer }
+        text: { type: string }
+        at: { type: integer }
+        daysAgo: { type: integer }
+        verified: { type: boolean }
+        size: { type: string }
+        color: { type: string }
+        h: { type: [integer, 'null'] }
+        w: { type: [integer, 'null'] }
+        fitFeel: { type: [string, 'null'] }
+        status: { type: string }
+        img: { type: [string, 'null'] }
+        mine: { type: boolean }
+    CartItem:
+      type: object
+      properties: { variantId: { type: integer }, pid: { type: string }, color: { type: string }, size: { type: string }, qty: { type: integer } }
+    Quote:
+      type: object
+      properties:
+        items: { type: array, items: { type: object } }
+        subtotal: { type: integer }
+        discount: { type: integer }
+        shippingFee: { type: integer }
+        total: { type: integer }
+        coupon: { type: [string, 'null'] }
+        couponLabel: { type: [string, 'null'] }
+        shipping: { type: string }
+    Order:
+      type: object
+      properties:
+        id: { type: string }
+        cid: { type: string }
+        name: { type: string }
+        phone: { type: string }
+        address: { type: string }
+        note: { type: string }
+        ship: { type: string }
+        pay: { type: string }
+        payStatus: { type: string, enum: [unpaid, paid, refunded] }
+        items: { type: array, items: { type: object, properties: { pid: { type: string }, name: { type: string }, color: { type: string }, size: { type: string }, qty: { type: integer }, price: { type: integer } } } }
+        sub: { type: integer }
+        discount: { type: integer }
+        coupon: { type: string }
+        shipFee: { type: integer }
+        total: { type: integer }
+        status: { $ref: '#/components/schemas/OrderStatus' }
+        allowedNext: { type: array, items: { $ref: '#/components/schemas/OrderStatus' } }
+        at: { type: integer }
+        history: { type: array, items: { type: object, properties: { from: { type: [string, 'null'] }, to: { type: string }, at: { type: integer }, note: { type: [string, 'null'] } } } }
+    WishItem:
+      type: object
+      properties: { pid: { type: string }, target: { type: integer } }
+    RestockItem:
+      type: object
+      required: [productId, color, size]
+      properties: { productId: { type: string }, color: { type: string }, size: { type: string } }
+    Profile:
+      type: object
+      properties: { name: { type: string }, phone: { type: string }, email: { type: string }, address: { type: string }, birthday: { type: [string, 'null'], format: date } }
+    Measurements:
+      type: object
+      properties: { height: { type: number }, weight: { type: number }, chest: { type: number }, waist: { type: number }, hip: { type: number }, fit: { type: string } }
+    Outfit:
+      type: object
+      properties: { id: { type: string }, name: { type: string }, at: { type: integer }, slots: { type: object } }
+    Notification:
+      type: object
+      properties: { id: { type: string }, type: { type: string }, title: { type: string }, body: { type: string }, link: { type: [string, 'null'] }, at: { type: integer }, read: { type: boolean } }
+    Customer:
+      type: object
+      properties: { id: { type: string }, name: { type: string }, email: { type: string }, phone: { type: string }, address: { type: string }, joined: { type: integer }, orders: { type: integer }, spent: { type: integer } }
+    Coupon:
+      type: object
+      properties: { code: { type: string }, type: { type: string, enum: [pct, amt, ship] }, value: { type: integer }, minSubtotal: { type: integer }, label: { type: string }, active: { type: boolean }, expiresAt: { type: [string, 'null'], format: date-time }, usageLimit: { type: [integer, 'null'] }, usedCount: { type: integer } }
+    Dashboard:
+      type: object
+      properties:
+        revenueWeeks: { type: array, items: { type: object, properties: { weekStart: { type: string }, revenue: { type: integer }, orders: { type: integer } } } }
+        revenue8w: { type: integer }
+        statusCounts: { type: object, additionalProperties: { type: integer } }
+        activeProducts: { type: integer }
+        customers: { type: integer }
+        lowStock: { type: array, items: { type: object } }
