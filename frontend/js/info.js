@@ -29,6 +29,7 @@ INFO.privacy = ['Quyền riêng tư', [
   'Khi bạn đăng nhập, hồ sơ, giỏ hàng, đơn hàng, yêu thích và số đo được lưu trên máy chủ của Thai Tu (Supabase) và chỉ tài khoản của bạn xem được.',
   'Tin nhắn gửi qua trang Liên hệ chỉ dùng để trả lời yêu cầu của bạn và chỉ quản trị viên đọc được.',
   'Ảnh tải lên Visual Search và Virtual Try-On chỉ nằm trong bộ nhớ của trang, không gửi lên máy chủ và mất đi khi bạn xoá hoặc tải lại trang.',
+  'Chúng tôi dùng Google Analytics (ẩn địa chỉ IP) để đếm lượt xem trang và Sentry để ghi nhận lỗi kỹ thuật; hai công cụ này không nhận mật khẩu hay nội dung đơn hàng của bạn.',
   'Khi máy chủ tạm thời không truy cập được, trang chạy chế độ dự phòng và lưu dữ liệu ngay trong trình duyệt của bạn.',
 ]];
 const ORDER_RE = /^TT\d{4,}$/;

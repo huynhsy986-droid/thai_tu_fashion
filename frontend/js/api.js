@@ -37,6 +37,8 @@ const API = (() => {
     if (!res.ok || !ct.includes('application/json')) {
       const err = (data && data.error) || {};
       const e = new ApiError(res.status, err.code || (ct.includes('json') ? 'INTERNAL' : 'NO_API'), err.message || 'Có lỗi xảy ra, vui lòng thử lại.', err.details);
+      e.requestId = err.requestId || res.headers.get('x-request-id') || undefined; // đối chiếu log/Sentry backend
+      e.method = method; e.path = path;
       if (res.status === 401 && session && !opts.anonymous) {
         session = null;
         persist();
