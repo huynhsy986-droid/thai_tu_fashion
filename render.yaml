@@ -1,0 +1,26 @@
+# Render Blueprint: New → Blueprint → chọn repo này. Điền các biến "sync: false" trong Dashboard.
+services:
+  - type: web
+    name: thai-tu-fashion
+    runtime: docker
+    plan: starter
+    region: singapore          # gần Supabase ap-southeast-1
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AUTH_PROVIDER
+        value: supabase
+      - key: DATABASE_SSL
+        value: "true"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATABASE_URL          # Supabase → Connect → Transaction pooler (cổng 6543)
+        sync: false
+      - key: SUPABASE_URL          # project thai-tu-fashion-v1 (docs/07-supabase-production.md)
+        value: https://ceryulbobrlyxckrezts.supabase.co
+      - key: SUPABASE_ANON_KEY     # publishable key — công khai theo thiết kế của Supabase
+        value: sb_publishable_JSzQ9dv_Ug9kPvi3qlxr_g_rfHCFc8F
+      - key: CORS_ORIGINS          # https://thai-tu-fashion.onrender.com,https://<tên-miền-riêng>
+        sync: false

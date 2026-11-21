@@ -90,7 +90,11 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
   app.use('/api', notFoundHandler);
 
   if (config.staticDir && fs.existsSync(config.staticDir)) {
-    app.use(express.static(config.staticDir, { index: 'index.html', maxAge: config.isProd ? '1h' : 0 }));
+    // Ảnh cache 7 ngày; HTML/JS/CSS không có hash trong tên nên luôn kiểm tra lại (ETag) để deploy mới có hiệu lực ngay
+    app.use(express.static(config.staticDir, {
+      index: 'index.html',
+      setHeaders: (res, file) => res.setHeader('Cache-Control', /\.(webp|png|jpe?g|svg)$/.test(file) && config.isProd ? 'public, max-age=604800' : 'no-cache'),
+    }));
   }
 
   app.use(errorHandler(logger));

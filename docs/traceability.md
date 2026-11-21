@@ -3,13 +3,13 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 37 AC + 7 NFR · 44/44 mục có test · số lần được test: unit 15, integration 78, e2e 30.
+**Tổng:** 37 AC + 7 NFR · 44/44 mục có test · số lần được test: unit 21, integration 79, e2e 30.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
 | AC-AUTH-01 | P0 | Đăng ký bằng email hợp lệ + mật khẩu ≥ 8 ký tự có cả chữ và số +… | `routes/auth.js` `20261121000200_functions_triggers.sql` `auth.js` | 2 · providers | 3 · auth | 1 · purchase |
 | AC-AUTH-02 | P0 | Đăng nhập đúng → nhận access token (JWT); sai → 401 "Email hoặc… | `routes/auth.js` | 2 · providers, tokens | 2 · auth | 1 · mobile |
-| AC-AUTH-03 | P0 | Gọi API cần đăng nhập mà không có/sai token → 401. | `auth/middleware.js` `routes/auth.js` | 3 · tokens | 2 · auth | — |
+| AC-AUTH-03 | P0 | Gọi API cần đăng nhập mà không có/sai token → 401. | `auth/middleware.js` `routes/auth.js` | 9 · jwks, tokens | 2 · auth | — |
 | AC-AUTH-04 | P0 | Người không phải admin gọi API quản trị → 403. Trên giao diện, vào… | `auth/middleware.js` `20261121000200_functions_triggers.sql` | — | 1 · admin | 2 · admin, guest |
 | AC-AUTH-05 | P0 | Đăng xuất xoá phiên ở client; header trở về trạng thái khách. | `routes/auth.js` `auth.js` | — | 1 · auth | 1 · purchase |
 | AC-CAT-01 | P0 | Khách (kể cả chưa đăng nhập) xem danh sách sản phẩm đang bán: tên,… | `routes/catalog.js` | 1 · mappers | 3 · catalog | 1 · guest |
@@ -46,7 +46,7 @@
 | AC-ADM-08 | P1 | Mã giảm giá: xem, tạo, bật/tắt qua API quản trị. | `routes/admin/misc.js` | — | 1 · admin | — |
 | NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 7 · catalog, rls | — |
 | NFR-SEC-02 | NFR | Secret (service role key, JWT secret, DB URL) chỉ ở biến môi… | `config.js` | 1 · config | — | — |
-| NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 4 · security | — |
+| NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 5 · security | — |
 | NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 1 · security | — |
 | NFR-REL-01 | NFR | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu… | `sync.js` | — | — | 2 · resilience |
 | NFR-QA-01 | NFR | Có unit test, integration test (DB thật) và e2e test (trình duyệt… | — | — | — | 1 · routes |

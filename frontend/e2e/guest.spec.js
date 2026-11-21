@@ -20,9 +20,9 @@ test.describe('Khách vãng lai', () => {
     await page.click('[data-a=search]');
     await page.fill('#s-q', 'ao khoac');
     await page.press('#s-q', 'Enter');
-    await expect(page.locator('.pc').first()).toBeVisible();
-    const names = await page.locator('.pc').allInnerTexts();
-    expect(names.some((n) => /Áo khoác/i.test(n))).toBe(true);
+    // đợi danh sách đã lọc xong (tránh đọc lưới sản phẩm cũ trước khi vẽ lại)
+    await expect(page.locator('#shop-n')).not.toHaveText('66 sản phẩm');
+    await expect.poll(async () => (await page.locator('.pc').allInnerTexts()).some((n) => /áo khoác/i.test(n.toLowerCase()))).toBe(true);
   });
 
   test('AC-CART-01 khách vãng lai thêm vào giỏ, thanh toán thì phải đăng nhập (AC-AUTH-03)', async ({ page }) => {

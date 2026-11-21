@@ -59,4 +59,17 @@ describe('NFR-SEC-03 · Bảo vệ API', () => {
     times.sort((a, b) => a - b);
     expect(times[Math.ceil(times.length * 0.95) - 1]).toBeLessThan(300);
   });
+
+  it('NFR-SEC-03 phục vụ frontend tĩnh: HTML/JS luôn kiểm tra lại, ảnh cache dài (production)', async () => {
+    const path = await import('node:path');
+    const dir = path.resolve(import.meta.dirname, '../../../frontend');
+    const t = await makeTestApp('static', { STATIC_DIR: dir, NODE_ENV: 'production', JWT_SECRET: 'prod-secret-0123456789-abcdefghijklmnop' });
+    apps.push(t);
+    const html = await t.api().get('/');
+    expect(html.status).toBe(200);
+    expect(html.text).toContain('js/sync.js');
+    expect(html.headers['cache-control']).toBe('no-cache');
+    expect((await t.api().get('/js/sync.js')).headers['cache-control']).toBe('no-cache');
+    expect((await t.api().get('/img/k01-lav-a.webp')).headers['cache-control']).toBe('public, max-age=604800');
+  });
 });

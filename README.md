@@ -12,6 +12,8 @@ Dự án được hoàn thiện theo quy trình 3 bước với một nhóm 3 ng
 | Step 3 | Backend = ②+③+④+⑤: Plan → Review plan → Code → Test | TV2 | [`plans/backend-plan.md`](docs/plans/backend-plan.md) · `backend/` · `supabase/` |
 | | Frontend = ①+②+③+⑤: Plan → Review plan → Code → Test | TV3 · huynhsy986-droid (Frontend & QA) | [`plans/frontend-plan.md`](docs/plans/frontend-plan.md) · `frontend/` |
 | | Đánh giá, truy vết, CI | TV3 | [`06-test-report.md`](docs/06-test-report.md) · [`traceability.md`](docs/traceability.md) · `.github/workflows/ci.yml` |
+| Hoàn thành | Supabase thật: migrations + dữ liệu thật + kiểm chứng | TV2 | [`07-supabase-production.md`](docs/07-supabase-production.md) · `supabase/catalog.sql` · `scripts/supabase-setup.sh` |
+| | Đóng gói & deploy | TV3 | [`08-deployment.md`](docs/08-deployment.md) · `Dockerfile` · `render.yaml` |
 | | Rule + Skill + Constraint cho AI coding agent | cả nhóm | [`CLAUDE.md`](CLAUDE.md) · `.claude/skills/` |
 
 Quy trình chi tiết: [`docs/00-team-workflow.md`](docs/00-team-workflow.md).
@@ -53,14 +55,20 @@ DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
 ```
 Supabase Cloud: `supabase link --project-ref <ref> && supabase db push`, đặt `DATABASE_URL` là chuỗi Transaction pooler và `DATABASE_SSL=true`. Không chạy các file trong `supabase/local/` trên Supabase thật.
 
+## Production
+
+- **Database:** Supabase `thai-tu-fashion-v1` (Singapore) — đã chạy migrations, nạp dữ liệu thật, kiểm chứng: [`docs/07-supabase-production.md`](docs/07-supabase-production.md).
+- **Deploy:** Docker / Render Blueprint (`render.yaml`) — hướng dẫn và biến môi trường: [`docs/08-deployment.md`](docs/08-deployment.md).
+- Dự án Supabase mới: `SUPABASE_DB_URL=... scripts/supabase-setup.sh --catalog`. Cấp quyền admin: `cd backend && npm run make-admin -- <email>`.
+
 ## Kiểm thử
 
 ```bash
-cd backend  && npm test            # 54 unit + 97 integration (Postgres thật, RLS)
+cd backend  && npm test            # 60 unit + 98 integration (Postgres thật, RLS)
 cd frontend && npm run test:e2e    # 20 e2e (Chrome + backend + DB thật)
 node scripts/trace.mjs --check     # ma trận AC → code → test
 ```
-Kết quả gần nhất: **171/171 test xanh**, phủ backend 99% dòng, 44/44 AC/NFR có test — xem [`docs/06-test-report.md`](docs/06-test-report.md).
+Kết quả gần nhất: **178/178 test xanh**, phủ backend 99% dòng, 44/44 AC/NFR có test — xem [`docs/06-test-report.md`](docs/06-test-report.md).
 
 ## Cấu trúc
 
