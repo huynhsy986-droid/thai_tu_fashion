@@ -37,6 +37,8 @@ Trình duyệt ──► Render (Node 22: Express API + frontend tĩnh) ──�
 
 ## 1b. Deploy lên Vercel (song song với Render) — Issue #31
 
+**Đang chạy:** https://thai-tu-fashion-v1.vercel.app (production, 21/11/2026) · `/api/health` → `{"ok":true,"db":"ok","authProvider":"supabase"}`. Biến có tiền tố `PUBLIC_` (VD `PUBLIC_URL`) phải lưu kiểu **Config**, không dùng **Secret** (Vercel chặn).
+
 Cấu trúc (cấu hình ở **thư mục gốc repo**, file `vercel.json`):
 
 - **Web tĩnh:** lúc build, `backend/scripts/copy-frontend.mjs dist` chép giao diện `frontend/` → `dist/`, Vercel phát `dist/` qua CDN kèm header bảo mật/CSP.
