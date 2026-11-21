@@ -4,7 +4,7 @@
 
 🌐 **Website:** https://thai-tu-fashion-v1.vercel.app &nbsp;·&nbsp; 🎬 **Video demo:** https://youtu.be/AcWo1JPZ79o
 
-**Mục lục:** [Thông tin nhóm](#thông-tin-nhóm) · [Tổng quan](#tổng-quan-project-và-công-nghệ-sử-dụng) · [Cài đặt](#hướng-dẫn-cài-đặt-và-chạy-ứng-dụng) · [Task 1](#task-1-project-planning--teamwork) · [Task 2](#task-2-implement-user-interface) · [Task 3](#task-3-database-integration--dynamic-content) · [Task 4](#task-4-optimization) · [Task 5](#task-5-uiux-peer-review--evaluation) · [Deliverables](#deliverables-checklist) · [Self-Reports](#self-reports)
+**Mục lục:** [Thông tin nhóm](#thông-tin-nhóm) · [Tổng quan](#tổng-quan-project-và-công-nghệ-sử-dụng) · [Cài đặt](#hướng-dẫn-cài-đặt-và-chạy-ứng-dụng) · [Task 1](#task-1-project-planning--teamwork) · [Task 2](#task-2-implement-user-interface) · [Task 3](#task-3-database-integration--dynamic-content) · [Task 4](#task-4-optimization) · [Task 5](#task-5-uiux-peer-review--evaluation) · [Deliverables](#deliverables-checklist) · [Đóng góp](#đánh-giá-mức-độ-đóng-góp) · [Self-Reports](#self-reports)
 
 ---
 
@@ -364,6 +364,21 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 - [x] **README.md**: hướng dẫn cài đặt, tổng quan, tính năng có screenshots, ERD
 - [x] **Video demo trên YouTube**: https://youtu.be/AcWo1JPZ79o
 - [ ] **Self-Report**: mỗi thành viên đã commit file vào `docs/self-reports/`
+
+---
+
+## Đánh giá mức độ đóng góp
+
+Tỷ lệ do **cả nhóm thống nhất**, dựa trên khối lượng và tầm quan trọng công việc mỗi người đảm nhận (không chỉ số commit). Mỗi thành viên ghi cùng tỷ lệ này trong Self-Report của mình.
+
+| Thành viên | MSSV | Đóng góp | Phần việc chính |
+|---|---|---|---|
+| Huỳnh Tấn Sỹ | 24090017 | **34%** | Giao diện & kết nối API, Tailwind, trang Giới thiệu/Liên hệ, Lighthouse, kiểm thử e2e, CI, deploy Vercel |
+| Lê Quang Khanh | 24090012 | **33%** | PRD & tiêu chí nghiệm thu, wireframe 10 trang, project plan, README & báo cáo, kịch bản video, điều phối peer review |
+| Nguyễn Trần Minh Nguyên | 24090010 | **33%** | Kiến trúc, database & phân quyền trên Supabase, REST API, đăng nhập/quên mật khẩu, logging |
+| **Tổng** | | **100%** | |
+
+*Huỳnh Tấn Sỹ cao hơn 1% vì đảm nhận thêm phần deploy và kiểm thử tự động cho cả nhóm.*
 
 ---
 
