@@ -103,10 +103,11 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 - **AC-ADM-07** Kiểm duyệt đánh giá: lọc theo trạng thái, ẩn/hiện, xoá.
 - **AC-ADM-08** *(P1)* Mã giảm giá: xem, tạo, bật/tắt qua API quản trị.
 
-### F9. Liên hệ (P0 — bổ sung theo Final Project Brief, Task 2–3)
+### F9. Giới thiệu & Liên hệ (P0 — bổ sung theo Final Project Brief, Task 2–3)
 
 - **AC-CON-01** Trang **Liên hệ** (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥ 2 ký tự, email hợp lệ, điện thoại `0` + 9 chữ số (tuỳ chọn), chủ đề, mã đơn `TTxxxx` (tuỳ chọn), nội dung 10–2000 ký tự; dữ liệu sai → thông báo tiếng Việt ngay dưới ô. Tin nhắn lưu vào bảng `contact_messages`; quá 5 tin/email/giờ → 429.
 - **AC-CON-02** Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new → read → replied`, xoá; khách thường không đọc được tin nhắn của ai.
+- **AC-CON-03** Trang **Giới thiệu** (`#about`): câu chuyện thương hiệu, giá trị, hệ thống cửa hàng, số liệu (số sản phẩm, danh mục, đánh giá) lấy từ dữ liệu thật; có liên kết ở menu và footer.
 
 ## 5. Yêu cầu phi chức năng
 
