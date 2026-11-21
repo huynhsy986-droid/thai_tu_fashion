@@ -12,8 +12,8 @@
 | **Tên dự án** | Thai Tu Fashion — website thời trang unisex phong cách Seoul |
 | **Website (production)** | **https://thai-tu-fashion-v1.vercel.app** |
 | **GitHub Repository** | https://github.com/huynhsy986-droid/thai_tu_fashion |
-| **Video Demo** | ⟨cần điền link YouTube⟩ — xem hướng dẫn ở [Deliverables Checklist](#deliverables-checklist) |
-| **Ngày nộp** | ⟨DD/MM/YYYY⟩ |
+| **Video Demo** | https://youtu.be/AcWo1JPZ79o |
+| **Ngày nộp** | 21/11/2026 |
 
 ### Thành viên nhóm
 
