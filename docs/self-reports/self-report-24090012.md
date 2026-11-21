@@ -1,8 +1,5 @@
 # Self-Report: Final Project
 
-> **Bản nháp** do nhóm chuẩn bị sẵn phần "đã làm" và "bằng chứng" từ lịch sử GitHub của `lequangkhanh6002-pixel`.
-> Chủ tài khoản: (1) điền các ô ⟨…⟩ (khó khăn, tự đánh giá, tổng kết, % đóng góp), (2) sửa/bổ sung phần đã làm cho đúng thực tế, (3) xoá dòng ghi chú này, (4) tự commit bằng tài khoản GitHub của mình. Phần tự đánh giá do chính bạn viết.
-
 ---
 
 ## Thông tin cá nhân
@@ -22,9 +19,9 @@
 
 **Work completed:**
 
-Review prototype Claude Design, viết PRD (Problem · Context · Features ·  AC), project plan 5 sprint với milestone/deadline; tạo wireframe 10 trang (desktop + mobile).
+Review prototype Claude Design, viết PRD (Problem · Context · Features · 46 AC), project plan 5 sprint với milestone/deadline; tạo wireframe 10 trang (desktop + mobile).
 
-**Evidence of contribution:**
+**Evidence of contribution:** 
 
 - `docs/01-design-review.md`, `docs/02-PRD.md`
 - Project plan [#2](https://github.com/huynhsy986-droid/thai_tu_fashion/issues/2) → [PR #10](https://github.com/huynhsy986-droid/thai_tu_fashion/pull/10)
@@ -35,7 +32,8 @@ Review prototype Claude Design, viết PRD (Problem · Context · Features ·  A
 
 Prototype có nhiều màn hình nên khó viết tiêu chí nghiệm thu (AC) vừa đủ chi tiết để kiểm thử được, vừa không quá dài; em phải viết lại vài lần cho từng AC đo được bằng test. Wireframe được dựng sau khi đã có prototype nên phải chú ý vẽ đúng bố cục thật và đánh số chú thích cho từng vùng chức năng.
 
-**Self-assessment:** 
+
+**Self-assessment:** 9
 
 ---
 
@@ -57,7 +55,7 @@ Prototype có nhiều màn hình nên khó viết tiêu chí nghiệm thu (AC) v
 
 Khó nhất là quyết định trang nào cần thêm mà không phá giao diện gốc (đăng nhập, Giới thiệu, Liên hệ) và viết yêu cầu đủ rõ để bạn làm frontend triển khai đúng. Việc đối chiếu giao diện với wireframe trên cả điện thoại và máy tính tốn nhiều thời gian.
 
-**Self-assessment:** 
+**Self-assessment:** 8
 
 ---
 
@@ -132,7 +130,6 @@ Hai web được review đều dựng giao diện bằng JavaScript và PawPass 
 **Summary of your contributions to the project:**
 
 Em phụ trách vai trò Product Owner/BA của nhóm: review prototype, viết PRD với 46 tiêu chí nghiệm thu, vẽ wireframe 10 trang cho cả máy tính và điện thoại, lập kế hoạch 5 sprint và viết README theo mẫu báo cáo của môn. Em cũng là người đại diện nhóm đánh giá UI/UX cho hai nhóm FocuSpace và PawPass. Điều em tự hào nhất là bộ tiêu chí nghiệm thu được dùng trực tiếp làm tên test, giúp cả nhóm biết chức năng nào đã xong. Qua dự án, em học được cách viết yêu cầu sản phẩm rõ ràng, làm việc với GitHub theo issue và Pull Request, và trình bày tài liệu cho người khác dễ đọc.
-
 
 **Estimated % contribution relative to the whole team:** 33% *(tỷ lệ cả nhóm thống nhất, xem README → Đánh giá mức độ đóng góp)*
 
