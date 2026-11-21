@@ -66,6 +66,15 @@ Sau khi deploy, đo lại bằng [PageSpeed Insights](https://pagespeed.web.dev/
 - Google Fonts vẫn là tài nguyên chặn hiển thị (~0,3–0,8 s): CSP `script-src 'self'` không cho dùng mẹo `onload` nội tuyến; đã có `preconnect` + `display=swap`. Có thể tự host font ở sprint sau.
 - TBT mobile 70–180 ms: phần lớn do dựng SPA từ dữ liệu catalogue (66 sản phẩm) ở trình duyệt; vẫn dưới ngưỡng 200 ms "tốt".
 
+### Đo lại sau sprint 6 (skeleton, đăng nhập mới — Issue #23)
+
+| Trang chủ | Performance | Accessibility | Best Practices | SEO | LCP | CLS |
+|---|---|---|---|---|---|---|
+| Mobile | **96** | 100 | 100 | 100 | 2,5 s | 0 |
+| Desktop | **100** | 100 | 100 | 100 | 0,6 s | 0 |
+
+Khung tải (skeleton) có cùng bố cục với trang thật nên không gây dịch chuyển bố cục (CLS 0), người dùng thấy cấu trúc trang ngay thay vì dòng chữ "Đang tải…".
+
 ## 4. Theo dõi sau triển khai (Task 4b)
 
 - **Google Analytics 4**: page_view theo route + sự kiện mua hàng — bật bằng `GA_MEASUREMENT_ID` (PR #15).

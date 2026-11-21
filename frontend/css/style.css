@@ -791,7 +791,21 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 @media(min-width:1024px) and (max-width:1279px){.nav{gap:14px}.nav a{font-size:13px}}
 
 /* ===== Bổ sung Step 3 (TV3): trạng thái tải. Layout đăng nhập/phiên chuyển sang Tailwind (tw-*) — Issue #5 ===== */
-.boot{min-height:60vh;display:grid;place-items:center;color:var(--muted,#6b6b70);font-size:14px;letter-spacing:.02em}
+/* Khung tải (skeleton) — AC-UI-01: cùng bố cục với trang thật, không nhảy layout */
+.boot{min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.sk{display:block;background:linear-gradient(90deg,var(--grey) 0%,var(--grey2) 40%,var(--grey) 80%);background-size:300% 100%;border-radius:var(--r);animation:sk 1.4s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.sk-ann{height:35px;background:var(--grey)}
+.sk-hdr{display:flex;align-items:center;gap:24px;height:77px;border-bottom:1px solid var(--line)}
+.sk-logo{width:118px;height:34px}.sk-nav{display:none;gap:18px;flex:1}.sk-pill{width:64px;height:12px}
+.sk-icons{display:flex;gap:16px;margin-left:auto}.sk-dot{width:22px;height:22px;border-radius:50%}
+.sk-hero{height:min(74vw,520px);margin:0 calc(-1*var(--gut)) 0;border-radius:0}
+.sk-title{width:220px;height:28px;margin:48px 0 24px}
+.sk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sk-card{display:flex;flex-direction:column;gap:10px}.sk-img{aspect-ratio:3/4}.sk-line{height:12px;width:85%}
+@media(min-width:1024px){.sk-nav{display:flex}.sk-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .mode-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--warn-tint);color:var(--warn)}
 /* Thông tin liên hệ ở chân trang (AC-CON-04) */
 .ftr-contact .ic{width:16px;height:16px;flex:none;margin-top:3px}

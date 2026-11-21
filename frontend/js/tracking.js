@@ -114,6 +114,35 @@ async function initSentry(c) {
   API.onSessionChange((why) => { if (why === 'expired' && TRACK.sentry) window.Sentry.setUser(null); });
 })();
 
+/* ---------- Tiêu đề tab theo trang (AC-UI-02): tốt cho SEO, lịch sử trình duyệt và báo cáo GA ---------- */
+const SITE = 'Thai Tu Fashion';
+const ROUTE_TITLES = {
+  home: '', cart: 'Giỏ hàng', checkout: 'Thanh toán', login: 'Đăng nhập', register: 'Đăng ký', forgot: 'Quên mật khẩu', 'reset-password': 'Đặt mật khẩu mới',
+  wishlist: 'Yêu thích', notifications: 'Thông báo', studio: 'Smart Studio', outfit: 'Outfit Builder', size: 'Size Advisor', stylist: 'AI Stylist',
+  visual: 'Visual Search', tryon: 'Virtual Try-On', about: 'Giới thiệu', contact: 'Liên hệ',
+};
+function routeTitle(h) {
+  if (h in ROUTE_TITLES) return ROUTE_TITLES[h];
+  if (PRESET[h]) return PRESET[h].t;
+  if (h.startsWith('product-')) { const p = P(h.slice(8)); return p ? p.name : 'Không tìm thấy sản phẩm'; }
+  if (h.startsWith('size-')) return 'Size Advisor';
+  if (h.startsWith('order-')) return `Đơn hàng ${h.slice(6)}`;
+  if (h.startsWith('confirm-')) return 'Đặt hàng thành công';
+  if (h.startsWith('info-')) return (INFO[h.slice(5)] || ['Thông tin'])[0];
+  const acc = ACC.find((a) => a[0] === h);
+  if (acc) return `${acc[1]} · Tài khoản`;
+  const adm = ADM.find((a) => a[0] === h);
+  if (adm) return `${adm[1]} · Quản trị`;
+  return 'Không tìm thấy trang';
+}
+function setTitle() {
+  const t = routeTitle(location.hash.slice(1) || 'home');
+  document.title = t ? `${t} | ${SITE}` : `${SITE} — Thời trang unisex phong cách Seoul`;
+}
+const _renderT = render;
+render = function (keep) { _renderT(keep); try { setTitle(); } catch (e) { /* không chặn giao diện */ } };
+if (typeof SYNC !== 'undefined' && SYNC.ready) setTitle(); // ?demo khởi động đồng bộ trước khi file này nạp
+
 window.addEventListener('hashchange', () => setTimeout(pageView, 0));
 
 async function initTracking() {
