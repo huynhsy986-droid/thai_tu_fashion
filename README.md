@@ -10,6 +10,7 @@
 |---|---|
 | **Tên nhóm** | ⟨cần điền⟩ |
 | **Tên dự án** | Thai Tu Fashion — website thời trang unisex phong cách Seoul |
+| **Website (production)** | **https://thai-tu-fashion-v1.vercel.app** |
 | **GitHub Repository** | https://github.com/huynhsy986-droid/thai_tu_fashion |
 | **Video Demo** | ⟨cần điền link YouTube — kịch bản: [`docs/video-script.md`](docs/video-script.md)⟩ |
 | **Ngày nộp** | ⟨DD/MM/YYYY⟩ |
@@ -37,7 +38,7 @@
 | Database | **PostgreSQL 17 trên Supabase** (Auth, Row Level Security, function/trigger PL/pgSQL) |
 | Giám sát | Google Analytics 4, Sentry (trình duyệt + Node), log JSON có request id |
 | Kiểm thử / CI | Vitest + Supertest, Playwright, GitHub Actions |
-| Deploy | Render (Node, không Docker) — `render.yaml` · Supabase `thai-tu-fashion-v1` (Singapore) |
+| Deploy | **Vercel** (giao diện qua CDN + 1 Vercel Function cho API, region Singapore) — `vercel.json` · Database **Supabase** `thai-tu-fashion-v1` (Singapore) · Render (`render.yaml`) là phương án dự phòng |
 
 **Tính năng chính:**
 - Tài khoản: đăng ký/đăng nhập, **tự gia hạn phiên** (không bị đăng xuất sau 1 giờ), **quên & đặt lại mật khẩu qua email**, hiện/ẩn và đo độ mạnh mật khẩu, menu người dùng trên header.
@@ -98,9 +99,11 @@ DATABASE_URL=<Supabase → Connect → Session pooler, tự điền Database pas
 DATABASE_SSL=true
 ```
 
-Dự án Supabase mới: `SUPABASE_DB_URL=... scripts/supabase-setup.sh --catalog`. Cấp quyền admin: `cd backend && npm run make-admin -- <email>`. Không chạy các file trong `supabase/local/` trên Supabase thật. Deploy production: [`docs/08-deployment.md`](docs/08-deployment.md).
+Dự án Supabase mới: `SUPABASE_DB_URL=... scripts/supabase-setup.sh --catalog`. Cấp quyền admin: `cd backend && npm run make-admin -- <email>`. Không chạy các file trong `supabase/local/` trên Supabase thật. Deploy production: [`docs/08-deployment.md`](docs/08-deployment.md) (Vercel mục 1b).
 
-**Tài khoản dùng thử (dữ liệu mẫu local):**
+**Bản production:** https://thai-tu-fashion-v1.vercel.app — dữ liệu thật trên Supabase (66 sản phẩm, 7 danh mục), không có tài khoản dùng thử. Khách tự đăng ký; quyền quản trị do nhóm cấp cho tài khoản đã đăng ký (`npm run make-admin -- <email>`). Kiểm tra nhanh: [`/api/health`](https://thai-tu-fashion-v1.vercel.app/api/health).
+
+**Tài khoản dùng thử (chỉ khi chạy local với dữ liệu mẫu):**
 
 | Vai trò | Email | Mật khẩu |
 |---|---|---|
@@ -168,6 +171,8 @@ Kế hoạch 5 sprint gắn với 5 task của brief, mỗi sprint là một **M
 | Nộp bài | ⟨cần điền⟩ | ⟨cập nhật⟩ |
 
 ### (d) GitHub Repository
+
+- **Website đang chạy:** https://thai-tu-fashion-v1.vercel.app (tự deploy lại mỗi khi `main` có commit mới)
 
 - **Repository link:** https://github.com/huynhsy986-droid/thai_tu_fashion · [Issues](https://github.com/huynhsy986-droid/thai_tu_fashion/issues?q=is%3Aissue) · [Pull Requests](https://github.com/huynhsy986-droid/thai_tu_fashion/pulls?q=is%3Apr) · [Milestones](https://github.com/huynhsy986-droid/thai_tu_fashion/milestones)
 
@@ -406,6 +411,7 @@ Quy trình và biểu mẫu: [`docs/peer-review/`](docs/peer-review/README.md).
 ## Deliverables Checklist
 
 - [x] **Source code trên GitHub**: https://github.com/huynhsy986-droid/thai_tu_fashion
+- [x] **Website deploy**: https://thai-tu-fashion-v1.vercel.app
 - [x] **README.md**: hướng dẫn cài đặt, tổng quan, danh sách tính năng có screenshots, ERD
 - [ ] **Video demo trên YouTube**: tối đa 10 phút, tối thiểu 720p, không để private — kịch bản [`docs/video-script.md`](docs/video-script.md)
 - [ ] **Self-Report**: mỗi thành viên đã commit file vào `docs/self-reports/`
