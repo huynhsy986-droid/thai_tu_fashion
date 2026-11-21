@@ -35,6 +35,31 @@ Trình duyệt ──► Render (Node 22: Express API + frontend tĩnh) ──�
 3. **Templates → Reset Password**: đổi tiêu đề/nội dung sang tiếng Việt; giữ biến `{{ .ConfirmationURL }}`.
 4. Phiên: access token 1 giờ, frontend tự gia hạn bằng refresh token (Supabase xoay vòng refresh token mỗi lần dùng). Đăng xuất gọi `/auth/v1/logout` để thu hồi refresh token.
 
+## 1b. Deploy lên Vercel (song song với Render) — Issue #31
+
+Cấu trúc: Vercel *Root Directory* = `backend`. `backend/index.js` export app Express → 1 Vercel Function (Fluid compute, region `sin1` gần Supabase Singapore). Lúc build, `scripts/copy-frontend.mjs` chép giao diện `frontend/` → `backend/public/` để Vercel phát qua CDN (Vercel bỏ qua `express.static`). Header bảo mật/CSP cho file tĩnh nằm trong `backend/vercel.json`.
+
+1. vercel.com → *Add New → Project* → Import `huynhsy986-droid/thai_tu_fashion`. **Root Directory: `backend`**, Application Preset: **Express**. Không sửa *Build and Output Settings* (lấy từ `vercel.json`).
+2. *Environment Variables* (bảng dưới), rồi **Deploy**.
+3. Supabase → Authentication → URL Configuration: Site URL + Redirect URLs = địa chỉ `https://<tên-dự-án>.vercel.app/`.
+4. Kiểm tra: `/api/health` → `{"ok":true,"db":"ok","authProvider":"supabase"}`.
+
+| Biến | Giá trị |
+|---|---|
+| `NODE_ENV` | `production` |
+| `AUTH_PROVIDER` | `supabase` |
+| `SUPABASE_URL` | `https://ceryulbobrlyxckrezts.supabase.co` |
+| `SUPABASE_ANON_KEY` | `sb_publishable_JSzQ9dv_Ug9kPvi3qlxr_g_rfHCFc8F` |
+| `DATABASE_URL` | Supabase → **Connect → Transaction pooler** (cổng **6543**), thay `[YOUR-PASSWORD]` — **bí mật** |
+| `DATABASE_SSL` | `true` |
+| `DATABASE_POOL_MAX` | `2` (serverless: mỗi instance ít kết nối) |
+| `TRUST_PROXY` | `1` |
+| `LOG_FORMAT` | `json` |
+| `PUBLIC_URL`, `CORS_ORIGINS` | `https://<tên-dự-án>.vercel.app` |
+| `GA_MEASUREMENT_ID`, `SENTRY_DSN`, `SENTRY_DSN_BROWSER` | tuỳ chọn |
+
+Lưu ý: dùng **Transaction pooler** (IPv4) chứ không dùng *Direct connection* (chỉ IPv6, Vercel không kết nối được). Rate-limit lưu trong bộ nhớ nên tính riêng từng instance. CSP trong `vercel.json` đã mở sẵn domain Supabase, Google Analytics, Sentry.
+
 ## 2. Deploy lên Render (khuyên dùng)
 
 1. Render → **New → Blueprint** → chọn repo này (đọc `render.yaml`).
