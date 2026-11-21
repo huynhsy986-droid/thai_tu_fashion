@@ -71,3 +71,16 @@ test.describe('F9 · Giới thiệu & Liên hệ', () => {
     await expect(page.locator('tr', { hasText: 'demo@test.vn' })).toContainText('Mới');
   });
 });
+
+test('AC-CON-04 chân trang và trang Liên hệ có email, địa chỉ, hotline chính thức (bấm được để gọi/gửi mail)', async ({ page }) => {
+  await gotoApp(page, 'contact');
+  const f = page.locator('footer .ftr-contact');
+  await expect(f).toContainText('Số 174 Lê Lợi, Quận Hải Châu, TP. Đà Nẵng');
+  await expect(f.locator('a[href="tel:19005368"]')).toHaveText('1900 5368');
+  await expect(f.locator('a[href="tel:+84393131385"]')).toHaveText('+84 393 131 385');
+  await expect(f.locator('a[href="mailto:support@thaitufashion.vn"]')).toBeVisible();
+  await expect(page.locator('main')).toContainText('support@thaitufashion.vn');
+  await expect(page.locator('main a[href="tel:19005368"]')).toBeVisible();
+  await gotoApp(page, 'about');
+  await expect(page.locator('main')).toContainText('Số 174 Lê Lợi');
+});
