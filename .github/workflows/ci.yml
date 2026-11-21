@@ -48,6 +48,9 @@ jobs:
       - name: Frontend · cài đặt
         working-directory: frontend
         run: npm ci && npx playwright install --with-deps chromium
+      - name: Frontend · Tailwind CSS đã build (css/tailwind.css khớp nguồn)
+        working-directory: frontend
+        run: npm run build:css && git diff --exit-code css/tailwind.css
       - name: Frontend · e2e (Playwright)
         working-directory: frontend
         env:

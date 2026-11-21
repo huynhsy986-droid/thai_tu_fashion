@@ -1,0 +1,3 @@
+/* Nguồn Tailwind — chỉ utilities (không preflight). Sửa file này hoặc dùng class tw-* trong js/*.js rồi chạy: npm run build:css */
+@tailwind components;
+@tailwind utilities;

@@ -790,13 +790,6 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 @media(min-width:1200px){.kcats{grid-template-columns:repeat(8,minmax(0,1fr))}}
 @media(min-width:1024px) and (max-width:1279px){.nav{gap:14px}.nav a{font-size:13px}}
 
-/* ===== Bổ sung Step 3 (TV3): đăng nhập, trạng thái tải, phiên ===== */
+/* ===== Bổ sung Step 3 (TV3): trạng thái tải. Layout đăng nhập/phiên chuyển sang Tailwind (tw-*) — Issue #5 ===== */
 .boot{min-height:60vh;display:grid;place-items:center;color:var(--muted,#6b6b70);font-size:14px;letter-spacing:.02em}
-.auth{display:grid;gap:16px;max-width:980px;margin-inline:auto;grid-template-columns:1fr}
-.auth .auth-intro{display:flex;flex-direction:column;gap:10px}
-.auth .card{max-width:520px;width:100%}
-.auth-demo .row{gap:8px;flex-wrap:wrap}
-@media (min-width:1024px){.auth{grid-template-columns:1fr 1fr;align-items:start}.auth .auth-intro{grid-row:span 2}}
-.sess{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.sess .acts{display:flex;gap:8px;flex-wrap:wrap}
 .mode-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--warn-tint);color:var(--warn)}
