@@ -1,7 +1,7 @@
 # Self-Report: Final Project
 
 > **Bản nháp** do nhóm chuẩn bị sẵn phần "đã làm" và "bằng chứng" từ lịch sử GitHub của `lequangkhanh6002-pixel`.
-> Chủ tài khoản: (1) đổi tên file thành `self-report-[MSSV].md`, (2) điền các ô ⟨…⟩, (3) sửa/bổ sung cho đúng thực tế, (4) xoá dòng ghi chú này. Phần tự đánh giá do chính bạn viết.
+> Chủ tài khoản: (1) điền các ô ⟨…⟩ (khó khăn, tự đánh giá, tổng kết, % đóng góp), (2) sửa/bổ sung phần đã làm cho đúng thực tế, (3) xoá dòng ghi chú này, (4) tự commit bằng tài khoản GitHub của mình. Phần tự đánh giá do chính bạn viết.
 
 ---
 
@@ -9,9 +9,9 @@
 
 | | |
 |---|---|
-| **Full name** | ⟨Họ tên⟩ |
-| **Student ID** | ⟨MSSV⟩ |
-| **Team** | ⟨Tên nhóm⟩ |
+| **Full name** | Lê Quang Khanh |
+| **Student ID** | 24090012 |
+| **Team** | Nhóm 5 |
 | **Role in team** | TV1 · Product Owner / BA & Designer |
 
 ---

@@ -1,11 +1,11 @@
-# Self-Reports
+# Self-Reports — Nhóm 5
 
-Theo Final Project Brief, **mỗi thành viên** tự hoàn thành Self-Report cho cả 5 sprint và commit vào `docs/self-reports/self-report-[MSSV].md` (nộp riêng từng người; nộp trễ/thiếu trừ 10% điểm nhóm).
+Theo Final Project Brief, **mỗi thành viên** tự hoàn thành Self-Report cho cả 5 sprint (nộp riêng; trễ/thiếu trừ 10% điểm nhóm). File đã tạo sẵn theo MSSV, phần "đã làm" và "bằng chứng" điền sẵn từ lịch sử GitHub; mỗi người tự viết khó khăn, tự đánh giá, tổng kết và % đóng góp.
 
-| Thành viên | Bản nháp | Việc cần làm |
+| Thành viên | MSSV | File |
 |---|---|---|
-| lequangkhanh6002-pixel | [self-report-lequangkhanh6002-pixel.md](self-report-lequangkhanh6002-pixel.md) | đổi tên theo MSSV, điền ⟨…⟩, tự đánh giá |
-| nguyen06-vn | [self-report-nguyen06-vn.md](self-report-nguyen06-vn.md) | như trên |
-| huynhsy986-droid | [self-report-huynhsy986-droid.md](self-report-huynhsy986-droid.md) | như trên |
+| Lê Quang Khanh (lequangkhanh6002-pixel) | 24090012 | [self-report-24090012.md](self-report-24090012.md) |
+| Nguyễn Trần Minh Nguyên (nguyen06-vn) | 24090010 | [self-report-24090010.md](self-report-24090010.md) |
+| Huỳnh Tấn Sỹ (huynhsy986-droid) | 24090017 | [self-report-24090017.md](self-report-24090017.md) |
 
-Đổi tên bằng Git để giữ lịch sử: `git mv docs/self-reports/self-report-<github>.md docs/self-reports/self-report-<MSSV>.md`, rồi cập nhật bảng Self-Reports trong README.
+**Cách tự điền và commit:** mở file trên GitHub → biểu tượng ✏️ *Edit* → điền các ô ⟨…⟩ → *Commit changes* với message `docs(self-report): hoàn thành self-report <MSSV> (#36)`.
