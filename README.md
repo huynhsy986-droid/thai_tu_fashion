@@ -328,27 +328,31 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 
 </details>
 
+### (a) Feedback cho các nhóm khác" hiện tại -->
+
 ### (a) Feedback cho các nhóm khác
 
+*Đại diện Nhóm 5 đánh giá: **Lê Quang Khanh**. Bản đầy đủ theo kịch bản dùng thử: [`docs/peer-review/`](docs/peer-review/).*
+
 **Nhóm được review #1:**
-- **Tên nhóm / Dự án:** ⟨cần điền⟩
-- **Link dự án:** ⟨cần điền⟩
+- **Tên nhóm / Dự án:** Nhóm FocuSpace (Phúc Thịnh, Tuấn Hưng, Đình Nhiên, Tuấn Lộc) — FocuSpace, phòng học ảo pixel có nhạc Lo-fi
+- **Link dự án:** https://focuspace-iota.vercel.app
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
+| Usability | Dùng ngay không cần tài khoản; menu gọn, mobile có nút ☰; Pomodoro 4 nhịp (Cổ điển, Sâu, Nhẹ, Tùy chỉnh); Thư viện lọc theo phòng và nhóm đồ vật. | Căn phòng trên điện thoại dọc bị xoay ngang 90°, không có hướng dẫn xoay máy; bấm cửa sổ chưa thấy bảng chỉnh thời tiết hiện ra dù trang Giới thiệu có hướng dẫn. |
+| Aesthetics | Pixel art đồng nhất, bảng màu nâu–cam ấm hợp chủ đề Lo-fi; tranh phòng học rất có không khí; font dễ đọc tiếng Việt. | Thẻ Thư viện ghi kích thước pixel (26×26) không cần thiết với người dùng; nút Đăng nhập màu nhạt trông như bị vô hiệu. |
+| User-Friendliness | Lỗi form tiếng Việt dưới từng ô; nhãn trình đọc màn hình chi tiết; trang Giới thiệu có "Cách dùng nhanh" và nói rõ quyền riêng tư. | Trang Thống kê khi chưa đăng nhập nên có biểu đồ mẫu; thiếu "Quên mật khẩu"; Liên hệ nên có form ngay trên web. |
 
 **Nhóm được review #2:**
-- **Tên nhóm / Dự án:** ⟨cần điền⟩
-- **Link dự án:** ⟨cần điền⟩
+- **Tên nhóm / Dự án:** Nhóm PawPass (Hữu Triết, Duy Huy, Thế Dũng, Thành Đạt, Duy Quang) — PawPass, sổ hộ chiếu thú cưng
+- **Link dự án:** https://pawpass-hosothucung-web.vercel.app
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
+| Usability | Trang Giới thiệu dẫn dắt rõ: vấn đề → tính năng → "Bắt đầu trong 3 bước"; điện thoại không tràn ngang, nút đủ to. | Trang gốc mở thẳng màn đăng nhập, khách mới chưa biết sản phẩm làm gì → nên để trang Giới thiệu làm trang đầu; màn đăng nhập thiếu thanh menu như các trang khác. |
+| Aesthetics | Chủ đề "hộ chiếu" sáng tạo, nhất quán: con dấu tiêm phòng, mèo/cún minh hoạ, màu cam–kem ấm áp; thẻ ví dụ bé "Mochi" cho thấy ngay sản phẩm. | Dòng báo lỗi đỏ nhỏ trên nền hồng hơi khó đọc; trên máy tính phần giới thiệu cạnh form đăng nhập khá nhỏ. |
+| User-Friendliness | Lỗi form tiếng Việt, viền đỏ; form Liên hệ đếm ký tự và cảnh báo không ghi thông tin riêng tư; có FAQ. | Thiếu "Quên mật khẩu"; Liên hệ qua GitHub Issue cần tài khoản GitHub → thêm lựa chọn email; nên có tài khoản demo để dùng thử trước khi đăng ký. |
 
 ### (b) Xử lý feedback từ các nhóm khác
 
