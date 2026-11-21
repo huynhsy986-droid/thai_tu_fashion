@@ -326,40 +326,59 @@ Chi tiết: [`docs/03-solution-architecture.md`](docs/03-solution-architecture.m
 
 ### (a) Kiểm tra hiệu năng với Lighthouse
 
-Đo trang chủ, chế độ **Mobile** (Lighthouse 12.8.2). Đầy đủ 4 trang × mobile/desktop: [`docs/10-lighthouse.md`](docs/10-lighthouse.md).
+Đo **trang chủ** bằng Lighthouse (Chrome), cả **Mobile** (giả lập điện thoại tầm trung, mạng 4G chậm) và **Desktop**. Báo cáo đầy đủ, mọi trang: [`docs/10-lighthouse.md`](docs/10-lighthouse.md) · báo cáo gốc HTML: [`docs/lighthouse/`](docs/lighthouse/).
+
+- **Trước:** code trước sprint 4 (commit `4004e13`), chạy chế độ production ở máy nhóm — báo cáo gốc `docs/lighthouse/before-home-*.html`.
+- **Sau:** bản đang chạy thật **https://thai-tu-fashion-v1.vercel.app** (Vercel + Supabase), đo ngày 21/11/2026.
 
 **Kết quả trước khi tối ưu:**
 
-| Metric | Điểm |
-|---|---|
-| Performance | 74 |
-| Accessibility | 95 |
-| Best Practices | 100 |
-| SEO | 100 |
+| Metric | Mobile | Desktop |
+|---|---|---|
+| Performance | 74 | 95 |
+| Accessibility | 95 | 95 |
+| Best Practices | 100 | 100 |
+| SEO | 100 | 100 |
 
-![Lighthouse trước](docs/screenshots/lighthouse-before-home-mobile.jpg)
+| Mobile — trước | Desktop — trước |
+|---|---|
+| ![Lighthouse mobile trước tối ưu](docs/screenshots/lighthouse-before-home-mobile.jpg) | ![Lighthouse desktop trước tối ưu](docs/screenshots/lighthouse-before-home-desktop.jpg) |
 
 **Các vấn đề đã xác định và cách khắc phục:**
 
 | Vấn đề | Hành động khắc phục |
 |---|---|
-| Enable text compression | Bật gzip (`compression`) trên Express |
+| Enable text compression | Bật gzip (`compression`) trên Express; trên Vercel giao diện được CDN nén sẵn |
 | Render-blocking resources (13 file JS) | Thêm `defer` cho mọi script |
-| Properly size images (hero 1366–2200px trên màn 390px) | Sinh ảnh 480/800/1400px, `srcset` + `sizes`, `fetchpriority="high"`, preload ảnh LCP |
-| Color contrast không đạt 4,5:1 | Chỉnh token `--muted`, `--hi`, `--ok` đạt WCAG AA |
-| Heading không theo thứ tự | Tiêu đề cột footer `h4` → `h2` (giữ style) |
-| Meta/chia sẻ | Mô tả đầy đủ, Open Graph, `robots.txt` |
+| Properly size images (ảnh hero 1366–2200px trên màn 390px) | Sinh ảnh 480/800/1400px, `srcset` + `sizes`, `fetchpriority="high"`, preload ảnh LCP |
+| Color contrast không đạt 4,5:1 | Chỉnh token màu `--muted`, `--hi`, `--ok` đạt WCAG AA |
+| Heading không theo thứ tự | Tiêu đề cột footer `h4` → `h2` (giữ nguyên style) |
+| Thiếu mô tả, thẻ chia sẻ | Meta description đầy đủ, Open Graph, `robots.txt` |
+| Màn hình trắng "Đang tải…" lúc chờ dữ liệu | Khung tải skeleton cùng bố cục trang thật (CLS = 0) |
+| Phục vụ từ 1 server | Deploy Vercel: file tĩnh qua CDN, API ở region Singapore cạnh database |
 
-**Kết quả sau khi tối ưu:**
+**Kết quả sau khi tối ưu** (production Vercel):
 
-| Metric | Điểm |
+| Metric | Mobile | Desktop |
+|---|---|---|
+| Performance | **86** (+12) | **99** (+4) |
+| Accessibility | **100** (+5) | **100** (+5) |
+| Best Practices | 100 | 100 |
+| SEO | 100 | 100 |
+
+| Chỉ số | Mobile trước → sau | Desktop trước → sau |
+|---|---|---|
+| First Contentful Paint | 3,0 s → **1,5 s** | 0,6 s → **0,4 s** |
+| Largest Contentful Paint | 5,3 s → **4,2 s** | 1,2 s → **0,9 s** |
+| Total Blocking Time | 110 ms → **0 ms** | 20 ms → **0 ms** |
+| Cumulative Layout Shift | 0 → 0 | 0,08 → **0** |
+| Speed Index | 3,0 s → **1,5 s** | 0,9 s → 0,9 s |
+
+| Mobile — sau | Desktop — sau |
 |---|---|
-| Performance | 94 *(desktop 100)* |
-| Accessibility | 100 |
-| Best Practices | 100 |
-| SEO | 100 |
+| ![Lighthouse mobile sau tối ưu](docs/screenshots/lighthouse-after-vercel-mobile.png) | ![Lighthouse desktop sau tối ưu](docs/screenshots/lighthouse-after-vercel-desktop.png) |
 
-![Lighthouse sau](docs/screenshots/lighthouse-after-home-mobile.jpg)
+*Ghi chú:* mobile trên production còn 86 vì **LCP 4,2 s**: ảnh hero được tải qua mạng thật (giả lập 4G chậm) và chỉ hiện sau khi giao diện lấy dữ liệu từ API. Đo cùng code trên máy nhóm được 94–96. Hướng cải thiện tiếp: đặt sẵn ảnh hero trong HTML ban đầu thay vì chờ JavaScript vẽ, chuyển ảnh sang AVIF.
 
 ### (b) Theo dõi lỗi và hành vi người dùng
 

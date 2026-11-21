@@ -75,6 +75,19 @@ Sau khi deploy, đo lại bằng [PageSpeed Insights](https://pagespeed.web.dev/
 
 Khung tải (skeleton) có cùng bố cục với trang thật nên không gây dịch chuyển bố cục (CLS 0), người dùng thấy cấu trúc trang ngay thay vì dòng chữ "Đang tải…".
 
+### Đo trên production Vercel (21/11/2026 — Issue #38)
+
+Đo trực tiếp https://thai-tu-fashion-v1.vercel.app/#home bằng Lighthouse trong Chrome:
+
+| Trang chủ | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS | SI |
+|---|---|---|---|---|---|---|---|---|---|
+| Mobile | **86** | 100 | 100 | 100 | 1,5 s | 4,2 s | 0 ms | 0 | 1,5 s |
+| Desktop | **99** | 100 | 100 | 100 | 0,4 s | 0,9 s | 0 ms | 0 | 0,9 s |
+
+Ảnh: `docs/screenshots/lighthouse-after-vercel-{mobile,desktop}.png`. So với trước tối ưu (mobile 74 / desktop 95): +12 và +4 điểm Performance, Accessibility 95 → 100. LCP mobile 4,2 s là điểm còn lại cần cải thiện (ảnh hero tải qua mạng thật, chỉ hiện sau khi JavaScript dựng trang).
+
+Ảnh "trước tối ưu" trong README được chụp lại từ chính báo cáo gốc `docs/lighthouse/before-home-*.html` (bản cũ chụp lúc vòng điểm đang chạy hiệu ứng nên số bị chồng).
+
 ## 4. Theo dõi sau triển khai (Task 4b)
 
 - **Google Analytics 4**: page_view theo route + sự kiện mua hàng — bật bằng `GA_MEASUREMENT_ID` (PR #15).
