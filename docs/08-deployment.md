@@ -37,12 +37,19 @@ Trình duyệt ──► Render (Node 22: Express API + frontend tĩnh) ──�
 
 ## 1b. Deploy lên Vercel (song song với Render) — Issue #31
 
-Cấu trúc: Vercel *Root Directory* = `backend`. `backend/index.js` export app Express → 1 Vercel Function (Fluid compute, region `sin1` gần Supabase Singapore). Lúc build, `scripts/copy-frontend.mjs` chép giao diện `frontend/` → `backend/public/` để Vercel phát qua CDN (Vercel bỏ qua `express.static`). Header bảo mật/CSP cho file tĩnh nằm trong `backend/vercel.json`.
+Cấu trúc (cấu hình ở **thư mục gốc repo**, file `vercel.json`):
 
-1. vercel.com → *Add New → Project* → Import `huynhsy986-droid/thai_tu_fashion`. **Root Directory: `backend`**, Application Preset: **Express**. Không sửa *Build and Output Settings* (lấy từ `vercel.json`).
+- **Web tĩnh:** lúc build, `backend/scripts/copy-frontend.mjs dist` chép giao diện `frontend/` → `dist/`, Vercel phát `dist/` qua CDN kèm header bảo mật/CSP.
+- **API:** `api/index.mjs` → `backend/index.js` (app Express) thành 1 Vercel Function, region `sin1` gần Supabase Singapore; `rewrites` đưa mọi `/api/*` vào hàm này.
+- Đã kiểm tra bằng `vercel build` (CLI 66.6.0) + chạy thử chính hàm đã build.
+
+> Lần thử đầu (Root Directory = `backend`, preset Express) chỉ API chạy, trang chủ báo `Cannot GET /` vì preset Express không phát thư mục `public/` sinh ra lúc build → đổi sang cấu hình này.
+
+1. vercel.com → *Add New → Project* → Import `huynhsy986-droid/thai_tu_fashion`. **Root Directory: để trống (`./`)**, Application Preset: **Other**. Không bật override nào trong *Build and Output Settings* (lấy từ `vercel.json`).
+   Dự án đã tạo trước đó: *Settings → Build and Deployment* → Framework Preset **Other**, Root Directory để trống → *Save* → *Deployments → Redeploy*.
 2. *Environment Variables* (bảng dưới), rồi **Deploy**.
-3. Supabase → Authentication → URL Configuration: Site URL + Redirect URLs = địa chỉ `https://<tên-dự-án>.vercel.app/`.
-4. Kiểm tra: `/api/health` → `{"ok":true,"db":"ok","authProvider":"supabase"}`.
+3. Supabase → Authentication → URL Configuration: Site URL + Redirect URLs = `https://<tên-dự-án>.vercel.app/**`.
+4. Kiểm tra: `/` hiện trang chủ; `/api/health` → `{"ok":true,"db":"ok","authProvider":"supabase"}`.
 
 | Biến | Giá trị |
 |---|---|

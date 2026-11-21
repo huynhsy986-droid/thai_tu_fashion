@@ -13,3 +13,4 @@ supabase/.temp/
 # Vercel: giao diện được chép vào đây lúc build (scripts/copy-frontend.mjs)
 backend/public/
 .vercel/
+dist/
