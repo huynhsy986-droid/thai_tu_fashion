@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 39 AC + 8 NFR · 47/47 mục có test · số lần được test: unit 28, integration 90, e2e 30.
+**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 28, integration 90, e2e 34.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -44,13 +44,14 @@
 | AC-ADM-06 | P0 | Khách hàng: danh sách kèm số đơn và tổng chi tiêu. | `routes/admin/misc.js` | — | 1 · admin | — |
 | AC-ADM-07 | P0 | Kiểm duyệt đánh giá: lọc theo trạng thái, ẩn/hiện, xoá. | `routes/admin/misc.js` | — | 1 · admin | 1 · admin |
 | AC-ADM-08 | P1 | Mã giảm giá: xem, tạo, bật/tắt qua API quản trị. | `routes/admin/misc.js` | — | 1 · admin | — |
-| AC-CON-01 | P0 | Trang Liên hệ (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥… | `routes/contact.js` `20261121000500_contact_messages.sql` | 3 · contact | 4 · contact | — |
-| AC-CON-02 | P0 | Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new… | `lib/mappers.js` `routes/contact.js` `20261121000500_contact_messages.sql` | 1 · contact | 2 · contact | — |
+| AC-CON-01 | P0 | Trang Liên hệ (`#contact`): ai cũng gửi được tin nhắn gồm họ tên ≥… | `routes/contact.js` `20261121000500_contact_messages.sql` | 3 · contact | 4 · contact | 1 · contact |
+| AC-CON-02 | P0 | Admin xem danh sách tin nhắn (lọc theo trạng thái), đánh dấu `new… | `lib/mappers.js` `routes/contact.js` `20261121000500_contact_messages.sql` | 1 · contact | 2 · contact | 1 · contact |
+| AC-CON-03 | P0 | Trang Giới thiệu (`#about`): câu chuyện thương hiệu, giá trị, hệ… | — | — | — | 1 · contact |
 | NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 7 · catalog, rls | — |
 | NFR-SEC-02 | NFR | Secret (service role key, JWT secret, DB URL) chỉ ở biến môi… | `config.js` | 1 · config | — | — |
 | NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 5 · security | — |
 | NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 2 · observability, security | — |
-| NFR-REL-01 | NFR | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu… | `sync.js` | — | — | 2 · resilience |
+| NFR-REL-01 | NFR | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu… | `sync.js` | — | — | 3 · contact, resilience |
 | NFR-QA-01 | NFR | Có unit test, integration test (DB thật) và e2e test (trình duyệt… | — | — | — | 1 · routes |
 | NFR-OBS-01 | NFR | Log JSON mỗi request (request id, method, path, status, thời gian,… | — | 3 · logger | 4 · observability | — |
 | NFR-DATA-01 | NFR | Tiền là số nguyên VND; thời gian lưu `timestamptz`. | — | — | 1 · contract | — |

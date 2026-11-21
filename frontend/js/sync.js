@@ -650,6 +650,7 @@ function startDemo(reason) {
   SYNC.ready = true;
   if (!S.meId) S.meId = 'c1';
   render();
+  document.dispatchEvent(new Event('thaitu:ready'));
   if (reason !== 'forced') toast('Không kết nối được máy chủ — đang chạy <b>chế độ demo</b>, dữ liệu lưu trong trình duyệt.', { ms: 6000 });
 }
 
@@ -678,6 +679,7 @@ async function boot() {
   await loadUser();
   SYNC.ready = true;
   render();
+  document.dispatchEvent(new Event('thaitu:ready'));
   setInterval(() => { if (isApi() && loggedIn() && document.visibilityState === 'visible') reloadNotifs(); }, 60000);
 }
 boot();
