@@ -7,8 +7,8 @@ body{margin:0;padding:0}
 
 /* Layout concept: Seoul-style lookbook — white and light-grey shop floor, pastel colour-block panels carry the campaign, expanded grotesk for display. */
 :root{
-  --bg:#FFFFFF;--surface:#FFFFFF;--grey:#F3F3F4;--grey2:#EAEAEC;--ink:#121214;--muted:#7C7C84;--accent:#5B4BB7;--hi:#D3416A;--line:#E4E4E7;
-  --ink-soft:#3B3B40;--accent-tint:#E4DFF6;--hi-tint:#F6E2E6;--danger:#C33A4F;--danger-tint:#FBE9EC;--ok:#2B8256;--warn:#946512;--warn-tint:#F6F0D2;
+  --bg:#FFFFFF;--surface:#FFFFFF;--grey:#F3F3F4;--grey2:#EAEAEC;--ink:#121214;--muted:#696970;--accent:#5B4BB7;--hi:#B8325A;--line:#E4E4E7;
+  --ink-soft:#3B3B40;--accent-tint:#E4DFF6;--hi-tint:#F6E2E6;--danger:#C33A4F;--danger-tint:#FBE9EC;--ok:#237048;--warn:#946512;--warn-tint:#F6F0D2;
   --lav:#E4DFF6;--mint:#DCEFE4;--butter:#F6F0D2;--sky:#DDE8F6;--pink:#F6E2E6;--card:#F1F1F2;
   --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--display:"Archivo","Be Vietnam Pro",system-ui,sans-serif;--kr:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
   --r:4px;--gut:16px;--sec:64px;
@@ -230,7 +230,7 @@ h1,h2,h3{text-wrap:balance}
 @media(min-width:900px){.ftr-grid{grid-template-columns:2fr 1fr 1fr 1fr}}
 .ftr-brand{grid-column:1/-1}
 @media(min-width:900px){.ftr-brand{grid-column:auto}}
-.ftr h4{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a9a79f;margin-bottom:12px}
+.ftr h4,.ftr .fh{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#a9a79f;margin-bottom:12px}
 .ftr li a,.ftr li button{font-size:14px;font-weight:300;display:inline-flex;align-items:center;min-height:32px;text-align:left}
 .ftr li a:hover,.ftr li button:hover{color:var(--hi)}
 .ftr-b{border-top:1px solid #333533;padding-block:18px;font-size:12px;color:#a9a79f;display:flex;gap:8px 24px;justify-content:space-between;flex-wrap:wrap}
@@ -678,7 +678,7 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 .pick,.rec,.mini,.combo{border-radius:var(--r);overflow:hidden}
 .pick-im{background:var(--card)}
 .ftr{background:var(--grey);color:var(--ink);border-top:1px solid var(--line)}
-.ftr h4{color:var(--muted)}
+.ftr h4,.ftr .fh{color:var(--muted)}
 .ftr li a:hover,.ftr li button:hover{color:var(--accent)}
 .ftr-b{border-top-color:var(--line);color:var(--muted)}
 .ftr .logo-s{color:var(--muted)}
