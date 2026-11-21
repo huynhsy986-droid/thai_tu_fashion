@@ -561,7 +561,7 @@ components:
           type: object
           required: [code, message]
           properties:
-            code: { type: string, enum: [AUTH_REQUIRED, FORBIDDEN, NOT_FOUND, OUT_OF_STOCK, CONFLICT, VALIDATION, CART_EMPTY, COUPON_INVALID, INVALID_TRANSITION, PAYMENT_FAILED, RATE_LIMITED, INTERNAL] }
+            code: { type: string, enum: [AUTH_REQUIRED, INVALID_CREDENTIALS, FORBIDDEN, NOT_FOUND, OUT_OF_STOCK, CONFLICT, VALIDATION, CART_EMPTY, COUPON_INVALID, INVALID_TRANSITION, PAYMENT_FAILED, RATE_LIMITED, INTERNAL] }
             message: { type: string }
             details: {}
     SessionUser:
@@ -718,4 +718,5 @@ components:
         statusCounts: { type: object, additionalProperties: { type: integer } }
         activeProducts: { type: integer }
         customers: { type: integer }
-        lowStock: { type: array, items: { type: object } }
+        lowStockCount: { type: integer }
+        lowStock: { type: array, items: { type: object }, description: 'Tối đa 50 biến thể tồn kho ≤ 2, tăng dần' }

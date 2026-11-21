@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 URL="${DATABASE_URL:-postgres://postgres:postgres@localhost:5432/thaitu}"
 DB="${URL##*/}"; DB="${DB%%\?*}"
 ADMIN_URL="${URL%/*}/postgres"
-psql "$ADMIN_URL" -v ON_ERROR_STOP=1 -q -c "drop database if exists \"$DB\" with (force);" -c "create database \"$DB\";"
+PGOPTIONS="-c client_min_messages=warning" psql "$ADMIN_URL" -v ON_ERROR_STOP=1 -q -c "drop database if exists \"$DB\" with (force);" -c "create database \"$DB\";"
 run() { PGOPTIONS="-c client_min_messages=warning" psql "$URL" -v ON_ERROR_STOP=1 -q -f "$1" >/dev/null; echo "  ✓ $1"; }
 echo "→ $DB"
 run supabase/local/00_supabase_shim.sql

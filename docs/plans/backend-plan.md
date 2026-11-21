@@ -5,38 +5,38 @@
 Mỗi phase chỉ "xong" khi 100% checklist đạt và test của phase xanh.
 
 ## Phase 0 · Init
-- [ ] Khung `backend/` (Node 22, ESM, Express 5), `package.json` scripts: `start`, `dev`, `test`, `test:unit`, `test:integration`
-- [ ] `src/config.js` đọc env bằng zod (`DATABASE_URL`, `AUTH_PROVIDER`, `JWT_SECRET`, `SUPABASE_*`, `CORS_ORIGINS`, `STATIC_DIR`)
-- [ ] `.env.example`, `scripts/db-reset.sh` cho Postgres local
-- [ ] `GET /api/health`
+- [x] Khung `backend/` (Node 22, ESM, Express 5), `package.json` scripts: `start`, `dev`, `test`, `test:unit`, `test:integration`
+- [x] `src/config.js` đọc env bằng zod (`DATABASE_URL`, `AUTH_PROVIDER`, `JWT_SECRET`, `SUPABASE_*`, `CORS_ORIGINS`, `STATIC_DIR`)
+- [x] `.env.example`, `scripts/db-reset.sh` cho Postgres local
+- [x] `GET /api/health`
 
 ## Phase 1 · Nền tảng
-- [ ] `db/index.js`: `pool`, `withUser(user, fn)` (SET LOCAL ROLE + claims), `asOwner(fn)`
-- [ ] `lib/errors.js`: `HttpError`, map lỗi Postgres (`P0001`+hint, `23505`, `23503`, `23514`) → HTTP
-- [ ] `lib/validate.js` (zod → 422 với `details` theo field)
-- [ ] `auth/tokens.js` (jose: ký HS256, xác minh HS256/JWKS), `auth/providers.js` (local, supabase), `auth/middleware.js`
-- [ ] Unit test: errors, validate, tokens, orderStatus, mappers
+- [x] `db/index.js`: `pool`, `withUser(user, fn)` (SET LOCAL ROLE + claims), `asOwner(fn)`
+- [x] `lib/errors.js`: `HttpError`, map lỗi Postgres (`P0001`+hint, `23505`, `23503`, `23514`) → HTTP
+- [x] `lib/validate.js` (zod → 422 với `details` theo field)
+- [x] `auth/tokens.js` (jose: ký HS256, xác minh HS256/JWKS), `auth/providers.js` (local, supabase), `auth/middleware.js`
+- [x] Unit test: errors, validate, tokens, orderStatus, mappers
 
 ## Phase 2 · API khách hàng
-- [ ] Auth: register / login / logout / me — AC-AUTH-01..03, 05
-- [ ] Catalog: catalog, categories, colors, shipping, products (lọc/tìm/sort/trang), product detail — AC-CAT-01..04
-- [ ] Reviews: list, create (verified do DB) — AC-REV-01/02
-- [ ] Cart: get, add, patch, delete, clear, quote — AC-CART-01..04
-- [ ] Orders: place, list, detail+history, cancel — AC-ORD-01..06
-- [ ] Wishlist, restock toggle — AC-WISH-01..03
-- [ ] Me: profile, measurements, outfits, notifications, newsletter — AC-ACC-01..05
+- [x] Auth: register / login / logout / me — AC-AUTH-01..03, 05
+- [x] Catalog: catalog, categories, colors, shipping, products (lọc/tìm/sort/trang), product detail — AC-CAT-01..04
+- [x] Reviews: list, create (verified do DB) — AC-REV-01/02
+- [x] Cart: get, add, patch, delete, clear, quote — AC-CART-01..04
+- [x] Orders: place, list, detail+history, cancel — AC-ORD-01..06
+- [x] Wishlist, restock toggle — AC-WISH-01..03
+- [x] Me: profile, measurements, outfits, notifications, newsletter — AC-ACC-01..05
 
 ## Phase 3 · API quản trị
-- [ ] `requireAdmin` + RLS `is_admin()` — AC-AUTH-04
-- [ ] Dashboard, products CRUD + stock, categories, orders + status, customers, reviews, coupons — AC-ADM-01..08
+- [x] `requireAdmin` + RLS `is_admin()` — AC-AUTH-04
+- [x] Dashboard, products CRUD + stock, categories, orders + status, customers, reviews, coupons — AC-ADM-01..08
 
 ## Phase 4 · Chất lượng
-- [ ] Integration test với Postgres thật cho mọi nhóm route (DB được reset trước mỗi lần chạy)
-- [ ] Test đồng thời: 2 đơn tranh món cuối — AC-ORD-03
-- [ ] Contract test: route Express ⇔ `openapi.yaml`; bảng trạng thái JS ⇔ SQL
-- [ ] RLS test trực tiếp bằng SQL (anon/khách/admin)
-- [ ] Helmet, CORS, rate-limit, giới hạn body
-- [ ] Phục vụ `frontend/` tĩnh để chạy 1 lệnh
+- [x] Integration test với Postgres thật cho mọi nhóm route (DB được reset trước mỗi lần chạy)
+- [x] Test đồng thời: 2 đơn tranh món cuối — AC-ORD-03
+- [x] Contract test: route Express ⇔ `openapi.yaml`; bảng trạng thái JS ⇔ SQL
+- [x] RLS test trực tiếp bằng SQL (anon/khách/admin)
+- [x] Helmet, CORS, rate-limit, giới hạn body
+- [x] Phục vụ `frontend/` tĩnh để chạy 1 lệnh
 
 ## Rủi ro & cách xử lý
 | Rủi ro | Xử lý |

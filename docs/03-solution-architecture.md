@@ -77,12 +77,13 @@ Function SQL `raise exception … errcode 'P0001', hint '<CODE>'`. Backend map `
 
 | CODE | HTTP | Ví dụ |
 |---|---|---|
-| `AUTH_REQUIRED` | 401 | Chưa đăng nhập |
+| `AUTH_REQUIRED`, `INVALID_CREDENTIALS` | 401 | Chưa đăng nhập / sai email-mật khẩu |
 | `FORBIDDEN` | 403 | Không phải admin |
 | `NOT_FOUND` | 404 | Đơn không tồn tại / không phải của bạn |
 | `OUT_OF_STOCK`, `CONFLICT` | 409 | Hết hàng, email trùng, xoá danh mục còn SP |
 | `VALIDATION`, `CART_EMPTY`, `COUPON_INVALID`, `INVALID_TRANSITION` | 422 | Dữ liệu sai, mã giảm giá sai, chuyển trạng thái sai |
 | `PAYMENT_FAILED` | 402 | Thanh toán mô phỏng thất bại |
+| `RATE_LIMITED` | 429 | Gọi quá nhiều lần |
 
 Body lỗi: `{ "error": { "code": "OUT_OF_STOCK", "message": "…", "details": … } }`.
 
