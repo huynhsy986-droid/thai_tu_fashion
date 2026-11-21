@@ -37,3 +37,5 @@ services:
         sync: false
       - key: GA_MEASUREMENT_ID     # Google Analytics 4, dạng G-XXXXXXXXXX (tuỳ chọn, công khai)
         sync: false
+      - key: PUBLIC_URL            # https://thai-tu-fashion.onrender.com — link trong email đặt lại mật khẩu
+        sync: false

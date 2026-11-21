@@ -20,12 +20,20 @@ Trình duyệt ──► Render (Node 22: Express API + frontend tĩnh) ──�
 | `TRUST_PROXY` | `1` | |
 | `SUPABASE_JWT_SECRET` | bỏ trống (token ES256 xác minh qua JWKS; token HS256 xác minh qua `/auth/v1/user`) | có |
 | `CORS_ORIGINS` | địa chỉ web, VD `https://thai-tu-fashion.onrender.com` | |
+| `PUBLIC_URL` | địa chỉ web công khai, VD `https://thai-tu-fashion.onrender.com` — dùng làm link trong email đặt lại mật khẩu | |
 | `LOG_FORMAT` | `json` — mỗi dòng log là JSON có `reqId`, xem ở Render → Logs | |
 | `SENTRY_DSN` | DSN project **Node.js** trên sentry.io (tuỳ chọn) | có |
 | `SENTRY_DSN_BROWSER` | DSN project **Browser JavaScript** (tuỳ chọn) | công khai |
 | `GA_MEASUREMENT_ID` | Google Analytics 4 → Data stream Web → `G-XXXXXXXXXX` (tuỳ chọn) | công khai |
 
 **Giám sát:** người dùng gặp lỗi 500 sẽ thấy mã tham chiếu (`requestId`); tìm mã đó trong Render Logs hoặc Sentry (tag `request_id`) để ra đúng request. Để trống 3 biến Sentry/GA thì tính năng tắt hoàn toàn, CSP không mở thêm domain nào.
+
+### Supabase Auth: phiên đăng nhập & quên mật khẩu (AC-AUTH-06, AC-AUTH-07)
+
+1. **Authentication → URL Configuration**: *Site URL* = `PUBLIC_URL`; thêm `PUBLIC_URL/` (và `http://localhost:4000/` khi thử local với Supabase) vào *Redirect URLs*. Thiếu bước này, link trong email sẽ trỏ sai trang.
+2. **Authentication → Emails → SMTP Settings**: SMTP mặc định của Supabase chỉ gửi vài email/giờ và chỉ tới thành viên dự án. Dùng SMTP riêng với người gửi `support@thaitufashion.vn` (VD Resend, Brevo, Google Workspace).
+3. **Templates → Reset Password**: đổi tiêu đề/nội dung sang tiếng Việt; giữ biến `{{ .ConfirmationURL }}`.
+4. Phiên: access token 1 giờ, frontend tự gia hạn bằng refresh token (Supabase xoay vòng refresh token mỗi lần dùng). Đăng xuất gọi `/auth/v1/logout` để thu hồi refresh token.
 
 ## 2. Deploy lên Render (khuyên dùng)
 

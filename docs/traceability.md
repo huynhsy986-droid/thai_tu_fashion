@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 28, integration 90, e2e 36.
+**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 29, integration 90, e2e 36.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -11,7 +11,7 @@
 | AC-AUTH-02 | P0 | Đăng nhập đúng → nhận access token (JWT); sai → 401 "Email hoặc… | `routes/auth.js` | 2 · providers, tokens | 2 · auth | 1 · mobile |
 | AC-AUTH-03 | P0 | Gọi API cần đăng nhập mà không có/sai token → 401. | `auth/middleware.js` `routes/auth.js` | 9 · jwks, tokens | 2 · auth | — |
 | AC-AUTH-04 | P0 | Người không phải admin gọi API quản trị → 403. Trên giao diện, vào… | `auth/middleware.js` `20261121000200_functions_triggers.sql` | — | 1 · admin | 2 · admin, guest |
-| AC-AUTH-05 | P0 | Đăng xuất xoá phiên ở client; header trở về trạng thái khách. | `routes/auth.js` `auth.js` | — | 1 · auth | 1 · purchase |
+| AC-AUTH-05 | P0 | Đăng xuất xoá phiên ở client; header trở về trạng thái khách. | `auth/providers.js` `routes/auth.js` `auth.js` | 1 · providers | 1 · auth | 1 · purchase |
 | AC-CAT-01 | P0 | Khách (kể cả chưa đăng nhập) xem danh sách sản phẩm đang bán: tên,… | `routes/catalog.js` | 1 · mappers | 3 · catalog | 1 · guest |
 | AC-CAT-02 | P0 | Lọc theo danh mục, giới tính, khoảng giá, từ khoá (tìm không dấu:… | `routes/catalog.js` | — | 4 · catalog | 1 · guest |
 | AC-CAT-03 | P0 | Xem chi tiết theo mã; sản phẩm ẩn hoặc không tồn tại → 404 với khách. | `routes/catalog.js` | — | 1 · catalog | — |
