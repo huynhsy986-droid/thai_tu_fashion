@@ -61,7 +61,7 @@ export function notFoundHandler(req, res) {
 }
 
 /** Middleware lỗi cuối cùng của Express. */
-export function errorHandler(logger = console) {
+export function errorHandler(logger = console, monitor = { captureException() {} }) {
   // eslint-disable-next-line no-unused-vars
   return (err, req, res, next) => {
     if (err?.type === 'entity.parse.failed') {
@@ -76,7 +76,10 @@ export function errorHandler(logger = console) {
       if (e.details !== undefined) body.error.details = e.details;
       return res.status(e.status).json(body);
     }
-    logger.error('[api] lỗi không mong đợi:', err);
-    return res.status(500).json({ error: { code: 'INTERNAL', message: 'Có lỗi xảy ra, vui lòng thử lại sau.' } });
+    const ctx = { reqId: req.id, userId: req.user?.id, method: req.method, path: req.originalUrl?.split('?')[0] };
+    logger.error('unhandled error', { ...ctx, err });
+    monitor.captureException(err, ctx);
+    // Không lộ stack trace; trả mã tham chiếu để người dùng báo lại
+    return res.status(500).json({ error: { code: 'INTERNAL', message: 'Có lỗi xảy ra, vui lòng thử lại sau.', requestId: req.id } });
   };
 }

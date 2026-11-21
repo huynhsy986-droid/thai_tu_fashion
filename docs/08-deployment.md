@@ -20,6 +20,12 @@ Trình duyệt ──► Render (Node 22: Express API + frontend tĩnh) ──�
 | `TRUST_PROXY` | `1` | |
 | `SUPABASE_JWT_SECRET` | bỏ trống (token ES256 xác minh qua JWKS; token HS256 xác minh qua `/auth/v1/user`) | có |
 | `CORS_ORIGINS` | địa chỉ web, VD `https://thai-tu-fashion.onrender.com` | |
+| `LOG_FORMAT` | `json` — mỗi dòng log là JSON có `reqId`, xem ở Render → Logs | |
+| `SENTRY_DSN` | DSN project **Node.js** trên sentry.io (tuỳ chọn) | có |
+| `SENTRY_DSN_BROWSER` | DSN project **Browser JavaScript** (tuỳ chọn) | công khai |
+| `GA_MEASUREMENT_ID` | Google Analytics 4 → Data stream Web → `G-XXXXXXXXXX` (tuỳ chọn) | công khai |
+
+**Giám sát:** người dùng gặp lỗi 500 sẽ thấy mã tham chiếu (`requestId`); tìm mã đó trong Render Logs hoặc Sentry (tag `request_id`) để ra đúng request. Để trống 3 biến Sentry/GA thì tính năng tắt hoàn toàn, CSP không mở thêm domain nào.
 
 ## 2. Deploy lên Render (khuyên dùng)
 

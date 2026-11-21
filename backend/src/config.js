@@ -25,6 +25,16 @@ const schema = z.object({
   RATE_LIMIT_CONTACT: z.coerce.number().int().positive().default(10),
   TRUST_PROXY: z.coerce.number().int().min(0).default(0),
   LOG_REQUESTS: z.enum(['true', 'false']).optional(),
+  LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
+  LOG_FORMAT: z.enum(['json', 'pretty']).optional(),
+  // Giám sát & phân tích (Issue #4, #7) — để trống = tắt
+  SENTRY_DSN: z.string().url().optional().or(z.literal('')),
+  SENTRY_DSN_BROWSER: z.string().url().optional().or(z.literal('')),
+  SENTRY_ENVIRONMENT: z.string().optional(),
+  SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0),
+  GA_MEASUREMENT_ID: z.string().regex(/^G-[A-Z0-9]{4,20}$/, 'GA_MEASUREMENT_ID có dạng G-XXXXXXXXXX').optional().or(z.literal('')),
+  RELEASE: z.string().optional(),
+  RENDER_GIT_COMMIT: z.string().optional(),
 });
 
 /** NFR-SEC-02: secret chỉ đến từ biến môi trường. Đọc & kiểm tra cấu hình từ biến môi trường. Ném lỗi rõ ràng nếu thiếu cấu hình bắt buộc. */
@@ -60,5 +70,13 @@ export function loadConfig(env = process.env) {
     rateLimitContact: e.RATE_LIMIT_CONTACT,
     trustProxy: e.TRUST_PROXY,
     logRequests: e.LOG_REQUESTS ? e.LOG_REQUESTS === 'true' : e.NODE_ENV !== 'test',
+    logLevel: e.LOG_LEVEL,
+    logFormat: e.LOG_FORMAT || (isProd ? 'json' : 'pretty'),
+    sentryDsn: e.SENTRY_DSN || undefined,
+    sentryDsnBrowser: e.SENTRY_DSN_BROWSER || undefined,
+    sentryEnvironment: e.SENTRY_ENVIRONMENT || e.NODE_ENV,
+    sentryTracesSampleRate: e.SENTRY_TRACES_SAMPLE_RATE,
+    gaMeasurementId: e.GA_MEASUREMENT_ID || undefined,
+    release: e.RELEASE || (e.RENDER_GIT_COMMIT ? e.RENDER_GIT_COMMIT.slice(0, 7) : undefined),
   });
 }
