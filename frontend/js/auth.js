@@ -12,10 +12,10 @@ function viewLogin(mode) {
   const demoBox = demo
     ? `<div class="msgbox warn">Máy chủ chưa chạy nên trang đang ở <b>chế độ demo</b>: dữ liệu lưu trong trình duyệt, không cần đăng nhập. <a class="tlink" href="#account">Vào tài khoản demo</a></div>`
     : '';
-  return `<div class="wrap sec"><div class="auth">
-  <div class="auth-intro"><span class="eyebrow">${reg ? 'Tạo tài khoản' : 'Chào mừng trở lại'}</span><h1 class="h-xl">${reg ? 'Đăng ký' : 'Đăng nhập'}</h1>
+  return `<div class="wrap sec"><div class="auth tw-mx-auto tw-grid tw-max-w-[980px] tw-grid-cols-1 tw-gap-4 lg:tw-grid-cols-2 lg:tw-items-start">
+  <div class="auth-intro tw-flex tw-flex-col tw-gap-2.5 lg:tw-row-span-2"><span class="eyebrow">${reg ? 'Tạo tài khoản' : 'Chào mừng trở lại'}</span><h1 class="h-xl">${reg ? 'Đăng ký' : 'Đăng nhập'}</h1>
    <p class="lede">Giỏ hàng, đơn hàng, yêu thích và số đo đi theo bạn trên mọi thiết bị.</p></div>
-  <form class="card stack" data-form="${reg ? 'register' : 'login'}" novalidate style="gap:14px">${demoBox}${note}
+  <form class="card stack tw-w-full tw-max-w-[520px] !tw-gap-3.5" data-form="${reg ? 'register' : 'login'}" novalidate>${demoBox}${note}
    ${reg ? Field('au-name', 'Họ tên', '', 'autocomplete="name"') : ''}
    ${Field('au-email', 'Email', '', 'type="email" autocomplete="email" placeholder="ten@email.com"')}
    ${Field('au-pass', 'Mật khẩu', '', `type="password" autocomplete="${reg ? 'new-password' : 'current-password'}"${reg ? ' placeholder="Ít nhất 8 ký tự, có cả chữ và số"' : ''}`)}
@@ -23,7 +23,7 @@ function viewLogin(mode) {
    <button class="btn block" id="au-submit" type="submit">${reg ? 'Tạo tài khoản' : 'Đăng nhập'}</button>
    <p class="small muted">${reg ? 'Đã có tài khoản? <a class="tlink" href="#login">Đăng nhập</a>' : 'Chưa có tài khoản? <a class="tlink" href="#register">Đăng ký ngay</a>'}</p>
   </form>
-  ${reg ? '' : `<div class="card stack auth-demo" style="gap:10px"><div class="h-sm">Tài khoản demo</div><p class="small muted">Dữ liệu giả lập trên Supabase. Bấm để điền sẵn và đăng nhập.</p><div class="row"><button class="btn ghost sm" type="button" data-a="demoLogin" data-k="customer">Khách hàng · Minh Anh</button><button class="btn ghost sm" type="button" data-a="demoLogin" data-k="admin">Quản trị viên</button></div></div>`}
+  ${reg ? '' : `<div class="card stack auth-demo tw-w-full tw-max-w-[520px] !tw-gap-2.5"><div class="h-sm">Tài khoản demo</div><p class="small muted">Dữ liệu giả lập trên Supabase. Bấm để điền sẵn và đăng nhập.</p><div class="row tw-flex-wrap !tw-gap-2"><button class="btn ghost sm" type="button" data-a="demoLogin" data-k="customer">Khách hàng · Minh Anh</button><button class="btn ghost sm" type="button" data-a="demoLogin" data-k="admin">Quản trị viên</button></div></div>`}
  </div></div><div style="height:var(--sec)"></div>`;
 }
 
@@ -31,7 +31,7 @@ function viewLogin(mode) {
 function SessionBox() {
   const u = API.user();
   if (!u) return '';
-  return `<div class="card sess"><div class="stack" style="gap:2px"><span class="xs muted">Đăng nhập bằng</span><b>${esc(u.email)}</b></div><div class="acts">${u.role === 'admin' ? '<a class="btn ghost sm" href="#admin">Trang quản trị</a>' : ''}<button class="btn ghost sm" data-a="logout">Đăng xuất</button></div></div>`;
+  return `<div class="card sess tw-mb-3 tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-3"><div class="stack !tw-gap-0.5"><span class="xs muted">Đăng nhập bằng</span><b>${esc(u.email)}</b></div><div class="acts tw-flex tw-flex-wrap tw-gap-2">${u.role === 'admin' ? '<a class="btn ghost sm" href="#admin">Trang quản trị</a>' : ''}<button class="btn ghost sm" data-a="logout">Đăng xuất</button></div></div>`;
 }
 
 function setBusy(on, label) {
