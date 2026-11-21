@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 28, integration 90, e2e 34.
+**Tổng:** 40 AC + 8 NFR · 48/48 mục có test · số lần được test: unit 28, integration 90, e2e 36.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -53,7 +53,7 @@
 | NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 2 · observability, security | — |
 | NFR-REL-01 | NFR | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu… | `sync.js` | — | — | 3 · contact, resilience |
 | NFR-QA-01 | NFR | Có unit test, integration test (DB thật) và e2e test (trình duyệt… | — | — | — | 1 · routes |
-| NFR-OBS-01 | NFR | Log JSON mỗi request (request id, method, path, status, thời gian,… | — | 3 · logger | 4 · observability | — |
+| NFR-OBS-01 | NFR | Log JSON mỗi request (request id, method, path, status, thời gian,… | — | 3 · logger | 4 · observability | 2 · tracking |
 | NFR-DATA-01 | NFR | Tiền là số nguyên VND; thời gian lưu `timestamptz`. | — | — | 1 · contract | — |
 
 **Mọi AC và NFR đều có ít nhất một test.**
