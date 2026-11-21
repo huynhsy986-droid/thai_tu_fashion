@@ -29,6 +29,22 @@ paths:
       summary: Kiểm tra API và kết nối DB
       responses:
         '200': { description: OK, content: { application/json: { schema: { type: object, properties: { ok: { type: boolean }, db: { type: string }, authProvider: { type: string } } } } } }
+  /api/config:
+    get:
+      tags: [system]
+      summary: Cấu hình công khai cho frontend — GA4 Measurement ID, Sentry DSN trình duyệt (NFR-OBS-01)
+      responses:
+        '200':
+          description: OK (null = chưa cấu hình, tính năng tắt)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  gaMeasurementId: { type: string, nullable: true, example: G-XXXXXXXXXX }
+                  sentryDsn: { type: string, nullable: true }
+                  environment: { type: string }
+                  release: { type: string, nullable: true }
 
   /api/auth/register:
     post:
@@ -609,6 +625,7 @@ components:
             createdAt: { type: string, format: date-time }
     Error:
       type: object
+      description: Mọi phản hồi có header X-Request-Id; lỗi 500 trả thêm error.requestId để đối chiếu log/Sentry.
       properties:
         error:
           type: object

@@ -29,3 +29,11 @@ services:
         value: sb_publishable_JSzQ9dv_Ug9kPvi3qlxr_g_rfHCFc8F
       - key: CORS_ORIGINS          # https://thai-tu-fashion.onrender.com,https://<tên-miền-riêng>
         sync: false
+      - key: LOG_FORMAT
+        value: json
+      - key: SENTRY_DSN            # Sentry project Node.js (tuỳ chọn)
+        sync: false
+      - key: SENTRY_DSN_BROWSER    # Sentry project Browser JavaScript (tuỳ chọn, công khai)
+        sync: false
+      - key: GA_MEASUREMENT_ID     # Google Analytics 4, dạng G-XXXXXXXXXX (tuỳ chọn, công khai)
+        sync: false

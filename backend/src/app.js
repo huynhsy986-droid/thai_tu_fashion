@@ -1,10 +1,13 @@
 import fs from 'node:fs';
+import { randomUUID } from 'node:crypto';
 import express from 'express';
+import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { authenticate, requireAdmin } from './auth/middleware.js';
 import { errorHandler, notFoundHandler } from './lib/errors.js';
+import { noopMonitor } from './lib/monitoring.js';
 import { authRoutes } from './routes/auth.js';
 import { catalogRoutes } from './routes/catalog.js';
 import { cartRoutes } from './routes/cart.js';
@@ -16,13 +19,18 @@ import { adminOrderRoutes } from './routes/admin/orders.js';
 import { adminMiscRoutes } from './routes/admin/misc.js';
 import { contactRoutes, adminContactRoutes } from './routes/contact.js';
 
+// Domain Google Analytics 4 (gtag.js) — chỉ thêm vào CSP khi có GA_MEASUREMENT_ID
+const GA_SCRIPT = ['https://www.googletagmanager.com'];
+const GA_CONNECT = ['https://www.google-analytics.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://www.googletagmanager.com'];
+const REQ_ID = /^[\w-]{8,64}$/;
+
 const limitBody = (code) => ({ error: { code: 'RATE_LIMITED', message: code } });
 
 /**
  * Tạo Express app. Phụ thuộc được truyền vào để test thay thế dễ dàng.
- * @param {{config: object, db: object, tokens: object, authProvider: object, logger?: Console}} deps
+ * @param {{config: object, db: object, tokens: object, authProvider: object, logger?: object, monitor?: object}} deps
  */
-export function createApp({ config, db, tokens, authProvider, logger = console }) {
+export function createApp({ config, db, tokens, authProvider, logger = console, monitor = noopMonitor }) {
   const app = express();
   app.disable('x-powered-by');
   if (config.trustProxy) app.set('trust proxy', config.trustProxy);
@@ -33,11 +41,16 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],
+          scriptSrc: ["'self'", ...(config.gaMeasurementId ? GA_SCRIPT : [])],
           styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
           fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
-          imgSrc: ["'self'", 'data:', 'blob:'],
-          connectSrc: ["'self'", ...(config.supabaseUrl ? [config.supabaseUrl] : [])],
+          imgSrc: ["'self'", 'data:', 'blob:', ...(config.gaMeasurementId ? GA_CONNECT : [])],
+          connectSrc: [
+            "'self'",
+            ...(config.supabaseUrl ? [config.supabaseUrl] : []),
+            ...(config.gaMeasurementId ? GA_CONNECT : []),
+            ...(config.sentryDsnBrowser ? [new URL(config.sentryDsnBrowser).origin] : []),
+          ],
           objectSrc: ["'none'"],
           frameAncestors: ["'none'"],
         },
@@ -54,12 +67,27 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
       maxAge: 600,
     }),
   );
+  // Lighthouse: nén gzip/brotli cho HTML/JS/CSS/JSON (Issue #4)
+  app.use(compression({ threshold: 1024 }));
   app.use(express.json({ limit: '300kb' }));
+
+  // Request id: nhận từ proxy nếu hợp lệ, không thì tự sinh; trả lại ở header để đối chiếu log/Sentry
+  app.use('/api', (req, res, next) => {
+    const incoming = req.get('x-request-id');
+    req.id = incoming && REQ_ID.test(incoming) ? incoming : randomUUID();
+    res.setHeader('X-Request-Id', req.id);
+    next();
+  });
 
   if (config.logRequests) {
     app.use('/api', (req, res, next) => {
       const t = process.hrtime.bigint();
-      res.on('finish', () => logger.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${Number(process.hrtime.bigint() - t) / 1e6 | 0}ms`));
+      res.on('finish', () => {
+        const fields = { reqId: req.id, method: req.method, path: req.originalUrl.split('?')[0], status: res.statusCode, ms: Math.round(Number(process.hrtime.bigint() - t) / 1e6), userId: req.user?.id, ip: req.ip };
+        if (res.statusCode >= 500) logger.error('request', fields);
+        else if (res.statusCode >= 400) logger.warn('request', fields);
+        else logger.info('request', fields);
+      });
       next();
     });
   }
@@ -75,6 +103,17 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
       dbState = 'down';
     }
     res.status(dbState === 'ok' ? 200 : 503).json({ ok: dbState === 'ok', db: dbState, authProvider: authProvider.name });
+  });
+
+  // Cấu hình công khai cho frontend (GA, Sentry trình duyệt). Không chứa secret.
+  app.get('/api/config', (req, res) => {
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.json({
+      gaMeasurementId: config.gaMeasurementId || null,
+      sentryDsn: config.sentryDsnBrowser || null,
+      environment: config.sentryEnvironment,
+      release: config.release || null,
+    });
   });
 
   app.use('/api', authenticate(tokens, db));
@@ -100,6 +139,6 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
     }));
   }
 
-  app.use(errorHandler(logger));
+  app.use(errorHandler(logger, monitor));
   return app;
 }

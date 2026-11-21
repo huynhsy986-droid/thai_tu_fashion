@@ -118,6 +118,7 @@ Quy ước: mỗi AC có mã `AC-<NHÓM>-<số>`. Mã này xuất hiện trong t
 | NFR-PERF-01 | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. |
 | NFR-REL-01 | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu cục bộ) và báo cho người dùng. |
 | NFR-QA-01 | Có unit test, integration test (DB thật) và e2e test (trình duyệt thật), chạy được bằng 1 lệnh và trong CI. |
+| NFR-OBS-01 | Log JSON mỗi request (request id, method, path, status, thời gian, user id), header `X-Request-Id`; lỗi 5xx gửi Sentry kèm request id, không lộ stack; Google Analytics 4 & Sentry trình duyệt bật qua biến môi trường. |
 | NFR-DATA-01 | Tiền là số nguyên VND; thời gian lưu `timestamptz`. |
 
 ## 6. Dữ liệu mẫu (giả lập)
