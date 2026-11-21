@@ -1,13 +1,18 @@
-# Render Blueprint: New → Blueprint → chọn repo này. Điền các biến "sync: false" trong Dashboard.
+# Render Blueprint (không dùng Docker): New → Blueprint → chọn repo này. Điền các biến "sync: false" trong Dashboard.
+# Một dịch vụ Node: backend Express phục vụ luôn frontend tĩnh (thư mục frontend/).
 services:
   - type: web
     name: thai-tu-fashion
-    runtime: docker
+    runtime: node
     plan: starter
     region: singapore          # gần Supabase ap-southeast-1
+    buildCommand: cd backend && npm ci --omit=dev
+    startCommand: cd backend && node src/server.js
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
+      - key: NODE_VERSION
+        value: "22"
       - key: NODE_ENV
         value: production
       - key: AUTH_PROVIDER

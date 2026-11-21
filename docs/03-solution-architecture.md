@@ -155,5 +155,5 @@ thai-tu-fashion/
 | Môi trường | Database | Auth | Lệnh |
 |---|---|---|---|
 | Local nhanh (không Docker) | Postgres 16 local + shim | `local` | `scripts/db-reset.sh && npm --prefix backend start` |
-| Local đầy đủ Supabase | `supabase start` (Docker) | `supabase` | `supabase db reset` rồi chạy backend với key in ra |
-| Production | Supabase Cloud (`supabase db push`) | `supabase` | Backend lên Render/Fly/Railway, `STATIC_DIR=../frontend` |
+| Local nối Supabase Cloud | Supabase Cloud (Session pooler) | `supabase` | `npm --prefix backend start` với `.env` trỏ tới project |
+| Production | Supabase Cloud (`scripts/supabase-setup.sh`) | `supabase` | Render chạy Node trực tiếp (`render.yaml`), không Docker |

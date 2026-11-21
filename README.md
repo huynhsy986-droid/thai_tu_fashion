@@ -13,7 +13,7 @@ Dự án được hoàn thiện theo quy trình 3 bước với một nhóm 3 ng
 | | Frontend = ①+②+③+⑤: Plan → Review plan → Code → Test | TV3 · huynhsy986-droid (Frontend & QA) | [`plans/frontend-plan.md`](docs/plans/frontend-plan.md) · `frontend/` |
 | | Đánh giá, truy vết, CI | TV3 | [`06-test-report.md`](docs/06-test-report.md) · [`traceability.md`](docs/traceability.md) · `.github/workflows/ci.yml` |
 | Hoàn thành | Supabase thật: migrations + dữ liệu thật + kiểm chứng | TV2 | [`07-supabase-production.md`](docs/07-supabase-production.md) · `supabase/catalog.sql` · `scripts/supabase-setup.sh` |
-| | Đóng gói & deploy | TV3 | [`08-deployment.md`](docs/08-deployment.md) · `Dockerfile` · `render.yaml` |
+| | Đóng gói & deploy | TV3 | [`08-deployment.md`](docs/08-deployment.md) · `render.yaml` |
 | | Rule + Skill + Constraint cho AI coding agent | cả nhóm | [`CLAUDE.md`](CLAUDE.md) · `.claude/skills/` |
 
 Quy trình chi tiết: [`docs/00-team-workflow.md`](docs/00-team-workflow.md).
@@ -39,26 +39,22 @@ cd backend && cp .env.example .env && npm install && npm start
 
 Không có máy chủ? Mở `frontend/index.html?demo` — giao diện chạy chế độ demo như prototype.
 
-## Chạy với Supabase
+## Chạy với Supabase Cloud (không cần Docker)
 
-```bash
-supabase start                 # Docker: Postgres + Auth + Studio (config: supabase/config.toml)
-supabase db reset              # chạy supabase/migrations/* + supabase/seed.sql
-```
 `backend/.env`:
 ```
 AUTH_PROVIDER=supabase
-SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_ANON_KEY=<anon key in ra từ supabase start>
-SUPABASE_JWT_SECRET=<JWT secret in ra từ supabase start>
-DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
+SUPABASE_URL=https://ceryulbobrlyxckrezts.supabase.co
+SUPABASE_ANON_KEY=sb_publishable_JSzQ9dv_Ug9kPvi3qlxr_g_rfHCFc8F
+DATABASE_URL=<Supabase → Connect → Session pooler, điền Database password>
+DATABASE_SSL=true
 ```
-Supabase Cloud: `supabase link --project-ref <ref> && supabase db push`, đặt `DATABASE_URL` là chuỗi Transaction pooler và `DATABASE_SSL=true`. Không chạy các file trong `supabase/local/` trên Supabase thật.
+Rồi `cd backend && npm start`. Dự án Supabase mới: `SUPABASE_DB_URL=... scripts/supabase-setup.sh --catalog` (chỉ cần `psql`). Không chạy các file trong `supabase/local/` trên Supabase thật.
 
 ## Production
 
 - **Database:** Supabase `thai-tu-fashion-v1` (Singapore) — đã chạy migrations, nạp dữ liệu thật, kiểm chứng: [`docs/07-supabase-production.md`](docs/07-supabase-production.md).
-- **Deploy:** Docker / Render Blueprint (`render.yaml`) — hướng dẫn và biến môi trường: [`docs/08-deployment.md`](docs/08-deployment.md).
+- **Deploy:** Render Blueprint chạy Node trực tiếp, không cần Docker (`render.yaml`) — hướng dẫn và biến môi trường: [`docs/08-deployment.md`](docs/08-deployment.md).
 - Dự án Supabase mới: `SUPABASE_DB_URL=... scripts/supabase-setup.sh --catalog`. Cấp quyền admin: `cd backend && npm run make-admin -- <email>`.
 
 ## Kiểm thử

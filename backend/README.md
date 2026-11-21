@@ -12,16 +12,14 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/thaitu ../scripts/db-re
 cp .env.example .env && npm install && npm start
 ```
 
-## Chạy với Supabase
+## Chạy với Supabase Cloud (không cần Docker)
 
 ```bash
-supabase start            # Docker: Postgres + Auth + Studio
-supabase db reset         # migrations + seed.sql
-# .env: AUTH_PROVIDER=supabase, SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_JWT_SECRET,
-#       DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
+# .env: AUTH_PROVIDER=supabase, SUPABASE_URL, SUPABASE_ANON_KEY,
+#       DATABASE_URL=<Supabase → Connect → Session pooler>, DATABASE_SSL=true
 npm start
 ```
-Supabase Cloud: `supabase link --project-ref <ref> && supabase db push`, sau đó `psql "$DATABASE_URL" -f ../supabase/seed.sql` nếu muốn dữ liệu demo.
+Dự án Supabase mới: `SUPABASE_DB_URL=... ../scripts/supabase-setup.sh --catalog` để chạy migrations + nạp dữ liệu thật.
 
 ## Cấu trúc
 
