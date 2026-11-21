@@ -42,7 +42,7 @@ describe('Contract · API ⇔ tài liệu', () => {
   });
 
   it('mọi operation cần đăng nhập đều khai báo bearerAuth và trả 401 khi thiếu token', async () => {
-    const pub = new Set(['/api/health', '/api/auth/register', '/api/auth/login', '/api/catalog', '/api/categories', '/api/colors', '/api/shipping-methods', '/api/products', '/api/products/{id}', '/api/newsletter', '/api/contact']);
+    const pub = new Set(['/api/health', '/api/config', '/api/auth/register', '/api/auth/login', '/api/catalog', '/api/categories', '/api/colors', '/api/shipping-methods', '/api/products', '/api/products/{id}', '/api/newsletter', '/api/contact']);
     for (const [p, ops] of Object.entries(spec.paths)) {
       for (const m of Object.keys(ops).filter((x) => METHODS.includes(x))) {
         const isPublic = pub.has(p) || (p === '/api/products/{id}/reviews' && m === 'get');

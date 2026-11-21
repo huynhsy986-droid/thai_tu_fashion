@@ -3,7 +3,7 @@
 > Sinh tự động bởi `node scripts/trace.mjs` (TV3). Quét mã AC trong PRD, tên test (unit/integration/e2e) và chú thích trong mã nguồn.
 > Số trong ô = số test có nhắc mã AC trong tên · tên file test.
 
-**Tổng:** 39 AC + 7 NFR · 46/46 mục có test · số lần được test: unit 25, integration 85, e2e 30.
+**Tổng:** 39 AC + 8 NFR · 47/47 mục có test · số lần được test: unit 28, integration 90, e2e 30.
 
 | Mã | Ưu tiên | Mô tả | Code | Unit | Integration | E2E |
 |---|---|---|---|---|---|---|
@@ -49,9 +49,10 @@
 | NFR-SEC-01 | NFR | Bật Row Level Security trên mọi bảng `public`; vai trò `anon` chỉ… | `20261121000300_rls_policies.sql` | — | 7 · catalog, rls | — |
 | NFR-SEC-02 | NFR | Secret (service role key, JWT secret, DB URL) chỉ ở biến môi… | `config.js` | 1 · config | — | — |
 | NFR-SEC-03 | NFR | Giới hạn tần suất các endpoint đăng nhập/đăng ký; header bảo mật… | `app.js` | — | 5 · security | — |
-| NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 1 · security | — |
+| NFR-PERF-01 | NFR | API danh mục phản hồi < 300 ms (p95) với dữ liệu mẫu. | — | — | 2 · observability, security | — |
 | NFR-REL-01 | NFR | API không truy cập được → giao diện vẫn chạy chế độ demo (dữ liệu… | `sync.js` | — | — | 2 · resilience |
 | NFR-QA-01 | NFR | Có unit test, integration test (DB thật) và e2e test (trình duyệt… | — | — | — | 1 · routes |
+| NFR-OBS-01 | NFR | Log JSON mỗi request (request id, method, path, status, thời gian,… | — | 3 · logger | 4 · observability | — |
 | NFR-DATA-01 | NFR | Tiền là số nguyên VND; thời gian lưu `timestamptz`. | — | — | 1 · contract | — |
 
 **Mọi AC và NFR đều có ít nhất một test.**
