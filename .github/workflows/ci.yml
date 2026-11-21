@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_PG_URL: postgres://postgres:postgres@localhost:5432
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Seed khớp prototype (seed.sql phải được sinh lại khi data.js đổi)
+        run: node scripts/gen-seed.mjs && git diff --exit-code supabase/seed.sql
+
+      - name: Migrations + seed chạy sạch trên Postgres
+        run: DATABASE_URL=$TEST_PG_URL/thaitu_ci bash scripts/db-reset.sh
+
+      - name: Backend · cài đặt
+        working-directory: backend
+        run: npm ci
+      - name: Backend · unit test
+        working-directory: backend
+        run: npm run test:unit
+      - name: Backend · integration test (Postgres thật, RLS)
+        working-directory: backend
+        run: npm run test:integration
+
+      - name: Frontend · cài đặt
+        working-directory: frontend
+        run: npm ci && npx playwright install --with-deps chromium
+      - name: Frontend · e2e (Playwright)
+        working-directory: frontend
+        env:
+          CHROME_PATH: ''
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+
+      - name: Ma trận truy vết AC → test
+        run: node scripts/trace.mjs --check

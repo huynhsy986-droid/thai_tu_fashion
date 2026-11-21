@@ -70,4 +70,16 @@ describe('Contract · API ⇔ tài liệu', () => {
     const codes = spec.components.schemas.Error.properties.error.properties.code.enum;
     expect([...hints].filter((h) => !codes.includes(h))).toEqual([]);
   });
+
+  it('NFR-DATA-01 tiền là số nguyên VND, thời gian là timestamptz trên mọi bảng', async () => {
+    const { rows: money } = await t.sql(`select table_name, column_name, data_type from information_schema.columns
+      where table_schema = 'public' and column_name ~ '(price|subtotal|discount|fee|total|value|min_subtotal|threshold)$'
+        and table_name not like 'product_rating%'`);
+    expect(money.length).toBeGreaterThanOrEqual(10);
+    expect(money.filter((c) => c.data_type !== 'integer')).toEqual([]);
+    const { rows: times } = await t.sql(`select table_name, column_name, data_type from information_schema.columns
+      where table_schema = 'public' and column_name ~ '_at$'`);
+    expect(times.length).toBeGreaterThanOrEqual(15);
+    expect(times.filter((c) => c.data_type !== 'timestamp with time zone')).toEqual([]);
+  });
 });

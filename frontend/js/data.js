@@ -150,5 +150,5 @@ function seedState(){
     outfits:[{id:'o1',name:'Đi học thứ Hai',at:now-6*DAY,slots:{top:{pid:'k02',color:'mint'},bottom:{pid:'k11',color:'ltdenim'},shoes:{pid:'k16',color:'white'},hat:{pid:'k21',color:'mint'}}}],
     measures:{height:165,weight:54,chest:86,waist:68,hip:93,fit:'regular'},
     user:{name:'Nguyễn Minh Anh',phone:'0901 234 567',email:'minhanh@demo.thaitu.vn',address:'24 Lý Tự Trọng, Quận 1, TP. Hồ Chí Minh',birthday:'1998-05-14'},
-    draftOutfit:{outer:{pid:'k07',color:'navy'},top:{pid:'k06',color:'white'},bottom:{pid:'k11',color:'ltdenim'},shoes:{pid:'k18',color:'white'}},tryons:[],news:[],dropAlert:false,seq:2000};
+    draftOutfit:{outer:{pid:'k07',color:'navy'},top:{pid:'k06',color:'white'},bottom:{pid:'k11',color:'ltdenim'},shoes:{pid:'k18',color:'white'}},tryons:[],news:[],dropAlert:false,seq:2000,meId:'c1'};
 }/* ===== Store, helpers, shared components ===== */

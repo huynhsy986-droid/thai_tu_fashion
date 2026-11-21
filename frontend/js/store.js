@@ -32,7 +32,7 @@ function track(id){const v=(S.viewed||[]).filter(x=>x!==id);v.unshift(id);S.view
 function forYou(n=4){
  const seeds=[];(S.viewed||[]).forEach((id,i)=>seeds.push({id,w:Math.max(.6,1.6-i*.15),why:'xem'}));
  S.wish.forEach(w=>seeds.push({id:w.pid,w:2,why:'thich'}));S.cart.forEach(c=>seeds.push({id:c.pid,w:2.4,why:'gio'}));
- S.orders.filter(o=>o.cid==='c1').forEach(o=>o.items.forEach(i=>seeds.push({id:i.pid,w:1,why:'mua'})));
+ S.orders.filter(o=>o.cid===S.meId).forEach(o=>o.items.forEach(i=>seeds.push({id:i.pid,w:1,why:'mua'})));
  const sd=seeds.map(x=>({...x,p:P(x.id)})).filter(x=>x.p);if(!sd.length)return[];
  const skip=new Set(sd.filter(x=>x.why!=='mua').map(x=>x.id));
  const WHY={xem:'Vì bạn đã xem',thich:'Hợp với món bạn thích',gio:'Hợp với món trong giỏ',mua:'Hợp với món bạn đã mua'};

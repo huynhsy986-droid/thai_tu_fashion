@@ -65,6 +65,7 @@ export function catalogRoutes() {
     res.set('Cache-Control', req.user ? 'private, no-store' : 'public, max-age=30').json(data);
   });
 
+  // AC-CAT-04
   r.get('/categories', async (req, res) => {
     const rows = await req.db(async (c) => (await c.query(CATEGORY_SQL)).rows);
     res.json({ items: rows.map(toCategory) });

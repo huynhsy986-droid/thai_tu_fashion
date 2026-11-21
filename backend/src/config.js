@@ -26,7 +26,7 @@ const schema = z.object({
   LOG_REQUESTS: z.enum(['true', 'false']).optional(),
 });
 
-/** Đọc & kiểm tra cấu hình từ biến môi trường. Ném lỗi rõ ràng nếu thiếu cấu hình bắt buộc. */
+/** NFR-SEC-02: secret chỉ đến từ biến môi trường. Đọc & kiểm tra cấu hình từ biến môi trường. Ném lỗi rõ ràng nếu thiếu cấu hình bắt buộc. */
 export function loadConfig(env = process.env) {
   const e = schema.parse(env);
   const isProd = e.NODE_ENV === 'production';

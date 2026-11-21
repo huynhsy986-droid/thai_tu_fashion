@@ -26,6 +26,7 @@ export function createApp({ config, db, tokens, authProvider, logger = console }
   app.disable('x-powered-by');
   if (config.trustProxy) app.set('trust proxy', config.trustProxy);
 
+  // NFR-SEC-03: Helmet + CSP, CORS theo danh sách, rate-limit, giới hạn body
   app.use(
     helmet({
       contentSecurityPolicy: {

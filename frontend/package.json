@@ -1,0 +1,16 @@
+{
+  "name": "thai-tu-fashion-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SPA Thai Tu Fashion (prototype Claude Design) nối với API Supabase",
+  "scripts": {
+    "start": "npx --yes serve . -l 8080",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.48",
+    "pg": "^8.23.1"
+  }
+}
