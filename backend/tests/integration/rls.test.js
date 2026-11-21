@@ -17,7 +17,7 @@ describe('NFR-SEC-01 · Row Level Security trên Supabase Postgres', () => {
     const { rows } = await t.sql("select relname from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity");
     expect(rows).toEqual([]);
     const { rows: all } = await t.sql("select count(*)::int as n from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind = 'r'");
-    expect(all[0].n).toBe(18);
+    expect(all[0].n).toBe(19);
   });
 
   it('NFR-SEC-01 anon chỉ đọc catalogue công khai', async () => {

@@ -11,6 +11,7 @@ erDiagram
   PROFILES ||--o{ WISHLIST_ITEMS : has
   PROFILES ||--o{ RESTOCK_SUBSCRIPTIONS : has
   PROFILES ||--o{ ORDERS : places
+  PROFILES |o--o{ CONTACT_MESSAGES : sends
   PROFILES ||--o{ REVIEWS : writes
   PROFILES ||--o{ NOTIFICATIONS : receives
   PROFILES ||--o{ OUTFITS : saves
@@ -159,6 +160,17 @@ erDiagram
     numeric weight_kg "35..150"
     text fit_pref
   }
+  CONTACT_MESSAGES {
+    uuid id PK
+    uuid user_id FK "null nếu khách chưa đăng nhập"
+    text name "2..80"
+    text email
+    text phone "0 + 9 số, tuỳ chọn"
+    text topic "order|product|size|return|partner|other"
+    text order_code "TTxxxx, tuỳ chọn"
+    text message "10..2000"
+    contact_status status "new|read|replied"
+  }
 ```
 
 Ngoài ra: `newsletter_subscribers(email PK)`, view `product_rating_stats(product_id, rating_avg, rating_count)` (security_invoker).
@@ -174,6 +186,7 @@ Ngoài ra: `newsletter_subscribers(email PK)`, view `product_rating_stats(produc
 | Snapshot đơn hàng | `order_items.product_name`, `unit_price` lưu tại thời điểm mua | AC-ORD-04 |
 | Không xoá danh mục còn SP | FK `on delete restrict` → API trả 409 | AC-ADM-03 |
 | Mã đơn dạng `TTxxxx` | `default 'TT' || nextval('order_number_seq')` | AC-ORD-01 |
+| Chống spam liên hệ | `submit_contact` tối đa 5 tin/email/giờ (+ rate-limit API 10 tin/10 phút/IP) | AC-CON-01 |
 
 ## 3. Functions & triggers
 
@@ -192,6 +205,8 @@ Ngoài ra: `newsletter_subscribers(email PK)`, view `product_rating_stats(produc
 | `admin_set_order_status(id, status, note)` | RPC | admin đổi trạng thái |
 | `admin_dashboard()` | RPC | số liệu tổng quan |
 | `subscribe_newsletter(email)` | RPC | đăng ký nhận tin |
+| `submit_contact(name, email, phone, topic, order_code, message)` | RPC | gửi tin nhắn liên hệ (migration 005) |
+| `admin_contact_unread()` | RPC | số tin nhắn mới |
 
 ## 4. Ma trận RLS
 
@@ -206,6 +221,7 @@ Ngoài ra: `newsletter_subscribers(email PK)`, view `product_rating_stats(produc
 | orders, order_items, order_status_history | — | đọc của mình; ghi qua RPC | đọc tất cả; ghi qua RPC |
 | coupons | — | — (kiểm tra qua `cart_quote`) | CRUD |
 | newsletter_subscribers | ghi qua RPC | ghi qua RPC | đọc |
+| contact_messages | ghi qua RPC | ghi qua RPC | đọc/sửa trạng thái/xoá |
 
 ## 5. Dữ liệu giả lập
 
