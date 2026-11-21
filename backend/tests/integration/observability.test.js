@@ -21,7 +21,7 @@ describe('NFR-OBS-01 · Request id, cấu hình tracking, nén', () => {
   it('NFR-OBS-01 GET /api/config trả cấu hình công khai, không lộ secret', async () => {
     const r = await t.api().get('/api/config');
     expect(r.status).toBe(200);
-    expect(r.body).toEqual({ gaMeasurementId: 'G-TEST12345', sentryDsn: 'https://abc@o1.ingest.sentry.io/2', environment: 'test', release: 'abc1234' });
+    expect(r.body).toEqual({ gaMeasurementId: 'G-TEST12345', sentryDsn: 'https://abc@o1.ingest.sentry.io/2', environment: 'test', release: 'abc1234', demoAccounts: true });
     expect(JSON.stringify(r.body)).not.toMatch(/secret|DATABASE|postgres/i);
   });
 
