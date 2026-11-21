@@ -46,6 +46,27 @@ export function createTokenService({ jwtSecret, jwtTtl = 3600, supabaseUrl, supa
         .sign(secret);
       return { accessToken: token, expiresAt: now + ttl };
     },
+    /** Token phụ (local/CI): refresh 30 ngày, đặt lại mật khẩu 30 phút. Audience riêng → không dùng được thay access token. */
+    async signAux(kind, user, extra = {}) {
+      if (!secret) throw new Error('Không có secret để ký token.');
+      const ttl = kind === 'refresh' ? 30 * 86400 : 1800;
+      const now = Math.floor(Date.now() / 1000);
+      return new SignJWT({ email: user.email, ...extra })
+        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+        .setSubject(user.id)
+        .setAudience(`thaitu-${kind}`)
+        .setIssuer('thai-tu-fashion')
+        .setIssuedAt(now)
+        .setExpirationTime(now + ttl)
+        .setJti(crypto.randomUUID())
+        .sign(secret);
+    },
+    async verifyAux(kind, token) {
+      if (!secret) throw new Error('Không có secret.');
+      const { payload } = await jwtVerify(token, secret, { audience: `thaitu-${kind}`, issuer: 'thai-tu-fashion', algorithms: ['HS256'] });
+      if (!payload.sub) throw new Error('Token không hợp lệ.');
+      return payload;
+    },
     async verify(token) {
       let alg;
       try { alg = decodeProtectedHeader(token).alg; } catch { throw new Error('Token không hợp lệ.'); }
