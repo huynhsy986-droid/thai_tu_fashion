@@ -21,6 +21,13 @@
 | 5 | Kiểm tra màu, chữ, khoảng cách, ảnh có nhất quán không | Aesthetics |
 | 6 | Dùng bàn phím (Tab) và phóng to 200% | Usability (tiếp cận) |
 
+## Đã review
+
+| Nhóm | Dự án | File |
+|---|---|---|
+| Nhóm FocuSpace | https://focuspace-iota.vercel.app | [review-focuspace.md](review-focuspace.md) |
+| Nhóm PawPass | https://pawpass-hosothucung-web.vercel.app | [review-pawpass.md](review-pawpass.md) |
+
 ## Góp ý nhóm mình nhận được
 
 Mỗi góp ý tạo **1 issue** nhãn `task-5-peer-review`, ghi nguồn. Quyết định:
