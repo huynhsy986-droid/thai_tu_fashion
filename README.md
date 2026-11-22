@@ -358,7 +358,7 @@ Review ngày 22/11/2026 trên Chrome, máy tính và điện thoại.
 - [x] **Source code trên GitHub**: https://github.com/huynhsy986-droid/thai_tu_fashion
 - [x] **README.md**: hướng dẫn cài đặt, tổng quan, tính năng có screenshots, ERD
 - [x] **Video demo trên YouTube**: https://youtu.be/AcWo1JPZ79o
-- [ ] **Self-Report**: mỗi thành viên đã commit file vào `docs/self-reports/`
+- [x] **Self-Report**: mỗi thành viên đã commit file vào `docs/self-reports/`
 
 ---
 
