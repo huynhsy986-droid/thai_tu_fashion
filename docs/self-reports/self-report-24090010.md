@@ -1,7 +1,6 @@
 # Self-Report: Final Project
 
-> **Bản nháp** do nhóm chuẩn bị sẵn phần "đã làm" và "bằng chứng" từ lịch sử GitHub của `nguyen06-vn`.
-> Chủ tài khoản: (1) điền các ô ⟨…⟩ (khó khăn, tự đánh giá, tổng kết, % đóng góp), (2) sửa/bổ sung phần đã làm cho đúng thực tế, (3) xoá dòng ghi chú này, (4) tự commit bằng tài khoản GitHub của mình. Phần tự đánh giá do chính bạn viết.
+
 
 ---
 
@@ -32,10 +31,11 @@ Thiết kế kiến trúc (SPA + Express + Supabase), chọn công nghệ; setup
 
 **Difficulties encountered:**
 
-⟨tự viết⟩
+Phải chọn kiến trúc vừa đủ cho đồ án nhưng vẫn chạy được thật trên Supabase: vừa giữ giao diện prototype, vừa có REST API và phân quyền đúng. Việc cấu hình dự án Supabase lần đầu (Auth, khoá công khai, kết nối pooler) mất khá nhiều thời gian tìm hiểu.
+
 
 **Self-assessment:** ⟨1–10⟩
-
+8 
 ---
 
 ## Task 2 — UI Implementation
@@ -54,10 +54,10 @@ Cung cấp API cho các trang (catalog, giỏ, đơn, tài khoản) theo DTO gi�
 
 **Difficulties encountered:**
 
-⟨tự viết⟩
+Dữ liệu API phải trả về đúng "hình dạng" mà giao diện prototype đang dùng để frontend không phải viết lại, nên em phải viết lớp chuyển đổi dữ liệu và thống nhất với bạn làm frontend nhiều lần.
 
 **Self-assessment:** ⟨1–10⟩
-
+8
 ---
 
 ## Task 3 — Database Integration
@@ -78,10 +78,11 @@ ERD 19 bảng, 5 migrations, RLS, function `cart_quote`/`place_order`; REST API 
 
 **Difficulties encountered:**
 
-⟨tự viết⟩
+Khó nhất là Row Level Security: mỗi truy vấn phải chạy dưới quyền đúng người dùng để khách không xem được dữ liệu của nhau. Đặt hàng phải trừ kho trong một giao dịch để hai người mua cùng lúc không bán vượt tồn kho. Luồng quên mật khẩu với Supabase cũng phức tạp vì liên kết trong email trả token về trên URL.
+
 
 **Self-assessment:** ⟨1–10⟩
-
+8
 ---
 
 ## Task 4 — Optimization
@@ -99,10 +100,10 @@ Log JSON có request id, Sentry backend, `GET /api/config`, nén gzip (Lighthous
 
 **Difficulties encountered:**
 
-⟨tự viết⟩
+Thêm log có mã request và Sentry mà không làm lộ thông tin nhạy cảm (mật khẩu, token). Sau một lần cập nhật, CI bị đỏ dù mọi test đều qua do logger giả trong test thiếu hàm; em phải tìm ra nguyên nhân và sửa.
 
 **Self-assessment:** ⟨1–10⟩
-
+8
 ---
 
 ## Task 5 — Peer Review
@@ -120,18 +121,20 @@ Tham gia review 2 nhóm (mảng chức năng/dữ liệu); xử lý góp ý liê
 
 **Difficulties encountered:**
 
-⟨tự viết⟩
+Phần peer review chủ yếu do bạn đại diện nhóm thực hiện; em góp ý về mặt chức năng và dữ liệu khi nhóm thảo luận. Khó khăn là sắp xếp thời gian cùng trao đổi với các nhóm khác.
 
 **Self-assessment:** ⟨1–10⟩
-
+9
 ---
 
 ## Tổng Kết Đóng Góp Cá Nhân
 
 **Summary of your contributions to the project:**
 
-⟨3–5 câu: đóng góp chính, điều tự hào nhất, kỹ năng học được⟩
+Em phụ trách kiến trúc và backend: thiết kế cơ sở dữ liệu 19 bảng trên Supabase với Row Level Security, viết REST API cùng tài liệu OpenAPI, các hàm SQL tính tiền và đặt hàng an toàn khi nhiều người mua cùng lúc. Em cũng làm phần đăng nhập bền (tự gia hạn phiên), quên mật khẩu qua email và ghi log lỗi. Điều em tự hào nhất là hệ thống phân quyền chạy thật trên database chứ không chỉ kiểm tra ở giao diện. Qua dự án, em học được cách thiết kế database cho dữ liệu thật, viết test tự động và làm việc theo quy trình Pull Request.
+
 
 **Estimated % contribution relative to the whole team:** 33% *(tỷ lệ cả nhóm thống nhất, xem README → Đánh giá mức độ đóng góp)*
 
 **Overall self-assessment score:** ⟨1–10⟩
+8
