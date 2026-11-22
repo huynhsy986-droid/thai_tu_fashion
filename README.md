@@ -360,21 +360,6 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 
 ---
 
-## Đánh giá mức độ đóng góp
-
-Tỷ lệ do **cả nhóm thống nhất**, dựa trên khối lượng và tầm quan trọng công việc mỗi người đảm nhận (không chỉ số commit). Mỗi thành viên ghi cùng tỷ lệ này trong Self-Report của mình.
-
-| Thành viên | MSSV | Đóng góp | Phần việc chính |
-|---|---|---|---|
-| Huỳnh Tấn Sỹ | 24090017 | **34%** | Giao diện & kết nối API, Tailwind, trang Giới thiệu/Liên hệ, Lighthouse, kiểm thử e2e, CI, deploy Vercel |
-| Lê Quang Khanh | 24090012 | **33%** | PRD & tiêu chí nghiệm thu, wireframe 10 trang, project plan, README & báo cáo, kịch bản video, điều phối peer review |
-| Nguyễn Trần Minh Nguyên | 24090010 | **33%** | Kiến trúc, database & phân quyền trên Supabase, REST API, đăng nhập/quên mật khẩu, logging |
-| **Tổng** | | **100%** | |
-
-*Huỳnh Tấn Sỹ cao hơn 1% vì đảm nhận thêm phần deploy và kiểm thử tự động cho cả nhóm.*
-
----
-
 ## Self-Reports
 
 | Họ tên | MSSV | Link Self-Report |
