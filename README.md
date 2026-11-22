@@ -323,18 +323,20 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 
 *Đại diện Nhóm 5 đánh giá: **Lê Quang Khanh**. Bản đầy đủ theo kịch bản dùng thử: [`docs/peer-review/`](docs/peer-review/).*
 
+Review ngày 22/11/2026 trên Chrome, máy tính và điện thoại.
+ 
 **Nhóm được review #1:**
-- **Tên nhóm / Dự án:** Nhóm FocuSpace (Phúc Thịnh, Tuấn Hưng, Đình Nhiên, Tuấn Lộc) — FocuSpace, phòng học ảo pixel có nhạc Lo-fi
+- **Tên nhóm / Dự án:** Nhóm FocuSpace/Nhóm 2 - FocuSpace, phòng học ảo pixel có nhạc Lo-fi
 - **Link dự án:** https://focuspace-iota.vercel.app
 
-| Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
+| Khía cạnh | Điểm mạnh | Gợi ý cải thiện | 
 |---|---|---|
-| Usability | Dùng ngay không cần tài khoản; menu gọn, mobile có nút ☰; Pomodoro 4 nhịp (Cổ điển, Sâu, Nhẹ, Tùy chỉnh); Thư viện lọc theo phòng và nhóm đồ vật. | Căn phòng trên điện thoại dọc bị xoay ngang 90°, không có hướng dẫn xoay máy; bấm cửa sổ chưa thấy bảng chỉnh thời tiết hiện ra dù trang Giới thiệu có hướng dẫn. |
-| Aesthetics | Pixel art đồng nhất, bảng màu nâu–cam ấm hợp chủ đề Lo-fi; tranh phòng học rất có không khí; font dễ đọc tiếng Việt. | Thẻ Thư viện ghi kích thước pixel (26×26) không cần thiết với người dùng; nút Đăng nhập màu nhạt trông như bị vô hiệu. |
+| Usability | Dùng ngay không cần tài khoản; menu gọn, mobile có nút ☰; Pomodoro 4 nhịp (Cổ điển, Sâu, Nhẹ, Tùy chỉnh); Thư viện lọc theo phòng và nhóm đồ vật. Có thể bắt đầu dùng ngay, không cần học trước. | Căn phòng trên điện thoại dọc bị xoay ngang 90°, không có hướng dẫn xoay máy; bấm cửa sổ chưa thấy bảng chỉnh thời tiết hiện ra dù trang Giới thiệu có hướng dẫn. |
+| Aesthetics | Pixel art đồng nhất, bảng màu nâu–cam ấm hợp chủ đề Lo-fi; tranh phòng học rất có không khí; font dễ đọc tiếng Việt. | Thẻ Thư viện ghi kích thước pixel (26×26) không cần thiết với người dùng; nút Đăng nhập màu nhạt trông như bị vô hiệu. Có thể đổi sang màu nổi hơn để người dùng nhận ra ngay. |
 | User-Friendliness | Lỗi form tiếng Việt dưới từng ô; nhãn trình đọc màn hình chi tiết; trang Giới thiệu có "Cách dùng nhanh" và nói rõ quyền riêng tư. | Trang Thống kê khi chưa đăng nhập nên có biểu đồ mẫu; thiếu "Quên mật khẩu"; Liên hệ nên có form ngay trên web. |
 
 **Nhóm được review #2:**
-- **Tên nhóm / Dự án:** Nhóm PawPass (Hữu Triết, Duy Huy, Thế Dũng, Thành Đạt, Duy Quang) — PawPass, sổ hộ chiếu thú cưng
+- **Tên nhóm / Dự án:** Nhóm PawPass/Nhóm 4 - PawPass, sổ hộ chiếu thú cưng
 - **Link dự án:** https://pawpass-hosothucung-web.vercel.app
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
