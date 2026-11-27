@@ -69,6 +69,6 @@ Mỗi thành viên xem toàn bộ wireframe, ghi nhận xét và đánh dấu đ
 
 | Thành viên | Vai trò | Ngày duyệt | Đồng ý | Góp ý |
 |---|---|---|---|---|
-| lequangkhanh6002-pixel | PO/BA · người vẽ | | ☐ | |
+| lequangkhanh6002-pixel | PO/BA · người vẽ | 27/11/2026 | ✓ | Nhóm Tam Thái Tử Fashion có wireframe đủ desktop và mobile, phân vai rõ ràng, tài liệu đánh số gọn. |
 | nguyen06-vn | Backend |27/11/2026 | ✓ |Cần bổ sung trạng thái lỗi/trống dữ liệu, validate form (login,contact) và luồng kiểm tra tồn kho/trạng thái đơn khi nối API (cart,checkout,admin) |
 | huynhsy986-droid | Frontend & QA | 27/11/2026 | ✓ | Bản mobile rõ ràng; nên thêm trạng thái đang tải (skeleton) cho trang chủ và cửa hàng.|
