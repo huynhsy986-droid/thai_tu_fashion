@@ -329,6 +329,7 @@ Review ngày 27/11/2026 trên Chrome (máy tính và cửa sổ hẹp).
 - **Tên nhóm / Dự án:** Nhóm 3 — Let's Talk, party game trò chuyện trực tiếp cho bạn bè và gia đình
 - **Link dự án:** https://let-s-talk-project-frontend.vercel.app
 - **Người review:** Nguyễn Trần Minh Nguyên (TV2)
+- **Trao đổi:** issue [#47](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/47) trên repo Let's Talk — nhóm bạn đã trả lời và sửa 2 mục (PR [#69](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/pull/69), [#70](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/pull/70)), hoãn 1 mục mobile
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
@@ -340,6 +341,7 @@ Review ngày 27/11/2026 trên Chrome (máy tính và cửa sổ hẹp).
 - **Tên nhóm / Dự án:** Nhóm 4 — PawPass, sổ hộ chiếu thú cưng
 - **Link dự án:** https://pawpass-hosothucung-web.vercel.app
 - **Người review:** Lê Quang Khanh (TV1) — đã đăng ký tài khoản và dùng thử bên trong ứng dụng
+- **Trao đổi:** issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) trên repo PawPass — đang chờ nhóm bạn trả lời
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
