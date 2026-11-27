@@ -2,7 +2,7 @@
 /* --- Components --- */
 const Logo=(k='compact')=>{const m=MARKS[k]||MARKS.compact;return`<svg class="logo-svg ${MARKS[k]?k:'compact'}" viewBox="0 0 ${m.w} ${m.h}" role="img" aria-label="THAI TU FASHION"><title>THAI TU FASHION</title><g fill="currentColor">${m.d}</g></svg>`};
 const Stars=n=>{const f=Math.round(n);return`<span class="stars" aria-label="${n} trên 5 sao">${'★'.repeat(f)}<span class="off">${'★'.repeat(5-f)}</span></span>`};
-const Price=p=>p.sale&&p.sale<p.price?`<span class="price num"><span class="pct">${Math.round((1-p.sale/p.price)*100)}%</span><span class="now">${vnd(p.sale)}</span><s>${vnd(p.price)}</s></span>`:`<span class="price num">${vnd(p.price)}</span>`;
+const Price=p=>p.sale&&p.sale<p.price?`<span class="price num"><span class="pct">−${Math.round((1-p.sale/p.price)*100)}%</span><span class="now">${vnd(p.sale)}</span><s>${vnd(p.price)}</s></span>`:`<span class="price num">${vnd(p.price)}</span>`;
 const Swatches=(p,cur,act,extra='')=>`<div class="swatches" role="radiogroup" aria-label="Màu sắc">${p.colors.map(c=>`<button class="sw ${c===cur?'on':''}" title="${colorName(c)}" aria-label="${colorName(c)}" data-a="${act}" data-color="${c}" ${extra}><i style="background:${colorHex(c)}"></i></button>`).join('')}</div>`;
 const SizeSelector=(p,color,cur,act,extra='')=>`<div class="sizes">${p.sizes.map(s=>{const out=stockOf(p,color,s)<=0;return`<button class="sz ${s===cur?'on':''} ${out?'oos':''}" data-a="${act}" data-size="${s}" ${extra} aria-label="Size ${s}${out?', hết hàng':''}" title="${out?'Hết hàng':'Còn '+stockOf(p,color,s)}">${s}${!out&&stockOf(p,color,s)<=3?`<small>Còn ${stockOf(p,color,s)}</small>`:''}</button>`}).join('')}</div>`;
 const rvOfP=id=>S.reviews.filter(r=>r.pid===id&&r.status==='visible');
@@ -57,8 +57,9 @@ function advise(p,m){const ch=sizeChart(p);const dims=DIMS[p.sub];const ease=FIT
  return{size:r.size,conf,tooBig,reason}}/* ===== Customer pages ===== */
 const ui={shop:{f:{},limit:12},pdp:{},ob:{tab:'tops',tone:1},chat:{msgs:null,occ:'',style:'',budget:0,gender:'',busy:false},vs:{state:'idle'},tr:{source:'model',tone:2,pid:'k07',color:'navy',state:'done',adj:{x:0,y:0,s:100}},co:{ship:'std',pay:'cod'},adm:{}};
 const NAV=[['shop-new','Hàng mới'],['shop','Cửa hàng'],['shop-tops','Áo'],['shop-outer','Áo khoác'],['shop-bottoms','Quần & váy'],['shop-dresses','Đầm'],['shop-shoes','Giày'],['shop-accessories','Phụ kiện'],['shop-jewelry','Trang sức']];
-const ANN=['Miễn phí giao hàng cho đơn từ 1.500.000₫','DROP 04 · Bộ len mùa đông · Thứ Sáu 8:00 sáng','Đổi size miễn phí trong 7 ngày','Nhập THAITU10 để giảm 10% đơn đầu tiên'];
-const Announcement=()=>`<div class="ann" aria-label="Thông báo"><div class="ann-in">${[...ANN,...ANN].map(t=>`<a href="#shop-new">${t}</a>`).join('')}</div></div>`;
+const ANN=[['Miễn phí giao hàng cho đơn từ 1.500.000₫','info-shipping'],['DROP 04 · Bộ len mùa đông · Thứ Sáu 8:00 sáng','shop-new'],['Đổi size miễn phí trong 7 ngày','info-returns'],['Nhập THAITU10 để giảm 10% đơn đầu tiên','shop']];
+// Bản sao thứ 2 chỉ để chạy vòng liền mạch: ẩn với trình đọc màn hình và bỏ khỏi thứ tự Tab (#51)
+const Announcement=()=>{const set=hide=>ANN.map(([t,h])=>`<a href="#${h}"${hide?' tabindex="-1"':''}>${t}</a>`).join('');return`<div class="ann" role="region" aria-label="Thông báo khuyến mãi"><div class="ann-in"><span class="ann-set">${set(false)}</span><span class="ann-set" aria-hidden="true">${set(true)}</span></div></div>`};
 function Header(cur){return`<header class="hdr"><div class="wrap hdr-in">
  <a class="logo" href="#home" aria-label="Thai Tu Fashion, về trang chủ">${Logo()}</a>
  <nav class="nav" aria-label="Điều hướng chính">${NAV.map(([h,l])=>`<a href="#${h}" class="${cur===h?'on':''}">${l}</a>`).join('')}<a href="#studio" class="studio ${/^(studio|outfit|size|stylist|visual|tryon)/.test(cur)?'on':''}">Smart Studio</a></nav>
