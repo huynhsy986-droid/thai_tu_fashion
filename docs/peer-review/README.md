@@ -25,7 +25,7 @@
 
 | Nhóm | Dự án | File |
 |---|---|---|
-| Nhóm FocuSpace | https://focuspace-iota.vercel.app | [review-focuspace.md](review-focuspace.md) |
+| Nhóm 3 — Let's Talk (review: Nguyễn Trần Minh Nguyên) | https://let-s-talk-project-frontend.vercel.app | [review-letstalk.md](review-letstalk.md) |
 | Nhóm PawPass | https://pawpass-hosothucung-web.vercel.app | [review-pawpass.md](review-pawpass.md) |
 
 ## Góp ý nhóm mình nhận được
