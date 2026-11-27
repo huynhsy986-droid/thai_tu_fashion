@@ -7,7 +7,7 @@
 | **Người review** | Lê Quang Khanh (đại diện Nhóm 5 — Thai Tu Fashion) |
 | **Ngày dùng thử** | 22/11/2026 (trang công khai) · 27/11/2026 (bên trong ứng dụng) |
 | **Thiết bị** | Trình duyệt Chromium: máy tính 1366px, điện thoại 375px |
-| **Trao đổi trực tiếp** | ⟨ngày, hình thức, người tham dự bên PawPass⟩ |
+| **Trao đổi trực tiếp** | Qua GitHub Issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) trên repo nhóm PawPass (Khanh đăng 27/11/2026) |
 
 ## Lần 2 — 27/11/2026: dùng thử bên trong ứng dụng
 
@@ -57,4 +57,4 @@ Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện sản phẩm
 
 ## Phản hồi của nhóm được review
 
-⟨Ghi lại điểm nhóm PawPass đồng ý / giải thích sau buổi trao đổi⟩
+Đang chờ nhóm PawPass trả lời trong issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) (cập nhật 27/11/2026).

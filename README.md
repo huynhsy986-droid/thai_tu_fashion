@@ -341,6 +341,7 @@ Review ngày 27/11/2026 trên Chrome (máy tính và cửa sổ hẹp).
 - **Tên nhóm / Dự án:** Nhóm 4 — PawPass, sổ hộ chiếu thú cưng
 - **Link dự án:** https://pawpass-hosothucung-web.vercel.app
 - **Người review:** Lê Quang Khanh (TV1) — đã đăng ký tài khoản và dùng thử bên trong ứng dụng
+- **Trao đổi:** issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) trên repo PawPass — đang chờ nhóm bạn trả lời
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
