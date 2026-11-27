@@ -34,4 +34,12 @@ test.describe('Góp ý #52', () => {
     await gotoApp(page, 'home');
     await expect(page.locator('.hdr-r a[href="#cart"]')).toBeVisible();
   });
+
+  test('NFR-QA-01 #58 menu ☰ ở cửa sổ hẹp: các nhóm mục không chồng lên nhau', async ({ page }) => {
+    await page.setViewportSize({ width: 420, height: 900 });
+    await gotoApp(page, 'home');
+    await page.click('[data-a=menu]');
+    const boxes = await page.locator('.menu-list a').evaluateAll((as) => as.map((a) => a.getBoundingClientRect()).map((r) => [r.top, r.bottom]));
+    for (let i = 1; i < boxes.length; i++) expect(boxes[i][0]).toBeGreaterThanOrEqual(boxes[i - 1][1] - 1);
+  });
 });

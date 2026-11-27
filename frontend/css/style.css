@@ -725,7 +725,7 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 @media(max-width:400px){.logo-svg{height:32px}}
 .ftr .logo-svg{height:70px}
 .adm-side .logo{color:#F5F2EC}.adm-side .logo-svg{height:34px}
-.menu-list+*,.dlg .logo-svg{height:40px}
+.dlg .logo-svg{height:40px}
 
 /* Quick add: rests hidden; on hover or keyboard focus it covers price + colours, the name stays visible */
 .pc-cover{position:relative;display:flex;flex-direction:column;gap:3px}
