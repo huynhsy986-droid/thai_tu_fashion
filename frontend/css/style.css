@@ -860,3 +860,4 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 /* #52 — mã đơn hàng tách riêng, dễ thấy */
 .order-code{display:flex;flex-direction:column;gap:4px;align-self:flex-start;padding:14px 20px;border:1px dashed var(--ink);border-radius:var(--r);background:var(--grey)}
 .order-code b{font-size:24px;letter-spacing:.04em}
+.ftr-news-done{display:block;padding-block:20px 8px}

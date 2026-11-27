@@ -122,7 +122,7 @@ document.addEventListener('drop',e=>{const d=e.target.closest&&e.target.closest(
 document.addEventListener('click',e=>{const b=$('#sugg-shop');if(b&&!e.target.closest('.searchbox'))b.hidden=true});
 /* forms */
 const F={
- news(){const v=$('#news-mail').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){setErr('news-mail','Email chưa đúng định dạng, ví dụ: ten@email.com');return}setErr('news-mail','');S.news.push(v);commit();$('#news-mail').value='';$('#news-ok').innerHTML='<div class="msgbox ok">Đã đăng ký nhận tin (mô phỏng). Cảm ơn bạn.</div>'},
+ news(){const v=$('#news-mail').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){setErr('news-mail','Email chưa đúng định dạng, ví dụ: ten@email.com');return}setErr('news-mail','');S.news.push(v);commit();markNews();$('#news-mail').value='';$('#news-ok').innerHTML='<div class="msgbox ok">Đã đăng ký nhận tin (mô phỏng). Cảm ơn bạn.</div>'},
  search(){goSearch($('#s-q').value.trim())},
  coupon(){const v=$('#cp').value.trim().toUpperCase();const c=COUPONS[v];const sub=totals().sub;if(!c){setErr('cp','Mã này không tồn tại. Thử THAITU10, NEW50K hoặc FREESHIP.');return}if(c.min&&sub<c.min){setErr('cp',`Mã này cần đơn từ ${vnd(c.min)}.`);return}S.coupon=v;commit();refresh();toast('Đã áp dụng mã giảm giá.')},
  checkout(){placeOrder()},

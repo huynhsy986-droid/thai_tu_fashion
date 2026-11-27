@@ -490,6 +490,7 @@ F.news = async function () {
   setErr('news-mail', '');
   try {
     await API.post('/api/newsletter', { email: v });
+    markNews();
     $('#news-mail').value = '';
     $('#news-ok').innerHTML = '<div class="msgbox ok">Đã đăng ký nhận tin. Cảm ơn bạn.</div>';
   } catch (e) { if (e.status === 422) setErr('news-mail', e.message); else apiFail(e); }
