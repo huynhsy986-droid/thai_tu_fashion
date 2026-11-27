@@ -2,7 +2,7 @@
 /* --- Components --- */
 const Logo=(k='compact')=>{const m=MARKS[k]||MARKS.compact;return`<svg class="logo-svg ${MARKS[k]?k:'compact'}" viewBox="0 0 ${m.w} ${m.h}" role="img" aria-label="THAI TU FASHION"><title>THAI TU FASHION</title><g fill="currentColor">${m.d}</g></svg>`};
 const Stars=n=>{const f=Math.round(n);return`<span class="stars" aria-label="${n} trên 5 sao">${'★'.repeat(f)}<span class="off">${'★'.repeat(5-f)}</span></span>`};
-const Price=p=>p.sale&&p.sale<p.price?`<span class="price num"><span class="pct">${Math.round((1-p.sale/p.price)*100)}%</span><span class="now">${vnd(p.sale)}</span><s>${vnd(p.price)}</s></span>`:`<span class="price num">${vnd(p.price)}</span>`;
+const Price=p=>p.sale&&p.sale<p.price?`<span class="price num"><span class="pct">−${Math.round((1-p.sale/p.price)*100)}%</span><span class="now">${vnd(p.sale)}</span><s>${vnd(p.price)}</s></span>`:`<span class="price num">${vnd(p.price)}</span>`;
 const Swatches=(p,cur,act,extra='')=>`<div class="swatches" role="radiogroup" aria-label="Màu sắc">${p.colors.map(c=>`<button class="sw ${c===cur?'on':''}" title="${colorName(c)}" aria-label="${colorName(c)}" data-a="${act}" data-color="${c}" ${extra}><i style="background:${colorHex(c)}"></i></button>`).join('')}</div>`;
 const SizeSelector=(p,color,cur,act,extra='')=>`<div class="sizes">${p.sizes.map(s=>{const out=stockOf(p,color,s)<=0;return`<button class="sz ${s===cur?'on':''} ${out?'oos':''}" data-a="${act}" data-size="${s}" ${extra} aria-label="Size ${s}${out?', hết hàng':''}" title="${out?'Hết hàng':'Còn '+stockOf(p,color,s)}">${s}${!out&&stockOf(p,color,s)<=3?`<small>Còn ${stockOf(p,color,s)}</small>`:''}</button>`}).join('')}</div>`;
 const rvOfP=id=>S.reviews.filter(r=>r.pid===id&&r.status==='visible');
