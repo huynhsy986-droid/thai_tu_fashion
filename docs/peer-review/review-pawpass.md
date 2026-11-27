@@ -57,4 +57,9 @@ Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện sản phẩm
 
 ## Phản hồi của nhóm được review
 
-Đang chờ nhóm PawPass trả lời trong issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) (cập nhật 27/11/2026).
+Nhóm PawPass (chủ repo `iceruychi-netizen`) trả lời trong issue [#26](https://github.com/iceruychi-netizen/PawPass-Hosothucung/issues/26) ngày 27/11/2026: cảm ơn góp ý và cho biết nhóm sẽ cải thiện trong thời gian tới, sau đó đóng issue.
+
+| Góp ý | Phản hồi của nhóm PawPass |
+|---|---|
+| Thêm ngày tiêm nhắc lại cho mũi tiêm | Ghi nhận chung, chưa nêu quyết định hay PR cụ thể |
+| Lỗi form bị che, không cuộn về ô lỗi đầu tiên | Ghi nhận chung, chưa nêu quyết định hay PR cụ thể |
