@@ -70,5 +70,5 @@ Mỗi thành viên xem toàn bộ wireframe, ghi nhận xét và đánh dấu đ
 | Thành viên | Vai trò | Ngày duyệt | Đồng ý | Góp ý |
 |---|---|---|---|---|
 | lequangkhanh6002-pixel | PO/BA · người vẽ | | ☐ | |
-| nguyen06-vn | Backend | | ☐ | |
+| nguyen06-vn | Backend |27/11/2026 | ✓ |Cần bổ sung trạng thái lỗi/trống dữ liệu, validate form (login,contact) và luồng kiểm tra tồn kho/trạng thái đơn khi nối API (cart,checkout,admin) |
 | huynhsy986-droid | Frontend & QA | 27/11/2026 | ✓ | Bản mobile rõ ràng; nên thêm trạng thái đang tải (skeleton) cho trang chủ và cửa hàng.|
