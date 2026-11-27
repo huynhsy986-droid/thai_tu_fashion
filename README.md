@@ -321,19 +321,32 @@ Thời gian hiện nội dung đầu tiên trên mobile giảm từ 3,0 s xuốn
 
 ### (a) Feedback cho các nhóm khác
 
-*Đại diện Nhóm 5 đánh giá: **Lê Quang Khanh**. Tiêu chí đánh giá: [`docs/peer-review/`](docs/peer-review/).*
+*Người review: **Nhóm 3 (Let's Talk)** — Nguyễn Trần Minh Nguyên (TV2) · **Nhóm 4 (PawPass)** — Lê Quang Khanh (TV1). Tiêu chí và bản review chi tiết: [`docs/peer-review/`](docs/peer-review/).*
 
-Review ngày 22/11/2026 trên Chrome, máy tính và điện thoại.
- 
+Review ngày 27/11/2026 trên Chrome (máy tính và cửa sổ hẹp).
+
 **Nhóm được review #1:**
-- **Tên nhóm / Dự án:** Nhóm FocuSpace/Nhóm 2 - FocuSpace, phòng học ảo pixel có nhạc Lo-fi
-- **Link dự án:** https://focuspace-iota.vercel.app
+- **Tên nhóm / Dự án:** Nhóm 3 — Let's Talk, party game trò chuyện trực tiếp cho bạn bè và gia đình
+- **Link dự án:** https://let-s-talk-project-frontend.vercel.app
+- **Người review:** Nguyễn Trần Minh Nguyên (TV2)
 
-| Khía cạnh | Điểm mạnh | Gợi ý cải thiện | 
-|---|---|---|
-| Usability | Dùng ngay không cần tài khoản; menu gọn, mobile có nút ☰; Pomodoro 4 nhịp (Cổ điển, Sâu, Nhẹ, Tùy chỉnh); Thư viện lọc theo phòng và nhóm đồ vật. Có thể bắt đầu dùng ngay, không cần học trước. | Căn phòng trên điện thoại dọc bị xoay ngang 90°, không có hướng dẫn xoay máy; bấm cửa sổ chưa thấy bảng chỉnh thời tiết hiện ra dù trang Giới thiệu có hướng dẫn. |
-| Aesthetics | Pixel art đồng nhất, bảng màu nâu–cam ấm hợp chủ đề Lo-fi; tranh phòng học rất có không khí; font dễ đọc tiếng Việt. | Thẻ Thư viện ghi kích thước pixel (26×26) không cần thiết với người dùng; nút Đăng nhập màu nhạt trông như bị vô hiệu. Có thể đổi sang màu nổi hơn để người dùng nhận ra ngay. |
-| User-Friendliness | Lỗi form tiếng Việt dưới từng ô; nhãn trình đọc màn hình chi tiết; trang Giới thiệu có "Cách dùng nhanh" và nói rõ quyền riêng tư. | Trang Thống kê khi chưa đăng nhập nên có biểu đồ mẫu; thiếu "Quên mật khẩu"; Liên hệ nên có form ngay trên web. |
+Mình là Nguyễn Trần Minh Nguyên (nhóm Thai Tu Fashion). Sau khi xem repository và chạy thử bản deploy trên Vercel, xin gửi đến nhóm một số nhận xét:
+
+**1. Điểm mạnh**
+- **Ý tưởng và ngữ cảnh rõ ràng:** party game giúp bạn bè, gia đình bỏ điện thoại xuống để trò chuyện; mục đích dễ hiểu ngay từ trang chủ.
+- **Tổ chức repository và quy trình làm việc bài bản:** tách rõ các thư mục (backend, database, docs, frontend, tools, .github), có `.env.example`, tài liệu thiết kế và wireframe trong `docs`, lịch sử commit, branch và PR rõ ràng.
+- **Giao diện trực quan:** trang chủ chỉ có 2 bước (chọn nhóm chơi → chọn số lượt) rồi bấm "Start Playing"; nút điều hướng chính dễ nhận diện, màn chơi có bộ đếm "Completed 0 / 10".
+
+**2. Điểm cần cải thiện**
+- **Màn hình nhỏ còn chật:** ở màn chơi, chip "Friends" trên thanh đầu trang đè lên logo "LET'S TALK" khi cửa sổ hẹp (~800px).
+- **Phản hồi khi chuyển lượt chưa rõ:** bấm "Start Turn" thì dòng "Loading the next activity…" hiện rất nhỏ ở cuối màn hình, xa nút vừa bấm, nên dễ tưởng nút không phản hồi.
+- **Đối chiếu repo và bản live:** một số nội dung, tính năng ghi trong tài liệu hoặc commit chưa thấy hiển thị đầy đủ trên bản live.
+
+**3. Đề xuất ưu tiên**
+- **Ưu tiên 1:** sửa các lỗi ảnh hưởng trực tiếp tới luồng chơi chính hoặc bố cục trên thiết bị di động.
+- **Ưu tiên 2:** cập nhật README với hướng dẫn sử dụng ngắn gọn để người đánh giá dễ test nhanh toàn bộ luồng game.
+
+Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện bản demo thật mượt!
 
 **Nhóm được review #2:**
 - **Tên nhóm / Dự án:** Nhóm PawPass/Nhóm 4 - PawPass, sổ hộ chiếu thú cưng
