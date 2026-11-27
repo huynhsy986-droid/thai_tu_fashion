@@ -35,6 +35,8 @@ test.describe('Mua hàng đầu-cuối', () => {
     await page.locator('#co-sum button.btn.block').click();
     await page.waitForURL(/#confirm-TT\d+/);
     await expect(page.locator('.confirm')).toContainText('Đặt hàng thành công');
+    await expect(page.locator('.order-code')).toContainText(/TT\d+/); // #52 mã đơn tách riêng
+    await expect(page.locator('.confirm a[href="#account-orders"]')).toHaveText('Đơn hàng của tôi');
     const orderId = (await page.evaluate(() => location.hash)).replace('#confirm-', '');
 
     const [o] = await sql('select total, discount, shipping_fee, status from public.orders where id = $1', [orderId]);
