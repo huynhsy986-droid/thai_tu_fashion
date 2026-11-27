@@ -330,45 +330,22 @@ Review ngày 27/11/2026 trên Chrome (máy tính và cửa sổ hẹp).
 - **Link dự án:** https://let-s-talk-project-frontend.vercel.app
 - **Người review:** Nguyễn Trần Minh Nguyên (TV2)
 
-Mình là Nguyễn Trần Minh Nguyên (nhóm Thai Tu Fashion). Sau khi xem repository và chạy thử bản deploy trên Vercel, xin gửi đến nhóm một số nhận xét:
-
-**1. Điểm mạnh**
-- **Ý tưởng và ngữ cảnh rõ ràng:** party game giúp bạn bè, gia đình bỏ điện thoại xuống để trò chuyện; mục đích dễ hiểu ngay từ trang chủ.
-- **Tổ chức repository và quy trình làm việc bài bản:** tách rõ các thư mục (backend, database, docs, frontend, tools, .github), có `.env.example`, tài liệu thiết kế và wireframe trong `docs`, lịch sử commit, branch và PR rõ ràng.
-- **Giao diện trực quan:** trang chủ chỉ có 2 bước (chọn nhóm chơi → chọn số lượt) rồi bấm "Start Playing"; nút điều hướng chính dễ nhận diện, màn chơi có bộ đếm "Completed 0 / 10".
-
-**2. Điểm cần cải thiện**
-- **Màn hình nhỏ còn chật:** ở màn chơi, chip "Friends" trên thanh đầu trang đè lên logo "LET'S TALK" khi cửa sổ hẹp (~800px).
-- **Phản hồi khi chuyển lượt chưa rõ:** bấm "Start Turn" thì dòng "Loading the next activity…" hiện rất nhỏ ở cuối màn hình, xa nút vừa bấm, nên dễ tưởng nút không phản hồi.
-- **Đối chiếu repo và bản live:** một số nội dung, tính năng ghi trong tài liệu hoặc commit chưa thấy hiển thị đầy đủ trên bản live.
-
-**3. Đề xuất ưu tiên**
-- **Ưu tiên 1:** sửa các lỗi ảnh hưởng trực tiếp tới luồng chơi chính hoặc bố cục trên thiết bị di động.
-- **Ưu tiên 2:** cập nhật README với hướng dẫn sử dụng ngắn gọn để người đánh giá dễ test nhanh toàn bộ luồng game.
-
-Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện bản demo thật mượt!
+| Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
+|---|---|---|
+| Usability | Trang chủ chỉ 2 bước (chọn nhóm chơi Friends/Family → chọn số lượt) rồi bấm "Start Playing"; nút điều hướng chính dễ nhận diện, màn chơi có bộ đếm "Completed 0 / 10". | Bấm "Start Turn" thì dòng "Loading the next activity…" hiện rất nhỏ ở cuối màn hình, xa nút vừa bấm → dễ tưởng nút không phản hồi; nên hiện trạng thái tải ngay trên nút hoặc giữa màn hình. |
+| Aesthetics | Giao diện trực quan, chủ đề "Conversation Universe" tông tím–hồng thống nhất; màn mở đầu "Drop your phone. Let's play." truyền tải đúng tinh thần game. | Màn hình nhỏ còn chật: ở màn chơi, chip "Friends" trên thanh đầu trang đè lên logo "LET'S TALK" khi cửa sổ hẹp (~800px) → ưu tiên sửa bố cục trên thiết bị di động. |
+| User-Friendliness | Ý tưởng và ngữ cảnh rõ ràng (bỏ điện thoại xuống để trò chuyện); repo tổ chức bài bản: tách backend, database, docs, frontend, tools, `.github`, có `.env.example`, wireframe trong `docs`, lịch sử commit/branch/PR rõ ràng. | Một số nội dung, tính năng ghi trong tài liệu hoặc commit chưa thấy hiển thị đầy đủ trên bản live; README nên có hướng dẫn sử dụng ngắn gọn để người đánh giá test nhanh toàn bộ luồng game. |
 
 **Nhóm được review #2:**
 - **Tên nhóm / Dự án:** Nhóm 4 — PawPass, sổ hộ chiếu thú cưng
-- **Link dự án:** https://pawpass-hosothucung-web.vercel.app · Repo: https://github.com/iceruychi-netizen/PawPass-Hosothucung
-- **Người review:** Lê Quang Khanh (TV1)
+- **Link dự án:** https://pawpass-hosothucung-web.vercel.app
+- **Người review:** Lê Quang Khanh (TV1) — đã đăng ký tài khoản và dùng thử bên trong ứng dụng
 
-Mình là Lê Quang Khanh (nhóm Thai Tu Fashion). Sau khi xem repository và đăng ký tài khoản dùng thử bản deploy trên Vercel (thêm bé, thêm lần khám, thêm mũi tiêm, xem trang chủ), xin gửi đến nhóm một số nhận xét:
-
-**1. Điểm mạnh**
-- **Chủ đề "hộ chiếu" nhất quán và dễ thương:** mỗi bé là một cuốn sổ có mã `PET-0024`, mũi tiêm hiện như con dấu có ngày, nhãn "Chưa tiêm" trên hồ sơ; thông báo thân thiện ("Chào mừng Bơ về nhà!", "Đã đóng dấu mũi tiêm mới.").
-- **Kiểm tra dữ liệu chặt, báo lỗi tiếng Việt rõ:** để trống thì báo dưới từng ô; ngày sinh trong tương lai → "Ngày sinh không được ở tương lai."; cân nặng −3 → "Cân nặng phải là số lớn hơn 0."
-- **Trang chủ tổng hợp hữu ích:** thêm lần khám có ghi thuốc thì mục "Cần để ý" tự hiện "Đang dùng thuốc"; mục "Gần đây" ghi lại 5 thay đổi mới nhất; repo có README theo template, tài liệu kỹ thuật và test.
-
-**2. Điểm cần cải thiện**
-- **Mũi tiêm chưa có ngày nhắc lại:** form "Thêm mũi tiêm" chỉ có tên vắc xin, ngày tiêm, liều và ghi chú. Vì vậy app chưa nhắc được lịch tiêm tiếp theo, trong khi đây là lý do chính để chủ nuôi giữ sổ tiêm.
-- **Lỗi form dễ bị che:** bấm "Lưu" khi form "Thêm thú cưng" còn lỗi thì thông báo "Vui lòng kiểm tra lại các ô được đánh dấu." nổi đè lên phần trên của form (che ô Loài). Form cũng không cuộn về ô lỗi đầu tiên, nên ô "Tên thú cưng" bị lỗi vẫn nằm khuất phía trên.
-
-**3. Đề xuất ưu tiên**
-- **Ưu tiên 1:** thêm ô "Ngày tiêm nhắc lại" cho mũi tiêm và hiện các mũi sắp đến hạn trong mục "Cần để ý".
-- **Ưu tiên 2:** khi form có lỗi, tự cuộn và focus vào ô lỗi đầu tiên; đặt thông báo lỗi ở chỗ không che nội dung form.
-
-Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện sản phẩm thật tốt!
+| Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
+|---|---|---|
+| Usability | Luồng thêm bé → thêm lần khám → thêm mũi tiêm gọn, mỗi bước có thông báo xác nhận; trang chủ tổng hợp: ghi thuốc khi khám thì mục "Cần để ý" tự hiện "Đang dùng thuốc", mục "Gần đây" ghi 5 thay đổi mới nhất. | Bấm "Lưu" khi form "Thêm thú cưng" còn lỗi thì thông báo "Vui lòng kiểm tra lại các ô được đánh dấu." nổi đè lên phần trên form (che ô Loài), và form không cuộn về ô lỗi đầu tiên → ô "Tên thú cưng" bị lỗi vẫn khuất phía trên. Nên tự cuộn, focus ô lỗi đầu tiên và đặt thông báo ở chỗ không che form. |
+| Aesthetics | Chủ đề "hộ chiếu" nhất quán và dễ thương: mỗi bé có mã `PET-0024`, nhãn "Chưa tiêm", mũi tiêm hiện như con dấu có ngày; thông báo thân thiện ("Chào mừng Bơ về nhà!", "Đã đóng dấu mũi tiêm mới."). | — |
+| User-Friendliness | Kiểm tra dữ liệu chặt, lỗi tiếng Việt dưới từng ô: ngày sinh tương lai → "Ngày sinh không được ở tương lai.", cân nặng −3 → "Cân nặng phải là số lớn hơn 0." | Form "Thêm mũi tiêm" chưa có **ngày tiêm nhắc lại** → app chưa nhắc được lịch tiêm tiếp theo, trong khi đó là lý do chính để giữ sổ tiêm. Nên thêm ô này và hiện các mũi sắp đến hạn trong "Cần để ý". |
 
 ### (b) Xử lý feedback từ các nhóm khác
 
