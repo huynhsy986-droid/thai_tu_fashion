@@ -71,4 +71,4 @@ Mỗi thành viên xem toàn bộ wireframe, ghi nhận xét và đánh dấu đ
 |---|---|---|---|---|
 | lequangkhanh6002-pixel | PO/BA · người vẽ | | ☐ | |
 | nguyen06-vn | Backend | | ☐ | |
-| huynhsy986-droid | Frontend & QA | | ☐ | |
+| huynhsy986-droid | Frontend & QA | 27/11/2026 | ✓ | Bản mobile rõ ràng; nên thêm trạng thái đang tải (skeleton) cho trang chủ và cửa hàng.|
