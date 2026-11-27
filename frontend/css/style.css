@@ -70,7 +70,11 @@ h1,h2,h3{text-wrap:balance}
 
 /* Announcement + header */
 .ann{background:var(--grey);font-size:12px;font-weight:500;overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--line)}
-.ann-in{display:inline-flex;gap:48px;padding:8px 0 8px 24px;animation:tick 42s linear infinite}
+.ann-in{display:inline-flex;padding:8px 0;animation:tick 80s linear infinite}
+.ann-set{display:inline-flex;gap:48px;padding-left:48px}
+.ann:hover .ann-in,.ann:focus-within .ann-in{animation-play-state:paused}
+.ann-in a:hover{text-decoration:underline}
+@media(prefers-reduced-motion:reduce){.ann{overflow-x:auto}.ann-in{animation:none!important}.ann-set[aria-hidden]{display:none}}
 .ann-in a::before{content:"✦";margin-right:12px;color:var(--accent);font-size:10px}
 @keyframes tick{to{transform:translateX(-50%)}}
 .hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
