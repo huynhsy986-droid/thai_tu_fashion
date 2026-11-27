@@ -850,3 +850,9 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 .toast.cart-t .small{opacity:.8}
 .count.bump{animation:bump .45s ease}
 @keyframes bump{40%{transform:scale(1.45)}}
+/* #53 — lỗi "chưa chọn size" dễ thấy */
+.sizes.need .sz:not(.oos){border-color:var(--danger);box-shadow:0 0 0 1px var(--danger)}
+.sizes.need{animation:shake .4s ease}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.need-msg .err,#q-err.need-msg{font-size:14px;font-weight:600}
+.need-msg .err::before,#q-err.need-msg:not(:empty)::before{content:"!";display:inline-grid;place-items:center;width:18px;height:18px;margin-right:6px;border-radius:50%;background:var(--danger);color:#fff;font-size:12px}
