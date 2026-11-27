@@ -45,7 +45,8 @@ const icons={
 const I=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${icons[n]||''}</svg>`;
 
 /* --- toast + modal --- */
-function toast(msg,opts={}){const t=document.createElement('div');t.className='toast'+(opts.bad?' bad':'');t.setAttribute('role','status');t.innerHTML=`<span>${msg}</span>${opts.link?`<a href="#${opts.link}">${opts.label||'Xem'}</a>`:''}`;$('#toasts').append(t);setTimeout(()=>t.remove(),opts.ms||3400)}
+// Toast có nút (vd. "Xem giỏ") hiện lâu hơn và dừng đếm giờ khi rê chuột/focus để kịp bấm (#53)
+function toast(msg,opts={}){const t=document.createElement('div');t.className='toast'+(opts.bad?' bad':'')+(opts.cls?' '+opts.cls:'');t.setAttribute('role','status');t.innerHTML=`${opts.img?`<img src="${opts.img}" alt="">`:''}<span>${msg}</span>${opts.link?`<a href="#${opts.link}">${opts.label||'Xem'}</a>`:''}`;$('#toasts').append(t);const ms=opts.ms||(opts.link?6000:3400);let h=setTimeout(()=>t.remove(),ms);const stop=()=>clearTimeout(h),go=()=>{clearTimeout(h);h=setTimeout(()=>t.remove(),2500)};t.addEventListener('mouseenter',stop);t.addEventListener('focusin',stop);t.addEventListener('mouseleave',go);t.addEventListener('focusout',go)}
 let lastFocus=null;
 function openModal(html,cls=''){lastFocus=document.activeElement;$('#modal').innerHTML=`<div class="scrim" data-a="scrim"><div class="dlg ${cls}" role="dialog" aria-modal="true"><button class="iconbtn dlg-x" data-a="closeModal" aria-label="Đóng">${I('x')}</button>${html}</div></div>`;document.documentElement.style.overflow='hidden';const f=$('#modal .dlg input,#modal .dlg select');if(f&&cls==='top')f.focus()}
 function closeModal(){$('#modal').innerHTML='';document.documentElement.style.overflow='';if(lastFocus&&lastFocus.isConnected)lastFocus.focus()}
@@ -66,5 +67,5 @@ function syncHearts(id){$$(`[data-a=wish][data-id=${id}]`).forEach(b=>{const on=
 function addCart(pid,color,size,qty=1,silent){const p=P(pid);const have=S.cart.find(i=>i.pid===pid&&i.color===color&&i.size===size);const st=stockOf(p,color,size);const next=(have?have.qty:0)+qty;
   if(st<=0){toast(`${p.name} màu ${colorName(color)} size ${size} đã hết hàng.`,{bad:true});return false}
   if(next>st){toast(`Chỉ còn ${st} sản phẩm size ${size} trong kho.`,{bad:true});return false}
-  if(have)have.qty=next;else S.cart.push({pid,color,size,qty});commit();if(!silent)toast(`Đã thêm ${esc(p.name)} vào giỏ.`,{link:'cart',label:'Xem giỏ'});return true}
+  if(have)have.qty=next;else S.cart.push({pid,color,size,qty});commit();if(!silent){toast(`<b>Đã thêm vào giỏ</b><br><span class="small">${esc(p.name)} · ${colorName(color)} · ${size}</span>`,{link:'cart',label:'Xem giỏ',img:img(p,color,'c'),cls:'cart-t'});$$('[data-c=cart]').forEach(e=>{e.classList.remove('bump');void e.offsetWidth;e.classList.add('bump')})}return true}
 

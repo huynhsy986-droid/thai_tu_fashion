@@ -27,7 +27,7 @@ const A={
  quick(el){const p=P(el.dataset.id);ui.q={id:p.id,color:firstColor(p),size:p.sizes.length===1?p.sizes[0]:null};openModal(quickModal(p,ui.q))},
  qColor(el){ui.q.color=el.dataset.color;const p=P(ui.q.id);$('#modal .dlg').innerHTML=dlgX()+quickModal(p,ui.q)},
  qSize(el){ui.q.size=el.dataset.size;const p=P(ui.q.id);$('#modal .dlg').innerHTML=dlgX()+quickModal(p,ui.q)},
- qAdd(){const q=ui.q;if(!q.size){$('#q-err').textContent='Hãy chọn size trước khi thêm vào giỏ.';return}if(addCart(q.id,q.color,q.size))closeModal()},
+ qAdd(){const q=ui.q;if(!q.size){$('#q-err').textContent='Hãy chọn size trước khi thêm vào giỏ.';flagSizes($('#q-err'));return}if(addCart(q.id,q.color,q.size))closeModal()},
  sortPop(){ui.shop.keep=true;ui.shop.f={...blankF(),sort:'pop'};ui.shop.limit=12},
  galImg(el){ui.pdp.img=el.dataset.k;updatePdp()},pdpColor(el){ui.pdp.color=el.dataset.color;ui.pdp.qty=1;updatePdp()},pdpSize(el){ui.pdp.size=el.dataset.size;ui.pdp.qty=1;updatePdp()},
  pdpQty(el){const p=P(ui.pdp.id);const mx=ui.pdp.size?stockOf(p,ui.pdp.color,ui.pdp.size):99;ui.pdp.qty=Math.min(mx,Math.max(1,ui.pdp.qty+ +el.dataset.d));updatePdp()},
@@ -83,7 +83,11 @@ rankTab(el){$$('[data-a=rankTab]').forEach(b=>b.classList.toggle('on',b===el));c
  admRF(el){ui.adm.rf=el.dataset.v;refresh()},admRT(el){const r=S.reviews.find(x=>x.id===el.dataset.id);r.status=r.status==='visible'?'hidden':'visible';commit();refresh();toast(r.status==='visible'?'Đánh giá đã hiện lại.':'Đã ẩn đánh giá.')},admRD(el){S.reviews=S.reviews.filter(r=>r.id!==el.dataset.id);commit();refresh();toast('Đã xoá đánh giá.')},
 };
 const wait=ms=>new Promise(r=>setTimeout(r,ms));const tg=(a,v)=>{const i=a.indexOf(v);i<0?a.push(v):a.splice(i,1)};const dlgX=()=>`<button class="iconbtn dlg-x" data-a="closeModal" aria-label="Đóng">${I('x')}</button>`;
-function needSize(){if(!ui.pdp.size){$('#pdp-msg').innerHTML='<span class="err">Hãy chọn size trước khi tiếp tục.</span>';return false}return true}
+function needSize(){if(!ui.pdp.size){$('#pdp-msg').innerHTML='<span class="err">Hãy chọn size trước khi tiếp tục.</span>';flagSizes($('#pdp-msg'));return false}return true}
+// Làm nổi lỗi "chưa chọn size": viền đỏ + rung nhẹ hàng nút size, đưa focus về size đầu tiên còn hàng (#53)
+function flagSizes(msg){if(!msg)return;msg.classList.add('need-msg');const box=msg.parentElement&&msg.parentElement.querySelector('.sizes');if(!box)return;box.classList.remove('need');void box.offsetWidth;box.classList.add('need');const b=box.querySelector('.sz:not(.oos)');if(b)b.focus({preventScroll:true});box.scrollIntoView({block:'center',behavior:'smooth'})}
+// Hotspot trên màn hình cảm ứng: chạm lần đầu chỉ hiện tên + giá
+document.addEventListener('click',e=>{const h=e.target.closest('.hot');if(!h||!matchMedia('(hover:none)').matches)return;if(h.classList.contains('show'))return;e.preventDefault();$$('.hot.show').forEach(x=>x.classList.remove('show'));h.classList.add('show')});
 function goSearch(q){ui.shop.keep=true;ui.shop.f={...blankF(),q};ui.shop.limit=12;closeModal();if(cur()==='shop'){ui.shop.keep=false;render()}else location.hash='shop'}
 let rvDraft={};function keepRv(){rvDraft={name:($('#rv-name')||{}).value,text:($('#rv-text')||{}).value}}function restoreRv(){if($('#rv-name')&&rvDraft.name!==undefined)$('#rv-name').value=rvDraft.name;if($('#rv-text')&&rvDraft.text!==undefined)$('#rv-text').value=rvDraft.text}
 

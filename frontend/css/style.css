@@ -835,3 +835,24 @@ table.t th small{display:block;font-family:var(--kr);font-weight:400;color:var(-
 .umenu-pop a,.umenu-pop button{display:block;width:100%;text-align:left;padding:10px 12px;font-size:14px;border-radius:var(--r);min-height:40px}
 .umenu-pop a:hover,.umenu-pop button:hover,.umenu-pop a:focus-visible,.umenu-pop button:focus-visible{background:var(--grey)}
 .umenu-pop button{border-top:1px solid var(--line);margin-top:4px;border-radius:0 0 var(--r) var(--r);color:var(--danger)}
+
+/* #53 — gợi ý tên + giá trên nút "+" ở ảnh hero */
+.hot-tip{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translate(-50%,4px);background:var(--ink);color:#fff;padding:7px 11px;border-radius:6px;font-size:12px;line-height:1.35;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-start;gap:1px;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.hot-tip b{font-weight:600}
+.hot.tip-l .hot-tip{left:auto;right:50%;transform:translate(22px,4px)}
+.hot:hover .hot-tip,.hot:focus-visible .hot-tip,.hot.show .hot-tip{opacity:1;transform:translate(-50%,0)}
+.hot.tip-l:hover .hot-tip,.hot.tip-l:focus-visible .hot-tip,.hot.tip-l.show .hot-tip{transform:translate(22px,0)}
+.hot:hover,.hot:focus-visible,.hot.show{z-index:3}
+/* #53 — toast "Đã thêm vào giỏ" rõ hơn */
+.toast.cart-t{justify-content:flex-start;padding:10px 14px;box-shadow:0 10px 28px rgba(0,0,0,.22)}
+.toast.cart-t img{width:42px;height:56px;object-fit:cover;flex:none;border-radius:3px;background:#fff}
+.toast.cart-t span{flex:1;min-width:0;line-height:1.4}
+.toast.cart-t .small{opacity:.8}
+.count.bump{animation:bump .45s ease}
+@keyframes bump{40%{transform:scale(1.45)}}
+/* #53 — lỗi "chưa chọn size" dễ thấy */
+.sizes.need .sz:not(.oos){border-color:var(--danger);box-shadow:0 0 0 1px var(--danger)}
+.sizes.need{animation:shake .4s ease}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.need-msg .err,#q-err.need-msg{font-size:14px;font-weight:600}
+.need-msg .err::before,#q-err.need-msg:not(:empty)::before{content:"!";display:inline-grid;place-items:center;width:18px;height:18px;margin-right:6px;border-radius:50%;background:var(--danger);color:#fff;font-size:12px}
